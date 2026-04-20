@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Modul 321</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+
+    <style>
+      td {
+        font-size: 21px;
+      }
+
+      .inline-code {
+        font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono",
+          monospace;
+        display: inline-block;
+        background-color: #2d2d2d;
+        padding: 2px 4px;
+        border-radius: 2px;
+        font-size: 75%;
+      }
+
+      thead td {
+        font-weight: bold;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>Modul 321</h2>
+          <hr />
+          <h3>Verteilte Systeme programmieren</h3>
+          <img
+            style="width: 200px"
+            src="assets/img/web-icon.png"
+            alt="Modul Icon"
+          />
+        </section>
+
+        <section>
+          <h2>Modulinhalte</h2>
+          <table>
+            <thead>
+              <tr>
+                <td>Lektion</td>
+                <td>Datum</td>
+                <td>Thema</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>01</td>
+                <td>21.04.2026</td>
+                <td>Einführung: Verteilte Systeme, Begriffe (Cloud-Native, XaaS)</td>
+              </tr>
+              <tr>
+                <td>02</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Eigenschaften verteilter Systeme (Idempotenz, Resilience, CQRS)</td>
+              </tr>
+              <tr>
+                <td>03</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Architekturen: Monolith, Microservices, Client-Server, Peer-to-Peer</td>
+              </tr>
+              <tr>
+                <td>04</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Migration bestehender Systeme (Strangler Pattern, Big Bang)</td>
+              </tr>
+              <tr>
+                <td>05</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Kategorien von Systemkomponenten</td>
+              </tr>
+              <tr>
+                <td>06</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Technologien I: Identität und Messaging (Keycloak, RabbitMQ)</td>
+              </tr>
+              <tr>
+                <td>07</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Technologien II: Monitoring und Datenhaltung (Prometheus, Redis, MinIO)</td>
+              </tr>
+              <tr>
+                <td>08</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Lokale Entwicklung verteilter Systeme (Container, Compose)</td>
+              </tr>
+              <tr>
+                <td>09</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Pub-Sub-Pattern und Broker (AMQP, MQTT, Kafka)</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Schnittstellen und Protokolle (REST, GraphQL, gRPC, HTTP, TCP)</td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Serialisierung/Deserialisierung (JSON, XML, protobuf)</td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Authentifizierung und Autorisierung (OpenID, JWT, OAuth, RBAC/ABAC)</td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Skalierung und Deployment (horizontal/vertikal, Cloud-Dienste)</td>
+              </tr>
+              <tr>
+                <td>14</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Dokumentation und Qualitätssicherung (OpenAPI, Pact, Health-Checks, Tests)</td>
+              </tr>
+              <tr>
+                <td>15</td>
+                <td>TT.MM.JJJJ</td>
+                <td>Integration/Abschlussarbeit und Modulprüfung</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Ablauf des Unterrichts</h2>
+          <ol>
+            <li style="margin-bottom: 20px;">
+              Der Foliensatz wird den Lernenden jeweils vor dem Unterricht zugestellt.
+            </li>
+            <li style="margin-bottom: 20px;">
+              Wir starten mit einem <code class="inline-code">Theorieblock</code> und setzen das Gelernte direkt in praktischen Labs um.
+            </li>
+            <li>
+              Im Drehbuch findet ihr alle Themen, Abgaben, Prüfungsinformationen und eingesetzte Technologien.
+            </li>
+          </ol>
+        </section>
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/zoom/zoom.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        plugins: [RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>

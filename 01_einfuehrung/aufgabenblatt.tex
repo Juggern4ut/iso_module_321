@@ -1,0 +1,174 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\answerline}[1]{\rule{#1}{0.4pt}}
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+
+\title{\textbf{Aufgabenblatt: Einf\"uhrung in verteilte Systeme}}
+\author{Modul 321 -- Lektion 1}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Name:} \answerline{7cm} \hfill \textbf{Datum:} \answerline{3.5cm}
+
+\vspace{0.8em}
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Ziel der Lektion:} Sie k\"onnen zentrale Grundbegriffe aus dem Bereich
+    verteilter Systeme einordnen, voneinander abgrenzen und auf einfache
+    Alltagsszenarien anwenden.
+  }
+}
+
+\section*{Hinweise}
+\begin{itemize}
+  \item Bearbeiten Sie die Aufgaben in ganzen S\"atzen oder stichwortartig, sofern nichts anderes angegeben ist.
+  \item Nutzen Sie Beispiele aus Ihrem Alltag oder aus bekannten Anwendungen, wenn Ihnen das beim Erkl\"aren hilft.
+  \item Wo sinnvoll, d\"urfen Sie Skizzen oder kleine Architekturzeichnungen erg\"anzen.
+\end{itemize}
+
+\section*{1. Grundbegriffe erkl\"aren}
+Erkl\"aren Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen S\"atzen}. Achten Sie darauf, nicht nur eine Definition auswendig wiederzugeben, sondern den Begriff verst\"andlich zu machen.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Ihre Erkl\"arung} \\
+\hline
+\term{Verteiltes System} & \\[2.2cm] \hline
+\term{Cloud-Native} & \\[2.2cm] \hline
+\term{Cloud Functions} & \\[2.2cm] \hline
+\term{XaaS} & \\[2.2cm] \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+Ordnen Sie jedem Beispiel den \textbf{passendsten Begriff} zu.
+
+Verwenden Sie diese Begriffe: \term{Verteiltes System}, \term{Cloud Functions}, \term{SaaS / XaaS}, \term{Cloud-Native}
+
+\begin{enumerate}
+  \item Eine Anwendung besteht aus Web-Frontend, API, Login-Service und Datenbank.
+  \item Nach einem Datei-Upload wird automatisch ein kleines Skript gestartet.
+  \item Eine Firma nutzt Microsoft~365, ohne die Software selbst zu betreiben.
+  \item Eine Anwendung wird so gebaut, dass sie Container, Skalierung und automatische Deployments nutzt.
+  \item Ein Online-Shop verwendet einen externen Zahlungsdienst und einen separaten Versanddienst.
+  \item Eine Bildverarbeitungsfunktion wird nur dann gestartet, wenn ein neues Foto gespeichert wurde.
+\end{enumerate}
+
+\vspace{1em}
+\textbf{Begr\"unden Sie danach zwei Ihrer Zuordnungen kurz in je 1 Satz.}
+
+\section*{3. XaaS konkretisieren}
+Erg\"anzen Sie die Bedeutung der Abk\"urzungen und nennen Sie jeweils \textbf{ein reales oder plausibles Beispiel}.
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.16\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Abk\"urzung} & \textbf{Bedeutung} & \textbf{Beispiel} \\
+\hline
+IaaS & & \\[1.2cm] \hline
+PaaS & & \\[1.2cm] \hline
+SaaS & & \\[1.2cm] \hline
+FaaS & & \\[1.2cm] \hline
+\end{tabularx}
+
+\section*{4. Kurzvergleich}
+Beantworten Sie die Fragen \textbf{stichwortartig oder in kurzen S\"atzen}.
+
+\begin{enumerate}
+  \item Was ist der Hauptunterschied zwischen \term{Cloud-Native} und \term{XaaS}?
+  \item Warum ist ein verteiltes System meist komplexer als ein einzelnes Programm?
+  \item Welchen Vorteil haben \term{Cloud Functions} in einfachen Worten?
+  \item Warum ist die Kommunikation zwischen mehreren Komponenten fehleranf\"alliger als innerhalb eines einzelnen Programms?
+  \item Welche Rolle spielen Netzwerke in verteilten Systemen?
+\end{enumerate}
+
+\section*{5. Alltagstransfer}
+Denken Sie an eine bekannte Anwendung aus dem Alltag, zum Beispiel \emph{Netflix, Spotify, Teams, Instagram, WhatsApp, SBB, Digitec} oder einen Online-Shop.
+
+Bearbeiten Sie die folgenden Fragen:
+\begin{enumerate}
+  \item Warum k\"onnte diese Anwendung ein verteiltes System sein?
+  \item Welche Teilaufgaben oder Dienste k\"onnten im Hintergrund voneinander getrennt sein?
+  \item Wo k\"onnte dort ein \term{XaaS}-Angebot genutzt werden?
+  \item Wo k\"onnten \term{Cloud Functions} sinnvoll eingesetzt werden?
+  \item Welche Vorteile hat diese Aufteilung f\"ur Betreiberinnen und Betreiber?
+  \item Welche Probleme oder Risiken k\"onnten dadurch entstehen?
+\end{enumerate}
+
+\section*{6. Mini-Analyse eines Szenarios}
+Lesen Sie das folgende Szenario:
+
+\begin{quote}
+  Eine Schule betreibt eine Plattform, \"uber die Lernende Dateien hochladen, Nachrichten senden und online \"Ubungen l\"osen k\"onnen. Nach jedem Upload wird automatisch ein Virenscan gestartet. Die Plattform speichert Dateien nicht auf dem Webserver selbst, sondern in einem externen Cloud-Speicher. F\"ur Videokonferenzen wird ein externer Dienst eingebunden.
+\end{quote}
+
+Bearbeiten Sie dazu diese Aufgaben:
+\begin{enumerate}
+  \item Nennen Sie \textbf{mindestens vier} Komponenten oder Dienste, die in diesem Szenario vorkommen.
+  \item Markieren Sie, welche Teile auf ein \term{verteiltes System} hinweisen.
+  \item Beschreiben Sie, wo hier \term{XaaS} eingesetzt wird.
+  \item Beschreiben Sie, wo hier \term{Cloud Functions} oder ein \"ahnliches Ereignis-basiertes Prinzip vorkommen k\"onnte.
+  \item Nennen Sie \textbf{zwei Vorteile} und \textbf{zwei Herausforderungen} dieser Architektur.
+\end{enumerate}
+
+\section*{7. Skizze einer einfachen Architektur}
+Entwerfen Sie eine \textbf{kleine Skizze} f\"ur eine Anwendung zur Online-Terminbuchung. Die Anwendung soll mindestens aus folgenden Teilen bestehen:
+
+\begin{itemize}
+  \item Benutzeroberfl\"ache
+  \item Backend oder API
+  \item Datenhaltung
+  \item mindestens ein externer Dienst oder eine automatisch ausgel\"oste Funktion
+\end{itemize}
+
+Beschriften Sie Ihre Skizze und beantworten Sie anschliessend:
+\begin{enumerate}
+  \item Welche Teile laufen wahrscheinlich auf verschiedenen Systemen?
+  \item Welche Kommunikation findet \"uber das Netzwerk statt?
+  \item Welche Komponente k\"onnte bei hoher Last am ehesten skaliert werden m\"ussen?
+\end{enumerate}
+
+\vspace{4cm}
+
+\section*{8. Offene Recherche-Aufgabe f\"ur schnelle Studierende}
+Recherchieren Sie zu \textbf{einem aktuellen, thematisch passenden Beispiel} aus der Praxis. M\"ogliche Themen:
+
+\begin{itemize}
+  \item Wie funktioniert die Architektur eines grossen Streaming-Dienstes?
+  \item Wie nutzen moderne Messenger oder Kollaborationsplattformen verteilte Systeme?
+  \item Welche Rolle spielen Serverless und Cloud Functions in heutigen Cloud-Plattformen?
+  \item Wie unterscheiden sich Monolith, Microservices und verteilte Systeme im praktischen Einsatz?
+\end{itemize}
+
+Erstellen Sie anschliessend eine kurze Ausarbeitung auf einer halben bis ganzen Seite oder bereiten Sie eine m\"undliche Kurzvorstellung vor. Gehen Sie dabei auf folgende Punkte ein:
+
+\begin{enumerate}
+  \item Welches konkrete Beispiel haben Sie gew\"ahlt?
+  \item Welche Komponenten oder Dienste umfasst das System?
+  \item Warum handelt es sich um ein verteiltes System oder um eine cloudbasierte Architektur?
+  \item Welche Vorteile bietet dieser Ansatz?
+  \item Welche technischen oder organisatorischen Herausforderungen entstehen dadurch?
+\end{enumerate}
+
+\textbf{Hinweis:} Diese Aufgabe ist bewusst offen formuliert. Sie kann kurz beantwortet oder deutlich vertieft werden, je nach verbleibender Zeit und Interesse.
+
+\section*{Abgabe / Besprechung}
+Die Aufgaben werden in der Lektion besprochen. Halten Sie Ihre Antworten so fest, dass Sie diese kurz vorstellen und begr\"unden k\"onnen.
+
+\end{document}

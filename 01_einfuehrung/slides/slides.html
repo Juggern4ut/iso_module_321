@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Modul 321 - Lektion 1</title>
+
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/black.css" />
+    <link rel="stylesheet" href="./plugin/highlight/monokai.css" />
+
+    <style>
+        .inline-code {
+            font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono",
+                monospace;
+            display: inline-block;
+            background-color: #2d2d2d;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-size: 75%;
+        }
+
+        .reveal p,
+        .reveal li {
+            line-height: 1.35;
+        }
+
+        .reveal table td,
+        .reveal table th {
+            font-size: 0.72em;
+        }
+
+        .term-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .term-box {
+            border: 1px solid #666;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .term-box h3 {
+            margin-bottom: 10px;
+        }
+
+        .small {
+            font-size: 0.72em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Modul 321</h2>
+                <hr />
+                <h3>Lektion 1: Einführung in verteilte Systeme</h3>
+                <p>Begriffe und Einordnung</p>
+                <img style="width: 180px" src="./assets/img/dist-systems.png" alt="Modul Icon" />
+            </section>
+
+            <section>
+                <h2>Lernziele</h2>
+                <ul>
+                    <li>Ich kann erklären, was ein verteiltes System ist.</li>
+                    <li>Ich kenne wichtige Grundbegriffe aus dem Modul 321.</li>
+                    <li>
+                        Ich kann die Begriffe <span class="inline-code">Cloud-Native</span>,
+                        <span class="inline-code">Cloud Functions</span> und
+                        <span class="inline-code">XaaS</span> in eigenen Worten erklären.
+                    </li>
+                    <li>Ich kann einfache Praxisbeispiele den Begriffen zuordnen.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Was ist ein verteiltes System?</h2>
+                <p>
+                    Ein verteiltes System besteht aus mehreren unabhängigen Komponenten,
+                    die über ein Netzwerk zusammenarbeiten und für user möglichst wie ein einziges System wirken.
+                </p>
+                <ul>
+                    <li>Mehrere Programme oder Dienste arbeiten zusammen.</li>
+                    <li>Die Teile können auf verschiedenen Rechnern laufen.</li>
+                    <li>Die Kommunikation erfolgt über klar definierte Schnittstellen.</li>
+                    <li>Ausfälle einzelner Teile müssen mitgedacht werden.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Alltagsbeispiele</h2>
+                <ul>
+                    <li>Online-Shop mit Frontend, Login-Service, Zahlungsdienst und Datenbank</li>
+                    <li>Teams oder Slack mit Chat, Dateiablage und Benachrichtigungen</li>
+                    <li>Netflix mit vielen Diensten für Benutzer, Empfehlungen und Streaming</li>
+                    <li>Schulwebseite mit Webserver, Datenbank und Authentifizierung</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Zentrale Begriffe</h2>
+                <hr />
+                <h3>Cloud-Native</h3>
+                <p>
+                    Anwendungen werden so entwickelt, dass sie die Möglichkeiten der
+                    Cloud gezielt nutzen: Skalierung, Automatisierung, Container,
+                    kurze Deployments.
+                </p>
+            </section>
+
+            <section>
+                <h2>Zentrale Begriffe</h2>
+                <hr />
+                <h3>Cloud Functions</h3>
+                <p>
+                    Kleine Programmfunktionen laufen ereignisgesteuert in der Cloud.
+                    Die Infrastruktur wird vom Anbieter betrieben.
+                </p>
+            </section>
+
+            <section>
+                <h2>Zentrale Begriffe</h2>
+                <hr />
+                <h3>XaaS</h3>
+                <p>
+                    <span class="inline-code">Anything as a Service</span>: IT-Leistungen
+                    werden als Dienst bezogen statt selbst betrieben.
+                </p>
+            </section>
+
+            <section>
+                <h2>Zentrale Begriffe</h2>
+                <hr />
+                <h3>Schnittstelle</h3>
+                <p>
+                    Eine definierte Art, wie zwei Systemteile Informationen austauschen,
+                    zum Beispiel über HTTP oder Messaging.
+                </p>
+            </section>
+
+            <section>
+                <h2>Cloud-Native genauer</h2>
+                <ul>
+                    <li>Anwendungen sind für Betrieb in der Cloud entworfen.</li>
+                    <li>Typisch sind Container, Microservices und automatisierte Deployments.</li>
+                    <li>Skalierung kann je nach Last dynamisch erfolgen.</li>
+                    <li>Fehler einzelner Komponenten werden erwartet und abgefangen.</li>
+                </ul>
+                <p class="small">
+                    Beispiel: Ein Webshop wird in mehreren Diensten betrieben und bei hoher
+                    Last automatisch auf weitere Instanzen verteilt.
+                </p>
+            </section>
+
+            <section>
+                <h2>Cloud Functions genauer</h2>
+                <ul>
+                    <li>Auch bekannt als <span class="inline-code">Function as a Service</span>.</li>
+                    <li>Code wird nur ausgeführt, wenn ein Ereignis eintritt.</li>
+                    <li>Die Laufzeit ist meist kurz und klar auf eine Aufgabe fokussiert.</li>
+                    <li>Serververwaltung entfällt weitgehend für das Entwicklungsteam.</li>
+                </ul>
+                <p class="small">
+                    Beispiel: Nach dem Upload eines Bildes wird automatisch eine Funktion
+                    gestartet, die eine Vorschau erzeugt.
+                </p>
+            </section>
+
+            <section>
+                <h2>XaaS genauer</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Begriff</th>
+                            <th>Bedeutung</th>
+                            <th>Beispiel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IaaS</td>
+                            <td>Infrastructure as a Service</td>
+                            <td>Virtuelle Server</td>
+                        </tr>
+                        <tr>
+                            <td>PaaS</td>
+                            <td>Platform as a Service</td>
+                            <td>Deployment-Plattform</td>
+                        </tr>
+                        <tr>
+                            <td>SaaS</td>
+                            <td>Software as a Service</td>
+                            <td>Microsoft 365, Trello</td>
+                        </tr>
+                        <tr>
+                            <td>FaaS</td>
+                            <td>Function as a Service</td>
+                            <td>AWS Lambda, Azure Functions</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="small">
+                    XaaS ist der Oberbegriff für diese Dienstmodelle.
+                </p>
+            </section>
+
+            <section>
+                <h2>Abgrenzung</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Begriff</th>
+                            <th>Fokus</th>
+                            <th>Frage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Verteiltes System</td>
+                            <td>Architektur</td>
+                            <td>Wie arbeiten mehrere Systemteile zusammen?</td>
+                        </tr>
+                        <tr>
+                            <td>Cloud-Native</td>
+                            <td>Entwicklungsansatz</td>
+                            <td>Wie entwickeln wir für die Cloud?</td>
+                        </tr>
+                        <tr>
+                            <td>Cloud Functions</td>
+                            <td>Ausführungsmodell</td>
+                            <td>Wann und wie läuft einzelner Code?</td>
+                        </tr>
+                        <tr>
+                            <td>XaaS</td>
+                            <td>Betriebsmodell</td>
+                            <td>Was beziehen wir als Dienst?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Mini-Check</h2>
+                <ol>
+                    <li>Warum ist ein Online-Shop fast nie ein einzelnes Programm?</li>
+                    <li>Was ist der Unterschied zwischen <span class="inline-code">SaaS</span> und <span
+                            class="inline-code">FaaS</span>?</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Merksätze</h2>
+                <ul>
+                    <li>Verteilte Systeme bestehen aus mehreren zusammenarbeitenden Teilen.</li>
+                    <li>Cloud-Native beschreibt, wie Software für die Cloud gebaut wird.</li>
+                    <li>Cloud Functions führen kleinen Code ereignisgesteuert aus.</li>
+                    <li>XaaS beschreibt IT-Leistungen, die als Dienst bezogen werden.</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes],
+        });
+    </script>
+</body>
+
+</html>
