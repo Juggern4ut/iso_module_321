@@ -1,0 +1,147 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+\newcommand{\solution}[1]{\textcolor{black}{#1}}
+
+\title{\textbf{L\"osungsblatt: Einf\"uhrung in verteilte Systeme}}
+\author{Modul 321 -- Lektion 1}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Hinweis:} Dieses L\"osungsblatt enth\"alt Musterl\"osungen und m\"ogliche Erwartungshorizonte.
+    Je nach Begr\"undung, Beispielwahl und fachlicher Sauberkeit sind auch andere Antworten sinnvoll.
+  }
+}
+
+\section*{1. Grundbegriffe erkl\"aren}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{M\"ogliche L\"osung} \\
+\hline
+\term{Verteiltes System} &
+\solution{Ein verteiltes System besteht aus mehreren unabh\"angigen Rechnern oder Diensten, die \"uber ein Netzwerk zusammenarbeiten. F\"ur Benutzerinnen und Benutzer wirkt es oft wie ein einziges System, obwohl intern mehrere Komponenten beteiligt sind.} \\ \hline
+\term{Cloud-Native} &
+\solution{Cloud-Native beschreibt eine Art, Software so zu entwickeln und zu betreiben, dass sie gut in Cloud-Umgebungen funktioniert. Typisch sind Container, automatische Skalierung, verteilte Dienste und automatisierte Deployments.} \\ \hline
+\term{Cloud Functions} &
+\solution{Cloud Functions sind kleine Programme, die als Reaktion auf ein Ereignis ausgef\"uhrt werden, zum Beispiel nach einem Upload oder einer Anfrage. Sie laufen meist nur dann, wenn sie gebraucht werden.} \\ \hline
+\term{XaaS} &
+\solution{XaaS bedeutet ``Anything as a Service'' und beschreibt, dass IT-Leistungen als Dienst \"uber das Netzwerk bereitgestellt werden. Dazu geh\"oren zum Beispiel Software, Plattformen, Speicher oder Rechenleistung.} \\ \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+\begin{enumerate}
+  \item \solution{Verteiltes System}
+  \item \solution{Cloud Functions}
+  \item \solution{SaaS / XaaS}
+  \item \solution{Cloud-Native}
+  \item \solution{Verteiltes System} oder \solution{XaaS}, je nach Begr\"undung; als \emph{passendster} Begriff hier meist \solution{Verteiltes System}
+  \item \solution{Cloud Functions}
+\end{enumerate}
+
+\textbf{M\"ogliche Begr\"undungen:}
+\begin{itemize}
+  \item \solution{Beispiel 1 ist ein verteiltes System, weil mehrere getrennte Komponenten zusammenarbeiten m\"ussen.}
+  \item \solution{Beispiel 3 ist SaaS/XaaS, weil die Firma eine fertige Dienstleistung nutzt, ohne die Software selbst zu betreiben.}
+  \item \solution{Beispiel 4 ist Cloud-Native, weil die Anwendung gezielt f\"ur den Betrieb in einer Cloud-Umgebung entworfen wurde.}
+\end{itemize}
+
+\section*{3. XaaS konkretisieren}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.16\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Abk\"urzung} & \textbf{Bedeutung} & \textbf{Beispiel} \\
+\hline
+IaaS & \solution{Infrastructure as a Service} & \solution{Virtuelle Server bei AWS EC2, Azure Virtual Machines oder Hetzner Cloud} \\ \hline
+PaaS & \solution{Platform as a Service} & \solution{Heroku, Google App Engine oder Render} \\ \hline
+SaaS & \solution{Software as a Service} & \solution{Microsoft 365, Google Docs, Dropbox} \\ \hline
+FaaS & \solution{Function as a Service} & \solution{AWS Lambda, Azure Functions, Google Cloud Functions} \\ \hline
+\end{tabularx}
+
+\section*{4. Kurzvergleich}
+\begin{enumerate}
+  \item \solution{Cloud-Native beschreibt, wie Software gebaut und betrieben wird; XaaS beschreibt, wie Leistungen als Dienst angeboten werden.}
+  \item \solution{Ein verteiltes System ist komplexer, weil mehrere Komponenten koordiniert werden m\"ussen und \"uber das Netzwerk kommunizieren.}
+  \item \solution{Cloud Functions haben den Vorteil, dass Code automatisch bei Bedarf ausgef\"uhrt wird und nicht dauerhaft laufen muss.}
+  \item \solution{Netzwerkkommunikation ist fehleranf\"alliger, weil Verz\"ogerungen, Ausf\"alle oder Verbindungsprobleme auftreten k\"onnen.}
+  \item \solution{Das Netzwerk verbindet die einzelnen Teile des Systems und erm\"oglicht Datenaustausch und Zusammenarbeit.}
+\end{enumerate}
+
+\section*{5. Alltagstransfer}
+\textbf{Beispiel: Spotify}
+\begin{enumerate}
+  \item \solution{Spotify kann als verteiltes System betrachtet werden, weil App, API, Benutzerverwaltung, Musikdatenbank und Streaming-Infrastruktur nicht als einzelnes Programm laufen.}
+  \item \solution{Getrennte Dienste k\"onnten Suche, Empfehlungen, Benutzerkonten, Musikstreaming und Abrechnung sein.}
+  \item \solution{XaaS k\"onnte zum Beispiel bei Datenbanken, Speicher, Monitoring oder Zahlungsdiensten genutzt werden.}
+  \item \solution{Cloud Functions k\"onnten beim Erstellen von Vorschaubildern, beim Versenden von Benachrichtigungen oder beim Verarbeiten neuer Uploads eingesetzt werden.}
+  \item \solution{Vorteile sind bessere Skalierbarkeit, klare Aufgabentrennung und einfachere Erweiterbarkeit.}
+  \item \solution{Risiken sind gr\"ossere Komplexit\"at, Netzwerkabh\"angigkeit, schwierigere Fehlersuche und m\"ogliche Ausf\"alle einzelner Dienste.}
+\end{enumerate}
+
+\textbf{Hinweis:} \solution{Andere alltagsnahe Anwendungen sind nat\"urlich ebenfalls korrekt, wenn die Begr\"undung schl\"ussig ist.}
+
+\section*{6. Mini-Analyse eines Szenarios}
+\begin{enumerate}
+  \item \solution{M\"ogliche Komponenten: Webanwendung, Datenbank, Datei- oder Objektspeicher, Virenscan-Dienst, Nachrichtenfunktion, Videokonferenz-Dienst, Authentifizierung.}
+  \item \solution{Auf ein verteiltes System weisen insbesondere externer Cloud-Speicher, eingebundener Videodienst und der automatische Virenscan hin, weil mehrere getrennte Dienste zusammenarbeiten.}
+  \item \solution{XaaS wird beim externen Cloud-Speicher und beim Videokonferenz-Dienst genutzt, da diese Leistungen als fertige Dienste bezogen werden.}
+  \item \solution{Eine Cloud Function oder ein \"ahnlicher Mechanismus k\"onnte nach jedem Datei-Upload automatisch den Virenscan starten.}
+  \item \solution{Vorteile: bessere Skalierbarkeit, Nutzung spezialisierter Dienste. Herausforderungen: Abh\"angigkeit von Drittanbietern, komplexere Integration, Datenschutz- und Netzwerkfragen.}
+\end{enumerate}
+
+\section*{7. Skizze einer einfachen Architektur}
+\textbf{M\"ogliche Komponenten einer Online-Terminbuchung:}
+\begin{itemize}
+  \item \solution{Frontend im Browser oder als App}
+  \item \solution{Backend / API}
+  \item \solution{Datenbank f\"ur Termine, Benutzer und Verf\"ugbarkeiten}
+  \item \solution{Externer Mail- oder SMS-Dienst f\"ur Best\"atigungen}
+  \item \solution{Optional eine automatisch ausgel\"oste Funktion f\"ur Erinnerungen}
+\end{itemize}
+
+\textbf{M\"ogliche Antworten:}
+\begin{enumerate}
+  \item \solution{Frontend, Backend, Datenbank und externer Benachrichtigungsdienst laufen wahrscheinlich auf verschiedenen Systemen.}
+  \item \solution{Die Kommunikation zwischen Browser und API, zwischen API und Datenbank sowie zwischen API und externem Mail-/SMS-Dienst l\"auft \"uber das Netzwerk.}
+  \item \solution{Am ehesten m\"usste das Backend oder die API skaliert werden, weil dort viele gleichzeitige Anfragen eintreffen k\"onnen.}
+\end{enumerate}
+
+\section*{8. Offene Recherche-Aufgabe f\"ur schnelle Studierende}
+\textbf{Beurteilungskriterien statt einer einzigen Musterl\"osung:}
+\begin{itemize}
+  \item \solution{Das gew\"ahlte Beispiel ist konkret und thematisch passend.}
+  \item \solution{Die wichtigsten Komponenten oder Dienste werden nachvollziehbar beschrieben.}
+  \item \solution{Es wird klar erkl\"art, warum das Beispiel zu verteilten Systemen, Cloud-Native oder XaaS passt.}
+  \item \solution{Vorteile und Herausforderungen werden nicht nur aufgez\"ahlt, sondern knapp erl\"autert.}
+  \item \solution{Bei einer m\"undlichen Vorstellung sind Fachbegriffe korrekt und verst\"andlich eingesetzt.}
+\end{itemize}
+
+\textbf{Geeignete Themenbeispiele:}
+\begin{itemize}
+  \item \solution{Netflix und Content Delivery Networks}
+  \item \solution{WhatsApp oder Signal und Nachrichten\"ubertragung auf viele Server}
+  \item \solution{Microsoft Teams oder Zoom als Kombination mehrerer Cloud-Dienste}
+  \item \solution{AWS Lambda oder Azure Functions als Beispiel f\"ur FaaS}
+\end{itemize}
+
+\section*{Didaktischer Hinweis}
+\solution{Das L\"osungsblatt ist bewusst knapp gehalten. In der Besprechung kann je nach Leistungsstand der Klasse vertieft werden, etwa bei Themen wie Skalierung, Fehlertoleranz, Microservices oder Event-basierter Verarbeitung.}
+
+\end{document}

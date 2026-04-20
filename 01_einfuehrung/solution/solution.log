@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.20)  20 APR 2026 19:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.20)  20 APR 2026 19:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**aufgabenblatt.tex
-(./aufgabenblatt.tex
+**solution.tex
+(./solution.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
 (/usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
@@ -286,11 +286,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count306
 )
-(./aufgabenblatt.aux
-Package babel Info: 'ngerman' activates 'ngerman' shorthands.
-(babel)             Reported on input line 11.
-)
-\openout1 = `aufgabenblatt.aux'.
+No file solution.aux.
+\openout1 = `solution.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
 LaTeX Font Info:    ... okay on input line 24.
@@ -310,7 +307,8 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
 LaTeX Font Info:    ... okay on input line 24.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 24.
 LaTeX Font Info:    ... okay on input line 24.
-
+Package babel Info: 'ngerman' activates 'ngerman' shorthands.
+(babel)             Reported on input line 24.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -360,9 +358,8 @@ LaTeX Font Info:    ... okay on input line 24.
 \everyMPtoPDFconversion=\toks25
 )
 Package hyperref Info: Link coloring OFF on input line 24.
- (./aufgabenblatt.out) (./aufgabenblatt.out)
 \@outlinefile=\write3
-\openout3 = `aufgabenblatt.out'.
+\openout3 = `solution.out'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 27.
@@ -371,42 +368,48 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 27.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 38.
+(Font)              <10.95> on input line 33.
 
-Overfull \hbox (1.26108pt too wide) in paragraph at lines 38--39
+Overfull \hbox (1.26108pt too wide) in paragraph at lines 33--34
 [][][][] 
  []
 
-ignored error: Infinite glue shrinkage found in box being split [1
+[1
 
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
- [4] [5]
-(./aufgabenblatt.aux)
+{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[2] [3] [4] (./solution.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
  ***********
-Package rerunfilecheck Info: File `aufgabenblatt.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+
+Package rerunfilecheck Warning: File `solution.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `solution.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 10648 strings out of 469010
- 165395 string characters out of 5455910
- 608474 words of memory out of 5000000
- 39194 multiletter control sequences out of 15000+600000
+ 10627 strings out of 469010
+ 165012 string characters out of 5455910
+ 613361 words of memory out of 5000000
+ 39186 multiletter control sequences out of 15000+600000
  637807 words of font info for 61 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,11n,79p,401b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
- </tmp/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </tmp/texmf-var/
-fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </tmp/texmf-var/fonts/pk/ljfour/jkn
+ 75i,11n,79p,326b,543s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </tmp/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </tmp/texmf-var/
+fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </tmp/texmf-var/fonts/pk/ljfour/jkn
 appen/ec/ecbx1440.600pk> </tmp/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.6
 00pk> </tmp/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </tmp/texmf-v
 ar/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </tmp/texmf-var/fonts/pk/ljfour/
 jknappen/ec/ecbx1728.600pk>
-Output written on aufgabenblatt.pdf (5 pages, 78454 bytes).
+Output written on solution.pdf (4 pages, 70802 bytes).
 PDF statistics:
- 326 PDF objects out of 1000 (max. 8388607)
- 100 compressed objects within 1 object stream
- 47 named destinations out of 1000 (max. 500000)
+ 295 PDF objects out of 1000 (max. 8388607)
+ 90 compressed objects within 1 object stream
+ 40 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
