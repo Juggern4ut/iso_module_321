@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.20)  26 APR 2026 21:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.25)  28 APR 2026 08:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -456,12 +456,12 @@ ignored error: Infinite glue shrinkage found in box being split [1
 al/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/202
 5/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
-9.
+8.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2]
-Overfull \hbox (28.2659pt too wide) in paragraph at lines 115--116
+Overfull \hbox (28.2659pt too wide) in paragraph at lines 114--115
 []\T1/lmr/m/n/10.95 Ein Be-stell-pro-zess um-fasst drei Ser-vices: \T1/lmr/bx/n
 /10.95 Order-Service\T1/lmr/m/n/10.95 , \T1/lmr/bx/n/10.95 Payment-Service \T1/
 lmr/m/n/10.95 und \T1/lmr/bx/n/10.95 Inventory-
@@ -476,9 +476,9 @@ Package rerunfilecheck Info: File `aufgabenblatt.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 10849 strings out of 469010
- 170194 string characters out of 5455910
- 609685 words of memory out of 5000000
+ 10843 strings out of 469010
+ 170145 string characters out of 5455910
+ 608685 words of memory out of 5000000
  39370 multiletter control sequences out of 15000+600000
  669361 words of font info for 65 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
@@ -489,10 +489,10 @@ e/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2025/texm
 f-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2025/texmf-dist/font
 s/type1/public/lm/lmri10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
 blic/lm/lmtt10.pfb>
-Output written on aufgabenblatt.pdf (4 pages, 166329 bytes).
+Output written on aufgabenblatt.pdf (4 pages, 163706 bytes).
 PDF statistics:
- 105 PDF objects out of 1000 (max. 8388607)
- 85 compressed objects within 1 object stream
- 41 named destinations out of 1000 (max. 500000)
+ 96 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
+ 35 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

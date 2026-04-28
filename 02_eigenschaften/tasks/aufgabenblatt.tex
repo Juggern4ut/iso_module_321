@@ -55,7 +55,6 @@ Erklären Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen Sätzen}.
 \term{Idempotenz} & \\[2.4cm] \hline
 \term{Retry} & \\[2.0cm] \hline
 \term{Resilience / Design for Failure} & \\[2.4cm] \hline
-\term{CQRS} & \\[2.2cm] \hline
 \term{Event Sourcing} & \\[2.2cm] \hline
 \end{longtable}
 
@@ -123,21 +122,6 @@ Bearbeiten Sie die Aufgaben:
   \item Nennen Sie ein Beispiel, wie man fachlich mit einem Teilfehler umgehen könnte.
 \end{enumerate}
 
-\section*{6. CQRS anwenden}
-Ein Ticketsystem für Konzerte hat:
-
-\begin{itemize}
-  \item sehr viele Lesezugriffe auf verfügbare Veranstaltungen,
-  \item vergleichsweise wenige, aber kritische Schreibvorgänge beim Kauf.
-\end{itemize}
-
-\begin{enumerate}
-  \item Warum könnte \term{CQRS} hier sinnvoll sein?
-  \item Was wäre typischerweise Aufgabe der \textbf{Command Side}?
-  \item Was wäre typischerweise Aufgabe der \textbf{Query Side}?
-  \item Nennen Sie \textbf{einen Vorteil} und \textbf{einen Nachteil} dieses Musters.
-\end{enumerate}
-
 \section*{7. Event Sourcing einordnen}
 Ordnen Sie die folgenden Aussagen \textbf{zu} und kommentieren Sie kurz, ob sie zu \term{Event Sourcing} passen.
 
@@ -165,10 +149,7 @@ Bearbeiten Sie dazu:
   \item Nennen Sie eine Stelle, an der \term{Retry} sinnvoll sein kann.
   \item Nennen Sie eine Stelle, an der \term{Idempotenz} wichtig sein kann.
   \item Beschreiben Sie ein Beispiel für \term{degradierten Betrieb}.
-  \item Begründen Sie, ob Sie in diesem Szenario \term{CQRS} oder \term{Event Sourcing} einsetzen würden oder bewusst nicht.
+  \item Begründen Sie, ob Sie in diesem Szenario \term{Event Sourcing} einsetzen würden oder bewusst nicht.
 \end{enumerate}
-
-\section*{Abgabe / Besprechung}
-Die Aufgaben werden in der Lektion besprochen. Halten Sie Ihre Antworten so fest, dass Sie diese fachlich sauber vorstellen und begründen können.
 
 \end{document}

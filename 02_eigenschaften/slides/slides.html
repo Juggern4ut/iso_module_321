@@ -156,7 +156,7 @@
                     <li>Ich kann <span class="inline-code">Resilience</span> als Entwurfsprinzip für verteilte Systeme
                         beschreiben.</li>
                     <li>Ich kann erklären, warum klassische Transaktionen über mehrere Services problematisch sind.</li>
-                    <li>Ich kenne sinnvolle Einsatzzwecke von <span class="inline-code">CQRS</span> und <span
+                    <li>Ich kenne sinnvolle Einsatzzwecke von <span
                             class="inline-code">Event Sourcing</span>.</li>
                 </ul>
             </section>
@@ -215,12 +215,12 @@
 
             <section>
                 <h2>Idempotenz</h2>
-                <div class="grid-2">
-                    <div class="panel">
+                    <div class="callout">
                         <h3>Definition</h3>
                         <p>Eine Operation ist idempotent, wenn mehrfache gleiche Ausführung denselben fachlichen
                             Endzustand erzeugt wie eine einmalige Ausführung.</p>
                     </div>
+                    <br />
                     <div class="panel">
                         <h3>Praxis</h3>
                         <ul>
@@ -231,11 +231,6 @@
                             <li>Deshalb werden oft <span class="inline-code">Idempotency Keys</span> verwendet.</li>
                         </ul>
                     </div>
-                </div>
-                <div class="callout">
-                    Idempotenz bedeutet nicht "es passiert gar nichts mehr", sondern "die Wirkung wird nicht mehrfach
-                    angewendet".
-                </div>
             </section>
 
             <section>
@@ -268,13 +263,8 @@
                     <tbody>
                         <tr>
                             <td>Timeout / temporärer Netzwerkfehler</td>
-                            <td class="ok">Ja, oft</td>
-                            <td>Fehler kann flüchtig sein; Backoff und Limits nötig.</td>
-                        </tr>
-                        <tr>
-                            <td>HTTP 503 oder überlasteter Dienst</td>
-                            <td class="ok">Ja, vorsichtig</td>
-                            <td>Mit Exponential Backoff, Jitter und maximaler Anzahl Versuche.</td>
+                            <td class="ok">Ja</td>
+                            <td>Fehler kann flüchtig sein; Limits nötig.</td>
                         </tr>
                         <tr>
                             <td>Validierungsfehler / fachlich ungültige Daten</td>
@@ -292,14 +282,13 @@
 
             <section>
                 <h2>Resilience / Design for Failure</h2>
-                <p>Resilience bedeutet: Das System bleibt trotz Fehlern <strong>kontrolliert nutzbar</strong>.</p>
+                <p>Resilience: System trotz Fehlern <strong>kontrolliert nutzbar</strong>.</p>
                 <div class="grid-2">
                     <div class="panel">
                         <h3>Technische Mittel</h3>
                         <ul>
                             <li>Timeouts statt endlos warten</li>
                             <li>Retries mit Limits</li>
-                            <li>Circuit Breaker</li>
                             <li>Queues und asynchrone Verarbeitung</li>
                             <li>Health Checks, Monitoring, Alerting</li>
                         </ul>
@@ -358,32 +347,6 @@
             </section>
 
             <section>
-                <h2>CQRS</h2>
-                <div class="grid-2">
-                    <div class="panel">
-                        <div class="badge">Command Side</div>
-                        <h3>Schreiben</h3>
-                        <ul>
-                            <li>Nimmt Änderungen entgegen.</li>
-                            <li>Prüft Regeln und führt Fachlogik aus.</li>
-                            <li>Optimiert für Konsistenz und korrekte Mutation.</li>
-                        </ul>
-                    </div>
-                    <div class="panel">
-                        <div class="badge">Query Side</div>
-                        <h3>Lesen</h3>
-                        <ul>
-                            <li>Liefert Daten für UI und Reports.</li>
-                            <li>Darf anders modelliert sein als Schreibseite.</li>
-                            <li>Optimiert für schnelle Abfragen.</li>
-                        </ul>
-                    </div>
-                </div>
-                <p class="small muted">CQRS ist kein Muss für jedes System. Es lohnt sich dort, wo Schreib- und
-                    Lesemodelle sehr unterschiedliche Anforderungen haben.</p>
-            </section>
-
-            <section>
                 <h2>Event Sourcing</h2>
                 <ul>
                     <li>Der aktuelle Zustand wird nicht primär als letzte Tabellenzeile gespeichert.</li>
@@ -393,13 +356,16 @@
                     </li>
                     <li>Der Zustand ergibt sich aus der Reihenfolge dieser Events.</li>
                 </ul>
+            </section>
+
+            <section>
+                <h2>Event Sourcing</h2>
                 <div class="grid-2">
                     <div class="panel">
                         <h3>Vorteile</h3>
                         <ul>
-                            <li>Nachvollziehbarkeit und Audit Trail</li>
+                            <li>Nachvollziehbarkeit</li>
                             <li>Read-Modelle können aus Events aufgebaut werden</li>
-                            <li>Passt gut zu CQRS</li>
                         </ul>
                     </div>
                     <div class="panel">
@@ -412,6 +378,7 @@
                     </div>
                 </div>
             </section>
+
 
             <section>
                 <h2>Zusammenspiel der Muster</h2>
@@ -431,13 +398,8 @@
                         </tr>
                         <tr>
                             <td>Nebendienst fällt aus</td>
-                            <td>Timeout, Fallback, Circuit Breaker</td>
+                            <td>Timeout, Fallback</td>
                             <td>Kernfunktion schützen</td>
-                        </tr>
-                        <tr>
-                            <td>Schreib- und Leselast sehr unterschiedlich</td>
-                            <td>CQRS</td>
-                            <td>Modelle gezielt optimieren</td>
                         </tr>
                         <tr>
                             <td>Fachliche Historie muss vollständig nachvollziehbar sein</td>
@@ -468,8 +430,8 @@
                     <li>Resilience bedeutet nicht Fehlerfreiheit, sondern kontrolliertes Verhalten bei Fehlern.</li>
                     <li>Über Servicegrenzen ist <span class="inline-code">eventual consistency</span> oft realistischer
                         als globale Sofort-Transaktionen.</li>
-                    <li><span class="inline-code">CQRS</span> und <span class="inline-code">Event Sourcing</span> sind
-                        starke Werkzeuge, aber nur dort sinnvoll, wo ihr Mehrwert die Komplexität rechtfertigt.</li>
+                    <li><span class="inline-code">Event Sourcing</span> ist ein
+                        starkes Werkzeuge, aber nur dort sinnvoll, wo ihr Mehrwert die Komplexität rechtfertigt.</li>
                 </ol>
             </section>
 
@@ -478,7 +440,6 @@
                 <ol>
                     <li>Warum kann ein Retry trotz Timeout fachlich riskant sein?</li>
                     <li>Welchen Unterschied hat Resilience gegenüber blossem "neu versuchen"?</li>
-                    <li>Warum ist <span class="inline-code">CQRS</span> kein Pflichtmuster für jede Anwendung?</li>
                 </ol>
             </section>
         </div>
