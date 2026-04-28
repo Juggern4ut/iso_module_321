@@ -336,7 +336,7 @@
                     <li>Ein globales <span class="inline-code">alles oder nichts</span> über Servicegrenzen koppelt
                         stark und ist betrieblich teuer.</li>
                     <li>Langsame oder nicht erreichbare Partner blockieren sonst das Gesamtsystem.</li>
-                    <li>Darum setzt die Praxis häufig auf <span class="inline-code">eventual consistency</span> statt
+                    <li>In Praxis häufig <span class="inline-code">eventual consistency</span> statt
                         harte Sofort-Konsistenz über alles.</li>
                 </ul>
                 <div class="callout">
@@ -369,7 +369,7 @@
                         </ul>
                     </div>
                     <div class="panel">
-                        <h3>Kosten</h3>
+                        <h3>Nachteile</h3>
                         <ul>
                             <li>Komplexeres Datenmodell</li>
                             <li>Versionierung von Events</li>
@@ -441,6 +441,12 @@
                     <li>Warum kann ein Retry trotz Timeout fachlich riskant sein?</li>
                     <li>Welchen Unterschied hat Resilience gegenüber blossem "neu versuchen"?</li>
                 </ol>
+            </section>
+
+            <section>
+                <h2>Mini-Check</h2>
+                <div class="callout">Da die Aktion ggf. nicht idempotent ist und es zu doppelter Ausführung kommen kann.</div>
+                <div class="callout">Retry: Sehr primitives wiederholen der Aktion bei Fehler.<br/>Resilience: Verstehen was nicht funktioniert und dementsprechend reagieren.</div>
             </section>
         </div>
     </div>
