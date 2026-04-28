@@ -7,10 +7,10 @@
 
     <title>Modul 321 - Lektion 3</title>
 
-    <link rel="stylesheet" href="../../01_einfuehrung/slides/dist/reset.css" />
-    <link rel="stylesheet" href="../../01_einfuehrung/slides/dist/reveal.css" />
-    <link rel="stylesheet" href="../../01_einfuehrung/slides/dist/theme/black.css" />
-    <link rel="stylesheet" href="../../01_einfuehrung/slides/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/black.css" />
+    <link rel="stylesheet" href="./plugin/highlight/monokai.css" />
 
     <style>
         :root {
@@ -62,6 +62,7 @@
             padding: 18px;
             background: var(--panel);
             text-align: left;
+            font-size: 80%;
         }
 
         .panel h3 {
@@ -72,7 +73,7 @@
 
         .flow {
             display: grid;
-            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 10px;
             align-items: center;
             margin-top: 24px;
@@ -111,6 +112,10 @@
             font-size: 0.72em;
         }
 
+        .callout > *{ 
+            margin: 0 !important;
+        }
+
         .ok {
             color: var(--ok);
         }
@@ -129,16 +134,17 @@
                 <hr />
                 <h3>Lektion 3: Systemarchitekturen</h3>
                 <p>Monolith, Microservices, Client-Server und Peer-to-Peer</p>
+                <img style="width: 180px" src="./assets/img/dist-systems.png" alt="Modul Icon" />
             </section>
 
             <section>
                 <h2>Lernziele</h2>
                 <ul>
-                    <li>Ich kann zentrale Systemarchitekturen voneinander unterscheiden.</li>
-                    <li>Ich kann erklären, wann ein Monolith sinnvoll ist und wann nicht.</li>
-                    <li>Ich kann typische Eigenschaften von Microservices einordnen.</li>
-                    <li>Ich kann <span class="inline-code">Client-Server</span> und <span class="inline-code">Peer-to-Peer</span> anhand praxisnaher Beispiele erklären.</li>
-                    <li>Ich kann Architekturentscheide mit Blick auf Teamgrösse, Betrieb, Skalierung und Komplexität begründen.</li>
+                    <li>Zentrale Systemarchitekturen voneinander unterscheiden.</li>
+                    <li>Erklären, wann ein Monolith sinnvoll ist.</li>
+                    <li>Typische Eigenschaften von Microservices einordnen.</li>
+                    <li><span class="inline-code">Client-Server</span> und <span class="inline-code">Peer-to-Peer</span> erklären.</li>
+                    <li>Architekturentscheide begründen.</li>
                 </ul>
             </section>
 
@@ -171,39 +177,34 @@
                 <h2>Vier Grundmuster dieser Lektion</h2>
                 <div class="flow">
                     <div class="box"><strong>Monolith</strong><br />eine Anwendung, ein Deployment</div>
-                    <div class="arrow">→</div>
                     <div class="box"><strong>Microservices</strong><br />viele kleine Dienste</div>
-                    <div class="arrow">→</div>
                     <div class="box"><strong>Client-Server</strong><br />Rollen klar getrennt</div>
-                    <div class="arrow">→</div>
                     <div class="box"><strong>Peer-to-Peer</strong><br />Teilnehmer auf Augenhöhe</div>
                 </div>
                 <div class="callout">
-                    Diese Muster schließen sich nicht vollständig aus. Ein System kann zum Beispiel fachlich als Monolith gebaut sein und gleichzeitig technisch im Client-Server-Modell betrieben werden.
+                    Diese Muster schliessen sich nicht vollständig aus. Ein System kann zum Beispiel fachlich als Monolith gebaut sein und gleichzeitig technisch im Client-Server-Modell betrieben werden.
                 </div>
             </section>
 
             <section>
                 <h2>Monolith</h2>
-                <div class="grid-2">
-                    <div class="panel">
-                        <h3>Kerngedanke</h3>
+                <div class="callout">
                         <p>Die Anwendung wird als zusammenhängendes System entwickelt und meist gemeinsam gebaut, getestet und deployt.</p>
-                    </div>
-                    <div class="panel">
-                        <h3>Typische Merkmale</h3>
-                        <ul>
-                            <li>Ein Codebase oder eng gekoppeltes Gesamtprojekt</li>
-                            <li>Häufig eine zentrale Datenbank</li>
-                            <li>Direkte Funktionsaufrufe statt Netzwerkkommunikation</li>
-                            <li>Ein gemeinsames Release-Artefakt</li>
-                        </ul>
-                    </div>
+                </div>
+                <br />
+                <div class="panel">
+                    <h3>Typische Merkmale</h3>
+                    <ul>
+                        <li>Ein Codebase oder eng gekoppeltes Gesamtprojekt</li>
+                        <li>Häufig eine zentrale Datenbank</li>
+                        <li>Direkte Funktionsaufrufe statt Netzwerkkommunikation</li>
+                        <li>Ein gemeinsames Release-Artefakt</li>
+                    </ul>
                 </div>
             </section>
 
             <section>
-                <h2>Wann ein Monolith sinnvoll ist</h2>
+                <h3>Wann ein Monolith sinnvoll ist</h3>
                 <ul>
                     <li>Zu Beginn eines Produkts, wenn Anforderungen noch stark in Bewegung sind.</li>
                     <li>Bei kleinen bis mittleren Teams mit engem fachlichem Austausch.</li>
@@ -228,20 +229,18 @@
 
             <section>
                 <h2>Microservices</h2>
-                <div class="grid-2">
-                    <div class="panel">
-                        <h3>Kerngedanke</h3>
-                        <p>Fachliche Fähigkeiten werden in mehrere eigenständige Services aufgeteilt, die über APIs oder Messaging zusammenarbeiten.</p>
-                    </div>
-                    <div class="panel">
-                        <h3>Typische Merkmale</h3>
-                        <ul>
-                            <li>Eigene Deployments pro Service</li>
-                            <li>Häufig eigene Datenhaltung pro Service</li>
-                            <li>Netzwerkkommunikation zwischen Diensten</li>
-                            <li>Hohe Anforderungen an Observability und Betrieb</li>
-                        </ul>
-                    </div>
+                <div class="callout">
+                    <p>Fachliche Fähigkeiten werden in mehrere eigenständige Services aufgeteilt, die über APIs oder Messaging zusammenarbeiten.</p>
+                </div>
+                <br />
+                <div class="panel">
+                    <h3>Typische Merkmale</h3>
+                    <ul>
+                        <li>Eigene Deployments pro Service</li>
+                        <li>Häufig eigene Datenhaltung pro Service</li>
+                        <li>Netzwerkkommunikation zwischen Diensten</li>
+                        <li>Hohe Anforderungen an Observability und Betrieb</li>
+                    </ul>
                 </div>
             </section>
 
@@ -464,11 +463,11 @@
         </div>
     </div>
 
-    <script src="../../01_einfuehrung/slides/dist/reveal.js"></script>
-    <script src="../../01_einfuehrung/slides/plugin/zoom/zoom.js"></script>
-    <script src="../../01_einfuehrung/slides/plugin/notes/notes.js"></script>
-    <script src="../../01_einfuehrung/slides/plugin/markdown/markdown.js"></script>
-    <script src="../../01_einfuehrung/slides/plugin/highlight/highlight.js"></script>
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
     <script>
         Reveal.initialize({
             hash: true,
