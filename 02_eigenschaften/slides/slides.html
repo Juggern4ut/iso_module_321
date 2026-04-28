@@ -1,316 +1,436 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Modul 321 - Lektion 2</title>
 
-    <title>Modul 321 - Lektion 2</title>
+        <link rel="stylesheet" href="./dist/reset.css" />
+        <link rel="stylesheet" href="./dist/reveal.css" />
+        <link rel="stylesheet" href="./dist/theme/black.css" />
+        <link rel="stylesheet" href="./plugin/highlight/monokai.css" />
 
-    <link rel="stylesheet" href="./dist/reset.css" />
-    <link rel="stylesheet" href="./dist/reveal.css" />
-    <link rel="stylesheet" href="./dist/theme/black.css" />
-    <link rel="stylesheet" href="./plugin/highlight/monokai.css" />
+        <style>
+            :root {
+                --accent: #4dd0e1;
+                --accent-2: #ffd166;
+                --panel: rgba(255, 255, 255, 0.07);
+                --border: rgba(255, 255, 255, 0.22);
+                --danger: #ff6b6b;
+                --ok: #7bd88f;
+            }
 
-    <style>
-        :root {
-            --accent: #4dd0e1;
-            --accent-2: #ffd166;
-            --panel: rgba(255, 255, 255, 0.07);
-            --border: rgba(255, 255, 255, 0.22);
-            --danger: #ff6b6b;
-            --ok: #7bd88f;
-        }
+            .inline-code {
+                font-family:
+                    "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono",
+                    monospace;
+                display: inline-block;
+                background-color: #2d2d2d;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-size: 75%;
+            }
 
-        .inline-code {
-            font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
-            display: inline-block;
-            background-color: #2d2d2d;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 75%;
-        }
+            .reveal p,
+            .reveal li {
+                line-height: 1.35;
+            }
 
-        .reveal p,
-        .reveal li {
-            line-height: 1.35;
-        }
+            .reveal table td,
+            .reveal table th {
+                font-size: 0.68em;
+                border-bottom-color: var(--border);
+            }
 
-        .reveal table td,
-        .reveal table th {
-            font-size: 0.68em;
-        }
+            .small {
+                font-size: 0.7em;
+            }
 
-        .small {
-            font-size: 0.7em;
-        }
+            .muted {
+                color: #bbbbbb;
+            }
 
-        .muted {
-            color: #bbbbbb;
-        }
+            .grid-2 {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+                margin-top: 24px;
+            }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-            margin-top: 24px;
-        }
+            .panel {
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                padding: 18px;
+                background: var(--panel);
+                text-align: left;
+                font-size: 80%;
+            }
 
-        .panel {
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 18px;
-            background: var(--panel);
-            text-align: left;
-            font-size: 80%;
-        }
+            .panel h3 {
+                margin-top: 0;
+                margin-bottom: 10px;
+            }
 
-        .panel h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: var(--accent);
-        }
+            .badge {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 999px;
+                font-size: 0.55em;
+                letter-spacing: 0.03em;
+                text-transform: uppercase;
+                border: 1px solid var(--border);
+                margin-bottom: 10px;
+            }
 
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 0.55em;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-            border: 1px solid var(--border);
-            margin-bottom: 10px;
-        }
+            .accent {
+                color: var(--accent);
+            }
 
-        .accent {
-            color: var(--accent);
-        }
+            .danger {
+                color: var(--danger);
+            }
 
-        .danger {
-            color: var(--danger);
-        }
+            .ok {
+                color: var(--ok);
+            }
 
-        .ok {
-            color: var(--ok);
-        }
+            .flow {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr auto 1fr;
+                gap: 10px;
+                align-items: center;
+                margin-top: 24px;
+                font-size: 0.68em;
+            }
 
-        .flow {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr auto 1fr;
-            gap: 10px;
-            align-items: center;
-            margin-top: 24px;
-            font-size: 0.68em;
-        }
+            .flow .box {
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 18px 12px;
+                background: var(--panel);
+            }
 
-        .flow .box {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px 12px;
-            background: var(--panel);
-        }
+            .flow .arrow {
+                font-size: 1.2em;
+                color: var(--accent-2);
+            }
 
-        .flow .arrow {
-            font-size: 1.2em;
-            color: var(--accent-2);
-        }
+            .compare {
+                width: 100%;
+                border-collapse: collapse;
+            }
 
-        .compare {
-            width: 100%;
-            border-collapse: collapse;
-        }
+            .compare td,
+            .compare th {
+                border: 1px solid var(--border);
+                padding: 10px;
+            }
 
-        .compare td,
-        .compare th {
-            border: 1px solid var(--border);
-            padding: 10px;
-        }
+            .callout {
+                margin-top: 24px;
+                padding: 16px 20px;
+                border-left: 4px solid var(--accent);
+                background: rgba(77, 208, 225, 0.12);
+                text-align: left;
+                font-size: 0.72em;
+            }
 
-        .callout {
-            margin-top: 24px;
-            padding: 16px 20px;
-            border-left: 4px solid var(--accent);
-            background: rgba(77, 208, 225, 0.12);
-            text-align: left;
-            font-size: 0.72em;
-        }
-    </style>
-</head>
+            .callout--danger {
+                border-left-color: #e14d4d;
+                background: rgba(181, 48, 48, 0.16);
+                color: var(--danger);
+            }
 
-<body>
-    <div class="reveal">
-        <div class="slides">
-            <section>
-                <h2>Modul 321</h2>
-                <hr />
-                <h3>Lektion 2: Eigenschaften verteilter Systeme</h3>
-                <p>Idempotenz, Retry, Resilience und Transaktionsgrenzen</p>
-                <img style="width: 180px" src="./assets/img/dist-systems.png" alt="Modul Icon" />
-            </section>
+            .callout--good {
+                border-left-color: #68c148;
+                background: rgba(48, 181, 50, 0.16);
+                color: var(--ok);
+            }
+        </style>
+    </head>
 
-            <section>
-                <h2>Lernziele</h2>
-                <ul>
-                    <li>Ich kann erklären, warum Netzwerke, Timeouts und Teilausfälle normale Fälle sind.</li>
-                    <li>Ich kann <span class="inline-code">Retry</span> und <span class="inline-code">Idempotenz</span>
-                        fachlich korrekt zusammenbringen.</li>
-                    <li>Ich kann <span class="inline-code">Resilience</span> als Entwurfsprinzip für verteilte Systeme
-                        beschreiben.</li>
-                    <li>Ich kann erklären, warum klassische Transaktionen über mehrere Services problematisch sind.</li>
-                    <li>Ich kenne sinnvolle Einsatzzwecke von <span
-                            class="inline-code">Event Sourcing</span>.</li>
-                </ul>
-            </section>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h2>Modul 321</h2>
+                    <hr />
+                    <h3>Lektion 2: Eigenschaften verteilter Systeme</h3>
+                    <p>Idempotenz, Retry, Resilience und Transaktionsgrenzen</p>
+                    <img
+                        style="width: 180px"
+                        src="./assets/img/dist-systems.png"
+                        alt="Modul Icon"
+                    />
+                </section>
 
-            <section>
-                <h2>Warum diese Themen wichtig sind</h2>
-                <div class="panel">
-                    <h3>Monolith denkt lokal</h3>
+                <section>
+                    <h2>Lernziele</h2>
                     <ul>
-                        <li>Funktionsaufruf ist schnell und direkt.</li>
-                        <li>Eine Datenbanktransaktion deckt oft alles ab.</li>
-                        <li>Fehler sind meist Exceptions im selben Prozess.</li>
+                        <li>
+                            Ich kann erklären, warum Netzwerke, Timeouts und
+                            Teilausfälle normale Fälle sind.
+                        </li>
+                        <li>
+                            Ich kann <span class="inline-code">Retry</span> und
+                            <span class="inline-code">Idempotenz</span> fachlich
+                            korrekt zusammenbringen.
+                        </li>
+                        <li>
+                            Ich kann
+                            <span class="inline-code">Resilience</span> als
+                            Entwurfsprinzip für verteilte Systeme beschreiben.
+                        </li>
+                        <li>
+                            Ich kann erklären, warum klassische Transaktionen
+                            über mehrere Services problematisch sind.
+                        </li>
+                        <li>
+                            Ich kenne sinnvolle Einsatzzwecke von
+                            <span class="inline-code">Event Sourcing</span>.
+                        </li>
                     </ul>
-                </div>
-            </section>
-            <section>
-                <h2>Warum diese Themen wichtig sind</h2>
-                <div class="panel">
-                    <h3>Verteiltes System denkt unvollständig</h3>
+                </section>
+
+                <section>
+                    <h2>Warum diese Themen wichtig sind</h2>
+                    <div class="panel">
+                        <h3>Monolith denkt lokal</h3>
+                        <ul>
+                            <li>Funktionsaufruf ist schnell und direkt.</li>
+                            <li>
+                                Eine Datenbanktransaktion deckt oft alles ab.
+                            </li>
+                            <li>
+                                Fehler sind meist Exceptions im selben Prozess.
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <section>
+                    <h2>Warum diese Themen wichtig sind</h2>
+                    <div class="panel">
+                        <h3>Verteiltes System denkt unvollständig</h3>
+                        <ul>
+                            <li>
+                                Antworten können verspätet kommen oder ganz
+                                fehlen.
+                            </li>
+                            <li>
+                                Eine Anfrage kann verarbeitet worden sein,
+                                obwohl der Client ein Timeout sieht.
+                            </li>
+                            <li>
+                                Ein Teil des Systems kann ausfallen, während
+                                andere Teile weiterlaufen.
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="small muted">
+                        Standard in der Praxis: Systeme werden so gebaut, dass
+                        sie mit Unsicherheit umgehen, nicht so, als gäbe es sie
+                        nicht.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Fokus der Lektion</h2>
+                    <div class="flow">
+                        <div class="box">
+                            <strong>1. Retry</strong><br />Was tun bei Timeout
+                            oder temporärem Fehler?
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="box">
+                            <strong>2. Idempotenz</strong><br />Wie vermeiden
+                            wir doppelte Wirkung?
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="box">
+                            <strong>3. Resilience</strong><br />Wie bleibt das
+                            Gesamtsystem brauchbar?
+                        </div>
+                    </div>
+                    <div class="callout">
+                        Zweiter Schwerpunkt: Wenn mehrere Services beteiligt
+                        sind, reichen klassische ACID-Transaktionen oft nicht
+                        mehr. Dann werden Muster wie
+                        <span class="inline-code">CQRS</span> und
+                        <span class="inline-code">Event Sourcing</span>
+                        relevant.
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Retry ohne Idempotenz ist gefährlich</h2>
+                    <p>
+                        Beispiel: Ein Payment-Service erhält
+                        <span class="inline-code">POST /payments</span>.
+                    </p>
                     <ul>
-                        <li>Antworten können verspätet kommen oder ganz fehlen.</li>
-                        <li>Eine Anfrage kann verarbeitet worden sein, obwohl der Client ein Timeout sieht.</li>
-                        <li>Ein Teil des Systems kann ausfallen, während andere Teile weiterlaufen.</li>
+                        <li>Der Service belastet die Kreditkarte korrekt.</li>
+                        <li>Die Antwort geht verloren (Netzwerkfehler).</li>
+                        <li>Der Client sendet dieselbe Anfrage nochmals.</li>
                     </ul>
-                </div>
-                <p class="small muted">Standard in der Praxis: Systeme werden so gebaut, dass sie mit Unsicherheit
-                    umgehen, nicht so, als gäbe es sie nicht.</p>
-            </section>
+                    <p class="callout callout--danger">
+                        <b>Risiko:</b><br />doppelte Zahlung, doppelte
+                        Bestellung, doppelte E-Mail, doppelte Buchung.
+                    </p>
+                </section>
 
-            <section>
-                <h2>Fokus der Lektion</h2>
-                <div class="flow">
-                    <div class="box"><strong>1. Retry</strong><br />Was tun bei Timeout oder temporärem Fehler?</div>
-                    <div class="arrow">→</div>
-                    <div class="box"><strong>2. Idempotenz</strong><br />Wie vermeiden wir doppelte Wirkung?</div>
-                    <div class="arrow">→</div>
-                    <div class="box"><strong>3. Resilience</strong><br />Wie bleibt das Gesamtsystem brauchbar?</div>
-                </div>
-                <div class="callout">
-                    Zweiter Schwerpunkt: Wenn mehrere Services beteiligt sind, reichen klassische ACID-Transaktionen oft
-                    nicht mehr. Dann werden Muster wie <span class="inline-code">CQRS</span> und <span
-                        class="inline-code">Event Sourcing</span> relevant.
-                </div>
-            </section>
-
-            <section>
-                <h2>Retry ohne Idempotenz ist gefährlich</h2>
-                <p>Beispiel: Ein Payment-Service erhält <span class="inline-code">POST /payments</span>.</p>
-                <ul>
-                    <li>Der Service belastet die Kreditkarte korrekt.</li>
-                    <li>Die Antwort geht wegen eines Netzwerkfehlers verloren.</li>
-                    <li>Der Client sieht ein Timeout und sendet dieselbe Anfrage nochmals.</li>
-                </ul>
-                <p class="danger">Risiko: doppelte Zahlung, doppelte Bestellung, doppelte E-Mail, doppelte Buchung.</p>
-            </section>
-
-            <section>
-                <h2>Idempotenz</h2>
+                <section>
+                    <h2>Idempotenz</h2>
                     <div class="callout">
                         <h3>Definition</h3>
-                        <p>Eine Operation ist idempotent, wenn mehrfache gleiche Ausführung denselben fachlichen
-                            Endzustand erzeugt wie eine einmalige Ausführung.</p>
+                        <p>
+                            Eine Operation ist idempotent, wenn mehrfache
+                            gleiche Ausführung denselben fachlichen Endzustand
+                            erzeugt wie eine einmalige Ausführung.
+                        </p>
                     </div>
                     <br />
                     <div class="panel">
                         <h3>Praxis</h3>
                         <ul>
-                            <li><span class="inline-code">PUT /users/42</span> mit demselben Inhalt ist meist
-                                idempotent.</li>
-                            <li><span class="inline-code">POST /payments</span> ist es ohne Zusatzmechanismus meist
-                                nicht.</li>
-                            <li>Deshalb werden oft <span class="inline-code">Idempotency Keys</span> verwendet.</li>
+                            <li>
+                                <span class="inline-code">PUT /users/42</span>
+                                mit demselben Inhalt ist meist idempotent.
+                            </li>
+                            <li>
+                                <span class="inline-code">POST /payments</span>
+                                ist es ohne Zusatzmechanismus meist nicht.
+                            </li>
+                            <li>
+                                Deshalb werden oft
+                                <span class="inline-code"
+                                    >Idempotency Keys</span
+                                >
+                                verwendet.
+                            </li>
                         </ul>
                     </div>
-            </section>
+                </section>
 
-            <section>
-                <h2>Praxisbeispiel: Idempotency Key</h2>
-                <div class="flow">
-                    <div class="box">Client sendet Zahlung<br /><span class="inline-code">Idempotency-Key: 8f3...</span>
+                <section>
+                    <h2>Praxisbeispiel: Idempotency Key</h2>
+                    <div class="flow">
+                        <div class="box">
+                            Client sendet Zahlung<br /><span class="inline-code"
+                                >Idempotency-Key: 8f3...</span
+                            >
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="box">
+                            Service speichert Key + Ergebnis<br />erste
+                            Verarbeitung gewinnt
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="box">
+                            Bei Retry liefert Service dieselbe Antwort statt
+                            erneut zu buchen
+                        </div>
                     </div>
-                    <div class="arrow">→</div>
-                    <div class="box">Service speichert Key + Ergebnis<br />erste Verarbeitung gewinnt</div>
-                    <div class="arrow">→</div>
-                    <div class="box">Bei Retry liefert Service dieselbe Antwort statt erneut zu buchen</div>
-                </div>
-                <ul class="small">
-                    <li>Typisch bei Payments, Bestellungen, Ticketkäufen, Webhooks.</li>
-                    <li>Wichtig ist die fachliche Eindeutigkeit: gleicher Key = gleiche Operation.</li>
-                    <li>Der Key braucht meist eine begrenzte Lebensdauer und klare Speicherstrategie.</li>
-                </ul>
-            </section>
+                    <ul class="small">
+                        <li>
+                            Typisch bei Payments, Bestellungen, Ticketkäufen,
+                            Webhooks.
+                        </li>
+                        <li>
+                            Wichtig ist die fachliche Eindeutigkeit: gleicher
+                            Key = gleiche Operation.
+                        </li>
+                        <li>
+                            Der Key braucht meist eine begrenzte Lebensdauer und
+                            klare Speicherstrategie.
+                        </li>
+                    </ul>
+                </section>
 
-            <section>
-                <h2>Retry richtig einsetzen</h2>
-                <table class="compare">
-                    <thead>
-                        <tr>
-                            <th>Situation</th>
-                            <th>Retry sinnvoll?</th>
-                            <th>Begründung</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Timeout / temporärer Netzwerkfehler</td>
-                            <td class="ok">Ja</td>
-                            <td>Fehler kann flüchtig sein; Limits nötig.</td>
-                        </tr>
-                        <tr>
-                            <td>Validierungsfehler / fachlich ungültige Daten</td>
-                            <td class="danger">Nein</td>
-                            <td>Der gleiche Request wird wieder scheitern.</td>
-                        </tr>
-                        <tr>
-                            <td>Nicht idempotente Aktion ohne Schutz</td>
-                            <td class="danger">Nein</td>
-                            <td>Retry kann Schaden verdoppeln.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                <section>
+                    <h2>Retry richtig einsetzen</h2>
+                    <table class="compare">
+                        <thead>
+                            <tr>
+                                <th>Situation</th>
+                                <th>Retry sinnvoll?</th>
+                                <th>Begründung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Temporärer Netzwerkfehler</td>
+                                <td class="ok">Ja</td>
+                                <td>
+                                    Fehler kann flüchtig sein; Limits nötig.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Validierungsfehler oder<br />fachlich
+                                    ungültige Daten
+                                </td>
+                                <td class="danger">Nein</td>
+                                <td>
+                                    Der gleiche Request wird wieder scheitern.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nicht idempotente Aktion ohne Schutz</td>
+                                <td class="danger">Nein</td>
+                                <td>Retry kann Schaden verdoppeln.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
 
-            <section>
-                <h2>Resilience / Design for Failure</h2>
-                <p>Resilience: System trotz Fehlern <strong>kontrolliert nutzbar</strong>.</p>
-                <div class="grid-2">
-                    <div class="panel">
-                        <h3>Technische Mittel</h3>
-                        <ul>
-                            <li>Timeouts statt endlos warten</li>
-                            <li>Retries mit Limits</li>
-                            <li>Queues und asynchrone Verarbeitung</li>
-                            <li>Health Checks, Monitoring, Alerting</li>
-                        </ul>
+                <section>
+                    <h2>Resilience</h2>
+                    <p>
+                        System trotz Fehlern
+                        <strong>kontrolliert nutzbar</strong>.
+                    </p>
+                    <div class="grid-2">
+                        <div class="panel">
+                            <h3>Technische Mittel</h3>
+                            <ul>
+                                <li>Timeouts statt endlos warten</li>
+                                <li>Retries mit Limits</li>
+                                <li>Queues und asynchrone Verarbeitung</li>
+                                <li>Health Checks, Monitoring, Alerting</li>
+                            </ul>
+                        </div>
+                        <div class="panel">
+                            <h3>Produktverhalten</h3>
+                            <ul>
+                                <li>
+                                    Teilfunktionen dürfen ausfallen,
+                                    Kernfunktion bleibt.
+                                </li>
+                                <li>
+                                    Fehler werden sichtbar und sauber behandelt.
+                                </li>
+                                <li>
+                                    Degradierter Betrieb ist besser als
+                                    Totalausfall.
+                                </li>
+                                <li>
+                                    Recovery ist eingeplant, nicht improvisiert.
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="panel">
-                        <h3>Produktverhalten</h3>
-                        <ul>
-                            <li>Teilfunktionen dürfen ausfallen, Kernfunktion bleibt.</li>
-                            <li>Fehler werden sichtbar und sauber behandelt.</li>
-                            <li>Degradierter Betrieb ist besser als Totalausfall.</li>
-                            <li>Recovery ist eingeplant, nicht improvisiert.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <section>
-                <h2>Beispiel für degradierte Funktion</h2>
-                <p>Online-Shop: Das Empfehlungssystem ist down.</p>
-                <div class="grid-2">
-                    <div class="panel">
+                <section>
+                    <h2>Degradierte Funktion</h2>
+                    <p>
+                        Beispiel: Das Empfehlungssystem im Online-Shop ist down.
+                    </p>
+                    <div class="callout callout--danger">
                         <h3>Schlechtes Design</h3>
                         <ul>
                             <li>Produktseite wartet auf Empfehlungen.</li>
@@ -318,151 +438,237 @@
                             <li>Ein Nebendienst blockiert den Verkauf.</li>
                         </ul>
                     </div>
-                    <div class="panel">
+                </section>
+                <section>
+                    <h2>Degradierte Funktion</h2>
+                    <p>
+                        Beispiel: Das Empfehlungssystem im Online-Shop ist down.
+                    </p>
+                    <div class="callout callout--good">
                         <h3>Resilientes Design</h3>
                         <ul>
                             <li>Produktseite lädt ohne Empfehlungen.</li>
-                            <li>Empfehlungsbereich zeigt Fallback oder bleibt leer.</li>
-                            <li>Checkout und Warenkorb funktionieren weiter.</li>
+                            <li>
+                                Empfehlungsbereich zeigt Fallback oder bleibt
+                                leer.
+                            </li>
+                            <li>
+                                Checkout und Warenkorb funktionieren weiter.
+                            </li>
                         </ul>
                     </div>
-                </div>
-                <p class="ok">Ziel: Fehler isolieren, statt sie unkontrolliert durchs System zu verteilen.</p>
-            </section>
+                    <p class="ok">
+                        Ziel: Fehler isolieren, statt sie unkontrolliert durchs
+                        System zu verteilen.
+                    </p>
+                </section>
 
-            <section>
-                <h2>Warum verteilte Transaktionen schwierig sind</h2>
-                <ul>
-                    <li>Mehrere Services besitzen oft eigene Datenbanken.</li>
-                    <li>Ein globales <span class="inline-code">alles oder nichts</span> über Servicegrenzen koppelt
-                        stark und ist betrieblich teuer.</li>
-                    <li>Langsame oder nicht erreichbare Partner blockieren sonst das Gesamtsystem.</li>
-                    <li>In Praxis häufig <span class="inline-code">eventual consistency</span> statt
-                        harte Sofort-Konsistenz über alles.</li>
-                </ul>
-                <div class="callout">
-                    Beispiel Bestellung: Order-Service erstellt Bestellung, Payment-Service autorisiert Zahlung,
-                    Inventory-Service reserviert Bestand. Diese Schritte sind fachlich verbunden, technisch aber oft
-                    getrennt.
-                </div>
-            </section>
-
-            <section>
-                <h2>Event Sourcing</h2>
-                <ul>
-                    <li>Der aktuelle Zustand wird nicht primär als letzte Tabellenzeile gespeichert.</li>
-                    <li>Stattdessen werden fachliche Ereignisse gespeichert, z. B. <span
-                            class="inline-code">OrderPlaced</span>, <span class="inline-code">PaymentAuthorized</span>,
-                        <span class="inline-code">OrderCancelled</span>.
-                    </li>
-                    <li>Der Zustand ergibt sich aus der Reihenfolge dieser Events.</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Event Sourcing</h2>
-                <div class="grid-2">
-                    <div class="panel">
-                        <h3>Vorteile</h3>
-                        <ul>
-                            <li>Nachvollziehbarkeit</li>
-                            <li>Read-Modelle können aus Events aufgebaut werden</li>
-                        </ul>
+                <section>
+                    <h2>Problematik verteilter Transaktionen</h2>
+                    <ul>
+                        <li>
+                            Mehrere Services besitzen oft eigene Datenbanken.
+                        </li>
+                        <li>
+                            Ein globales
+                            <span class="inline-code">alles oder nichts</span>
+                            über Servicegrenzen koppelt stark und ist
+                            betrieblich teuer.
+                        </li>
+                        <li>
+                            Langsame oder nicht erreichbare Partner blockieren
+                            sonst das Gesamtsystem.
+                        </li>
+                        <li>
+                            In Praxis häufig
+                            <span class="inline-code"
+                                >eventual consistency</span
+                            >
+                            statt harte Sofort-Konsistenz über alles.
+                        </li>
+                    </ul>
+                    <div class="callout">
+                        Beispiel Bestellung: Order-Service erstellt Bestellung,
+                        Payment-Service autorisiert Zahlung, Inventory-Service
+                        reserviert Bestand. Diese Schritte sind fachlich
+                        verbunden, technisch aber oft getrennt.
                     </div>
-                    <div class="panel">
-                        <h3>Nachteile</h3>
-                        <ul>
-                            <li>Komplexeres Datenmodell</li>
-                            <li>Versionierung von Events</li>
-                            <li>Rebuilds und Konsistenzfragen</li>
-                        </ul>
+                </section>
+
+                <section>
+                    <h2>Event Sourcing</h2>
+                    <ul>
+                        <li>
+                            Der aktuelle Zustand wird nicht primär als letzte
+                            Tabellenzeile gespeichert.
+                        </li>
+                        <li>
+                            Stattdessen werden fachliche Ereignisse gespeichert,
+                            z. B. <span class="inline-code">OrderPlaced</span>,
+                            <span class="inline-code">PaymentAuthorized</span>,
+                            <span class="inline-code">OrderCancelled</span>.
+                        </li>
+                        <li>
+                            Der Zustand ergibt sich aus der Reihenfolge dieser
+                            Events.
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Event Sourcing</h2>
+                    <div class="grid-2">
+                        <div class="panel">
+                            <h3>Vorteile</h3>
+                            <ul>
+                                <li>Nachvollziehbarkeit</li>
+                                <li>
+                                    Read-Modelle können aus Events aufgebaut
+                                    werden
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel">
+                            <h3>Nachteile</h3>
+                            <ul>
+                                <li>Komplexeres Datenmodell</li>
+                                <li>Versionierung von Events</li>
+                                <li>Rebuilds und Konsistenzfragen</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
+                <section>
+                    <h2>Zusammenspiel der Muster</h2>
+                    <table class="compare">
+                        <thead>
+                            <tr>
+                                <th>Problem</th>
+                                <th>Typischer Ansatz</th>
+                                <th>Ziel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Antwort verloren, Aktion evtl. schon
+                                    ausgeführt
+                                </td>
+                                <td>Retry + Idempotency Key</td>
+                                <td>Doppelte Wirkung vermeiden</td>
+                            </tr>
+                            <tr>
+                                <td>Nebendienst fällt aus</td>
+                                <td>Timeout, Fallback</td>
+                                <td>Kernfunktion schützen</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Fachliche Historie muss vollständig
+                                    nachvollziehbar sein
+                                </td>
+                                <td>Event Sourcing</td>
+                                <td>Änderungen als Events speichern</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
 
-            <section>
-                <h2>Zusammenspiel der Muster</h2>
-                <table class="compare">
-                    <thead>
-                        <tr>
-                            <th>Problem</th>
-                            <th>Typischer Ansatz</th>
-                            <th>Ziel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Antwort verloren, Aktion evtl. schon ausgeführt</td>
-                            <td>Retry + Idempotency Key</td>
-                            <td>Doppelte Wirkung vermeiden</td>
-                        </tr>
-                        <tr>
-                            <td>Nebendienst fällt aus</td>
-                            <td>Timeout, Fallback</td>
-                            <td>Kernfunktion schützen</td>
-                        </tr>
-                        <tr>
-                            <td>Fachliche Historie muss vollständig nachvollziehbar sein</td>
-                            <td>Event Sourcing</td>
-                            <td>Änderungen als Events speichern</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                <section>
+                    <h2>Wann nicht über-engineeren?</h2>
+                    <ul>
+                        <li>
+                            Nicht jeder CRUD-Service braucht CQRS oder Event
+                            Sourcing.
+                        </li>
+                        <li>Nicht jeder Fehler braucht aggressive Retries.</li>
+                        <li>
+                            Idempotenz ist besonders wichtig überall wo Geld
+                            fliesst
+                        </li>
+                        <li>
+                            Erst Problem verstehen, dann das passende Muster
+                            gezielt einsetzen.
+                        </li>
+                    </ul>
+                </section>
 
-            <section>
-                <h2>Wann nicht über-engineeren?</h2>
-                <ul>
-                    <li>Nicht jeder CRUD-Service braucht CQRS oder Event Sourcing.</li>
-                    <li>Nicht jeder Fehler braucht aggressive Retries.</li>
-                    <li>Idempotenz ist besonders wichtig bei fachlich teuren Aktionen: Geld, Bestellungen,
-                        Provisionierung, Webhooks.</li>
-                    <li>Aktueller Industriestandard: erst Problem verstehen, dann das passende Muster gezielt einsetzen.
-                    </li>
-                </ul>
-            </section>
+                <section>
+                    <h2>Merksätze</h2>
+                    <ol>
+                        <li>
+                            In verteilten Systemen ist ein Timeout keine
+                            Seltenheit, sondern ein normaler Fall.
+                        </li>
+                        <li>Regeln, Limits und Idempotenz für Retries</li>
+                        <li>
+                            Resilience bedeutet nicht Fehlerfreiheit, sondern
+                            kontrolliertes Verhalten bei Fehlern.
+                        </li>
+                        <li>
+                            Über Servicegrenzen ist
+                            <span class="inline-code"
+                                >eventual consistency</span
+                            >
+                            oft realistischer als globale Sofort-Transaktionen.
+                        </li>
+                        <li>
+                            <span class="inline-code">Event Sourcing</span> ist
+                            ein starkes Werkzeug, aber nur sinnvoll, wo ihr
+                            Mehrwert die Komplexität rechtfertigt.
+                        </li>
+                    </ol>
+                </section>
 
-            <section>
-                <h2>Merksätze</h2>
-                <ol>
-                    <li>In verteilten Systemen ist ein Timeout keine Seltenheit, sondern ein normaler Fall.</li>
-                    <li>Retries brauchen fast immer Regeln, Limits und oft Idempotenz.</li>
-                    <li>Resilience bedeutet nicht Fehlerfreiheit, sondern kontrolliertes Verhalten bei Fehlern.</li>
-                    <li>Über Servicegrenzen ist <span class="inline-code">eventual consistency</span> oft realistischer
-                        als globale Sofort-Transaktionen.</li>
-                    <li><span class="inline-code">Event Sourcing</span> ist ein
-                        starkes Werkzeuge, aber nur dort sinnvoll, wo ihr Mehrwert die Komplexität rechtfertigt.</li>
-                </ol>
-            </section>
+                <section>
+                    <h2>Mini-Check</h2>
+                    <p>
+                        Warum kann ein Retry trotz Timeout fachlich riskant
+                        sein?
+                    </p>
+                    <div class="fragment callout callout--good">
+                        Da die Aktion ggf. nicht idempotent ist und es zu
+                        doppelter Ausführung kommen kann.
+                    </div>
+                </section>
 
-            <section>
-                <h2>Mini-Check</h2>
-                <ol>
-                    <li>Warum kann ein Retry trotz Timeout fachlich riskant sein?</li>
-                    <li>Welchen Unterschied hat Resilience gegenüber blossem "neu versuchen"?</li>
-                </ol>
-            </section>
-
-            <section>
-                <h2>Mini-Check</h2>
-                <div class="callout">Da die Aktion ggf. nicht idempotent ist und es zu doppelter Ausführung kommen kann.</div>
-                <div class="callout">Retry: Sehr primitives wiederholen der Aktion bei Fehler.<br/>Resilience: Verstehen was nicht funktioniert und dementsprechend reagieren.</div>
-            </section>
+                <section>
+                    <h2>Mini-Check</h2>
+                    <p>
+                        Welchen Unterschied hat Resilience gegenüber blossem
+                        "neu versuchen"?
+                    </p>
+                    <div class="fragment callout callout--good">
+                        <h3 style="margin-bottom: 5px;">Retry</h3>
+                        <p style="margin: 0; margin-bottom: 30px;">
+                            Sehr primitives wiederholen der Aktion bei Fehler.
+                        </p>
+                        <h3 style="margin-bottom: 5px;">Resilience</h3>
+                        <p style="margin: 0;">
+                            Verstehen was nicht funktioniert und dementsprechend
+                            reagieren.
+                        </p>
+                    </div>
+                </section>
+            </div>
         </div>
-    </div>
 
-    <script src="./dist/reveal.js"></script>
-    <script src="./plugin/zoom/zoom.js"></script>
-    <script src="./plugin/notes/notes.js"></script>
-    <script src="./plugin/markdown/markdown.js"></script>
-    <script src="./plugin/highlight/highlight.js"></script>
-    <script>
-        Reveal.initialize({
-            hash: true,
-            plugins: [RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes],
-        });
-    </script>
-</body>
-
+        <script src="./dist/reveal.js"></script>
+        <script src="./plugin/zoom/zoom.js"></script>
+        <script src="./plugin/notes/notes.js"></script>
+        <script src="./plugin/markdown/markdown.js"></script>
+        <script src="./plugin/highlight/highlight.js"></script>
+        <script>
+            Reveal.initialize({
+                hash: true,
+                plugins: [
+                    RevealZoom,
+                    RevealMarkdown,
+                    RevealHighlight,
+                    RevealNotes,
+                ],
+            });
+        </script>
+    </body>
 </html>
