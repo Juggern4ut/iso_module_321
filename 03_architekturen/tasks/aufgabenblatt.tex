@@ -1,0 +1,169 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\answerline}[1]{\rule{#1}{0.4pt}}
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+
+\title{\textbf{Aufgabenblatt: Systemarchitekturen zur Softwareentwicklung}}
+\author{Modul 321 -- Lektion 3}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Name:} \answerline{7cm} \hfill \textbf{Datum:} \answerline{3.5cm}
+
+\vspace{0.8em}
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Ziel der Lektion:} Sie können zentrale Systemarchitekturen
+    unterscheiden, mit passenden Beispielen erklären und Architekturentscheide
+    im Spannungsfeld von Komplexität, Skalierung, Betrieb und Teamstruktur begründen.
+  }
+}
+
+\section*{Hinweise}
+\begin{itemize}
+  \item Antworten Sie in ganzen Sätzen oder präzisen Stichworten.
+  \item Begründen Sie Architekturentscheide knapp, aber fachlich sauber.
+  \item Skizzen und kleine Diagramme sind ausdrücklich erlaubt.
+\end{itemize}
+
+\section*{1. Begriffe erklären}
+Erklären Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen Sätzen}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Ihre Erklärung} \\
+\hline
+\term{Monolith} & \\[2.2cm] \hline
+\term{Microservices} & \\[2.2cm] \hline
+\term{Client-Server} & \\[2.2cm] \hline
+\term{Peer-to-Peer} & \\[2.2cm] \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+Ordnen Sie jedem Szenario die \textbf{passendste Architektur} zu:
+
+\term{Monolith}, \term{Microservices}, \term{Client-Server}, \term{Peer-to-Peer}
+
+\begin{enumerate}
+  \item Eine Webanwendung läuft als ein gemeinsames Deployment mit einer zentralen Datenbank.
+  \item Eine Browser-App ruft eine zentrale API auf und erhält dort Daten und Regeln.
+  \item Mehrere eigenständige Dienste für Bestellung, Zahlung, Versand und Benachrichtigung kommunizieren über APIs.
+  \item Teilnehmer laden Dateien direkt untereinander aus dem Netzwerk herunter.
+  \item Eine kleine Schulsoftware wird von einem Team entwickelt und als eine zusammenhängende Anwendung betrieben.
+  \item Ein Blockchain-Netzwerk verteilt Daten und Validierung auf viele gleichberechtigte Knoten.
+\end{enumerate}
+
+\vspace{0.8em}
+\textbf{Begründen Sie danach zwei Ihrer Zuordnungen kurz in je 1 Satz.}
+
+\section*{3. Monolith oder Microservices?}
+Ein junges Startup baut eine erste Version einer Terminplattform.
+
+Rahmenbedingungen:
+\begin{itemize}
+  \item 4 Entwicklerinnen und Entwickler
+  \item Anforderungen ändern sich häufig
+  \item Noch wenig Traffic
+  \item Ein Produkt, ein enger fachlicher Zusammenhang
+\end{itemize}
+
+Bearbeiten Sie die Fragen:
+\begin{enumerate}
+  \item Welche Architektur wäre als Startpunkt naheliegend?
+  \item Nennen Sie \textbf{zwei Gründe}, warum diese Wahl sinnvoll ist.
+  \item Nennen Sie \textbf{ein Risiko}, das bei späterem Wachstum entstehen könnte.
+  \item Was müsste man tun, damit die gewählte Architektur später nicht zum Problem wird?
+\end{enumerate}
+
+\section*{4. Microservices kritisch beurteilen}
+Viele Firmen sprechen von Microservices. Beantworten Sie die Fragen stichwortartig oder in kurzen Sätzen.
+
+\begin{enumerate}
+  \item Nennen Sie \textbf{zwei Vorteile} von Microservices.
+  \item Nennen Sie \textbf{drei zusätzliche Herausforderungen} gegenüber einem Monolithen.
+  \item Warum lösen Microservices Team- oder Organisationsprobleme nicht automatisch?
+  \item In welchem Fall wären Microservices eher übertrieben?
+\end{enumerate}
+
+\section*{5. Client-Server vs. Peer-to-Peer}
+Vergleichen Sie die beiden Kommunikationsmodelle.
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.25\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Client-Server} & \textbf{Peer-to-Peer} \\
+\hline
+Wer stellt typischerweise die zentrale Logik bereit? & & \\[1.1cm] \hline
+Wie erfolgt die Datenkontrolle oder Datenspeicherung? & & \\[1.1cm] \hline
+Wo ist der Betrieb meist einfacher? & & \\[1.1cm] \hline
+Nennen Sie ein typisches Praxisbeispiel. & & \\[1.1cm] \hline
+\end{tabularx}
+
+\section*{6. Architektur eines Online-Shops}
+Ein Online-Shop benötigt folgende Funktionen:
+\begin{itemize}
+  \item Produktanzeige
+  \item Warenkorb
+  \item Checkout
+  \item E-Mail-Benachrichtigungen
+  \item Suchfunktion
+\end{itemize}
+
+Bearbeiten Sie dazu:
+\begin{enumerate}
+  \item Beschreiben Sie kurz, wie dieser Shop als \term{Monolith} aufgebaut sein könnte.
+  \item Beschreiben Sie kurz, wie derselbe Shop als \term{Microservice-System} aufgebaut sein könnte.
+  \item Welche Variante würden Sie für ein kleines Team zu Beginn bevorzugen?
+  \item Welche Variante könnte bei starkem Wachstum interessanter werden und warum?
+\end{enumerate}
+
+\section*{7. Kombinationsverständnis}
+Beantworten Sie die folgenden Aussagen mit \textbf{richtig / falsch} und begründen Sie kurz.
+
+\begin{enumerate}
+  \item Ein Monolith kann im Client-Server-Modell betrieben werden.
+  \item Microservices bedeuten automatisch Peer-to-Peer.
+  \item Peer-to-Peer-Systeme haben nie zentrale Elemente.
+  \item Ein gut strukturierter Monolith kann für längere Zeit eine sinnvolle Lösung sein.
+\end{enumerate}
+
+\section*{8. Entwurfsaufgabe}
+Sie planen eine Plattform für eine Schule mit folgenden Funktionen:
+\begin{itemize}
+  \item Lernmaterialien anzeigen
+  \item Aufgaben hochladen
+  \item Nachrichten zwischen Lehrpersonen und Lernenden
+  \item Videokonferenzen einbinden
+\end{itemize}
+
+Bearbeiten Sie die Aufgaben:
+\begin{enumerate}
+  \item Zeichnen oder beschreiben Sie eine einfache Zielarchitektur.
+  \item Entscheiden Sie sich begründet für einen \term{Monolithen} oder für eine erste \term{Microservice}-Aufteilung.
+  \item Beschreiben Sie, wo in Ihrem Entwurf ein \term{Client-Server}-Muster vorkommt.
+  \item Nennen Sie einen Teil, der eventuell später ausgelagert werden könnte.
+  \item Begründen Sie, warum \term{Peer-to-Peer} hier eher passend oder eher unpassend wäre.
+\end{enumerate}
+
+\section*{Abgabe / Besprechung}
+Die Aufgaben werden in der Lektion besprochen. Halten Sie Ihre Antworten so fest, dass Sie diese fachlich sauber vorstellen und begründen können.
+
+\end{document}

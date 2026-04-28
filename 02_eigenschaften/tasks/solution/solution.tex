@@ -1,0 +1,124 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+\newcommand{\solution}[1]{\textcolor{black}{#1}}
+
+\title{\textbf{Lösungsblatt: Eigenschaften verteilter Systeme}}
+\author{Modul 321 -- Lektion 2}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Hinweis:} Dieses Lösungsblatt enthält Musterlösungen und einen möglichen
+    Erwartungshorizont. Andere Antworten sind korrekt, wenn sie fachlich stimmig
+    begründet sind und die Eigenschaften verteilter Systeme sauber einordnen.
+  }
+}
+
+\section*{1. Begriffe sauber erklären}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Mögliche Lösung} \\
+\hline
+\term{Idempotenz} &
+\solution{Eine Operation ist idempotent, wenn dieselbe Anfrage mehrfach ausgeführt werden kann, ohne die fachliche Wirkung mehrfach anzuwenden. Mehrere gleiche Aufrufe führen also zum gleichen Endzustand wie ein einziger Aufruf.} \\ \hline
+\term{Retry} &
+\solution{Retry bedeutet, dass eine fehlgeschlagene oder unklare Anfrage nochmals gesendet wird. Das ist vor allem bei temporären Fehlern sinnvoll, muss aber begrenzt und fachlich abgesichert sein.} \\ \hline
+\term{Resilience / Design for Failure} &
+\solution{Resilience bedeutet, dass ein System auch bei Teilfehlern kontrolliert brauchbar bleibt. Design for Failure heisst, dass Ausfälle, Timeouts und Überlast von Anfang an als normale Fälle mitgeplant werden.} \\ \hline
+\term{CQRS} &
+\solution{CQRS trennt Schreiboperationen und Leseoperationen in unterschiedliche Modelle oder Komponenten. Dadurch können beide Seiten gezielt für ihre jeweilige Aufgabe optimiert werden.} \\ \hline
+\term{Event Sourcing} &
+\solution{Beim Event Sourcing werden fachliche Änderungen als Ereignisse gespeichert, nicht nur der aktuelle Zustand. Der Zustand kann später aus der Reihenfolge dieser Events wieder aufgebaut werden.} \\ \hline
+\end{longtable}
+
+\section*{2. Retry beurteilen}
+\begin{itemize}
+  \item \solution{Timeout durch temporären Netzwerkfehler: Ja. Ein Retry ist sinnvoll, wenn Backoff, Limits und möglichst Idempotenz berücksichtigt werden.}
+  \item \solution{Ungültige Kundendaten: Nein. Der gleiche Request wird erneut fachlich scheitern.}
+  \item \solution{Zahlung möglicherweise bereits verarbeitet: Nur unter Bedingungen. Ohne Idempotenz besteht das Risiko einer doppelten Belastung.}
+  \item \solution{HTTP 503 wegen Überlastung: Ja, vorsichtig. Retries mit Exponential Backoff und Jitter können sinnvoll sein, dürfen den Partnerdienst aber nicht zusätzlich überlasten.}
+\end{itemize}
+
+\section*{3. Idempotenz im Praxisfall}
+\begin{enumerate}
+  \item \solution{Es droht eine doppelte Zahlung oder eine doppelte fachliche Buchung.}
+  \item \solution{Ein einfacher Retry kann dieselbe nicht-idempotente Aktion nochmals auslösen, obwohl der erste Versuch intern bereits erfolgreich war.}
+  \item \solution{Der Client sendet pro fachlicher Operation einen eindeutigen Idempotency Key mit. Der Payment-Service merkt sich, dass diese Operation schon verarbeitet wurde, und liefert bei einem erneuten Request mit gleichem Schlüssel dasselbe Ergebnis zurück.}
+  \item \solution{Mindestens Schlüssel, fachliche Identität der Operation und das Ergebnis bzw. den Verarbeitungsstatus der ersten Ausführung.}
+\end{enumerate}
+
+\section*{4. Resilience auf Architektur-Ebene}
+\begin{enumerate}
+  \item \solution{Schlechtes Verhalten: Die Produktseite lädt gar nicht mehr oder der Checkout wird blockiert, nur weil Empfehlungen fehlen.}
+  \item \solution{Resilientes Verhalten: Produktkatalog, Warenkorb und Kaufprozess funktionieren weiter; nur der Empfehlungsbereich zeigt Fallback-Inhalte oder bleibt leer.}
+  \item \solution{Mögliche Massnahmen: Timeouts, Circuit Breaker, Fallbacks, asynchrone Kommunikation, Caching, getrennte Ressourcen bzw. Isolation einzelner Dienste.}
+  \item \solution{Degradierter Betrieb ist besser, weil die Kernfunktion für Benutzerinnen und Benutzer verfügbar bleibt und nicht das ganze Geschäft wegen eines Nebendienstes stillsteht.}
+\end{enumerate}
+
+\section*{5. Transaktionsgrenzen verstehen}
+\begin{enumerate}
+  \item \solution{Jeder Service besitzt typischerweise seine eigene Datenhaltung und läuft unabhängig. Eine einzige klassische ACID-Transaktion über alle Grenzen hinweg würde starke Kopplung, Koordinationsaufwand und betriebliche Risiken erzeugen.}
+  \item \solution{Langsame oder ausgefallene Services können den Prozess blockieren, zu Timeouts führen oder Zwischenschritte in uneinheitlichen Zuständen hinterlassen.}
+  \item \solution{Eventual Consistency bedeutet hier, dass nicht sofort überall derselbe Endzustand sichtbar sein muss, sondern dass sich das Gesamtsystem nach kurzer Zeit synchronisiert.}
+  \item \solution{Beispiel: Wenn Zahlung fehlschlägt, wird die Bestellung storniert oder die Bestandsreservation wieder freigegeben.}
+\end{enumerate}
+
+\section*{6. CQRS anwenden}
+\begin{enumerate}
+  \item \solution{CQRS kann sinnvoll sein, weil Lesen und Schreiben sehr unterschiedliche Anforderungen haben: viele schnelle Abfragen auf der einen Seite, wenige aber kritische Käufe auf der anderen.}
+  \item \solution{Command Side: Reservieren oder Kaufen von Tickets, Prüfen von Regeln, Verhindern von Überverkäufen, Auslösen fachlicher Events.}
+  \item \solution{Query Side: Anzeigen von Veranstaltungen, verfügbaren Plätzen, Filterlisten, Suchresultaten oder Reports.}
+  \item \solution{Vorteil: Lese- und Schreibmodell können separat optimiert werden. Nachteil: zusätzliche Komplexität und mögliche Verzögerung zwischen Schreib- und Lesesicht.}
+\end{enumerate}
+
+\section*{7. Event Sourcing einordnen}
+\begin{enumerate}
+  \item \solution{Passt nicht. Das wäre eher ein klassisches Zustandsmodell ohne Historie.}
+  \item \solution{Passt. Genau solche fachlichen Ereignisse werden typischerweise dauerhaft gespeichert.}
+  \item \solution{Passt. Read-Modelle oder Projektionen können aus der Event-Folge neu aufgebaut werden.}
+  \item \solution{Passt nicht. Für einfache CRUD-Anwendungen ist Event Sourcing oft unnötig komplex.}
+\end{enumerate}
+
+\section*{8. Entwurfsaufgabe}
+\textbf{Mögliche Architektur:}
+\begin{itemize}
+  \item \solution{Frontend für Lernende und Mitarbeitende}
+  \item \solution{Reservation-Service}
+  \item \solution{Datenbank für Reservierungen und Arbeitsplätze}
+  \item \solution{Read-Modell oder Verfügbarkeitsservice}
+  \item \solution{E-Mail-Service oder externer Benachrichtigungsdienst}
+\end{itemize}
+
+\textbf{Mögliche Antworten:}
+\begin{enumerate}
+  \item \solution{Die Architektur kann aus Frontend, API/Reservation-Service, Datenbank und Mail-Service bestehen; optional zusätzlich ein separates Read-Modell für Verfügbarkeiten.}
+  \item \solution{Retry ist etwa beim Versand einer Bestätigungs-E-Mail oder bei einem Aufruf eines externen Mail-Providers sinnvoll, wenn ein temporärer Netzwerkfehler auftritt.}
+  \item \solution{Idempotenz ist wichtig bei der Erstellung einer Reservation, damit ein doppelter Klick oder ein verlorenes Response-Paket nicht zu zwei identischen Buchungen führt.}
+  \item \solution{Degradierter Betrieb: Neue Reservationen funktionieren weiter, aber E-Mails werden später nachgesendet oder das Statistik-Dashboard ist vorübergehend veraltet.}
+  \item \solution{CQRS könnte sinnvoll sein, wenn Verfügbarkeiten sehr häufig gelesen werden, während Reservationen vergleichsweise selten geschrieben werden. Event Sourcing wäre nur dann sinnvoll, wenn eine vollständige fachliche Historie oder ein Audit Trail explizit wichtig ist; sonst wäre es vermutlich unnötig komplex.}
+\end{enumerate}
+
+\section*{Didaktischer Hinweis}
+\solution{Die Muster der Lektion sollen nicht als Pflichtarchitektur verstanden werden. Entscheidend ist, dass Lernende erkennen, wann Retry, Idempotenz, Resilience, CQRS oder Event Sourcing einen klaren Mehrwert liefern und wann sie zusätzliche Komplexität ohne grossen Nutzen erzeugen.}
+
+\end{document}

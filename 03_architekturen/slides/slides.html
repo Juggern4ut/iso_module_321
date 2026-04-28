@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Modul 321 - Lektion 3</title>
+
+    <link rel="stylesheet" href="../../01_einfuehrung/slides/dist/reset.css" />
+    <link rel="stylesheet" href="../../01_einfuehrung/slides/dist/reveal.css" />
+    <link rel="stylesheet" href="../../01_einfuehrung/slides/dist/theme/black.css" />
+    <link rel="stylesheet" href="../../01_einfuehrung/slides/plugin/highlight/monokai.css" />
+
+    <style>
+        :root {
+            --accent: #ffb703;
+            --accent-2: #8ecae6;
+            --panel: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.22);
+            --danger: #ff6b6b;
+            --ok: #7bd88f;
+        }
+
+        .inline-code {
+            font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
+            display: inline-block;
+            background-color: #2d2d2d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 75%;
+        }
+
+        .reveal p,
+        .reveal li {
+            line-height: 1.35;
+        }
+
+        .reveal table td,
+        .reveal table th {
+            font-size: 0.67em;
+        }
+
+        .small {
+            font-size: 0.7em;
+        }
+
+        .muted {
+            color: #bbbbbb;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--panel);
+            text-align: left;
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.66em;
+        }
+
+        .flow .box {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 12px;
+            background: var(--panel);
+        }
+
+        .flow .arrow {
+            font-size: 1.15em;
+            color: var(--accent-2);
+        }
+
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .compare td,
+        .compare th {
+            border: 1px solid var(--border);
+            padding: 10px;
+        }
+
+        .callout {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-left: 4px solid var(--accent);
+            background: rgba(255, 183, 3, 0.12);
+            text-align: left;
+            font-size: 0.72em;
+        }
+
+        .ok {
+            color: var(--ok);
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Modul 321</h2>
+                <hr />
+                <h3>Lektion 3: Systemarchitekturen</h3>
+                <p>Monolith, Microservices, Client-Server und Peer-to-Peer</p>
+            </section>
+
+            <section>
+                <h2>Lernziele</h2>
+                <ul>
+                    <li>Ich kann zentrale Systemarchitekturen voneinander unterscheiden.</li>
+                    <li>Ich kann erklären, wann ein Monolith sinnvoll ist und wann nicht.</li>
+                    <li>Ich kann typische Eigenschaften von Microservices einordnen.</li>
+                    <li>Ich kann <span class="inline-code">Client-Server</span> und <span class="inline-code">Peer-to-Peer</span> anhand praxisnaher Beispiele erklären.</li>
+                    <li>Ich kann Architekturentscheide mit Blick auf Teamgrösse, Betrieb, Skalierung und Komplexität begründen.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Warum Architekturentscheidungen zählen</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Architektur beeinflusst</h3>
+                        <ul>
+                            <li>Änderbarkeit des Systems</li>
+                            <li>Release-Prozess und Deployment</li>
+                            <li>Fehlersuche und Monitoring</li>
+                            <li>Skalierung und Betriebskosten</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Architektur ist kein Selbstzweck</h3>
+                        <ul>
+                            <li>Sie muss zum Problem passen.</li>
+                            <li>Sie muss zum Team passen.</li>
+                            <li>Sie muss zum erwarteten Wachstum passen.</li>
+                            <li>Zu frühe Verteilung erzeugt oft unnötige Komplexität.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="small muted">Aktueller Praxisgrundsatz: nicht die modernste, sondern die passendste Architektur gewinnt.</p>
+            </section>
+
+            <section>
+                <h2>Vier Grundmuster dieser Lektion</h2>
+                <div class="flow">
+                    <div class="box"><strong>Monolith</strong><br />eine Anwendung, ein Deployment</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Microservices</strong><br />viele kleine Dienste</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Client-Server</strong><br />Rollen klar getrennt</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Peer-to-Peer</strong><br />Teilnehmer auf Augenhöhe</div>
+                </div>
+                <div class="callout">
+                    Diese Muster schließen sich nicht vollständig aus. Ein System kann zum Beispiel fachlich als Monolith gebaut sein und gleichzeitig technisch im Client-Server-Modell betrieben werden.
+                </div>
+            </section>
+
+            <section>
+                <h2>Monolith</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Kerngedanke</h3>
+                        <p>Die Anwendung wird als zusammenhängendes System entwickelt und meist gemeinsam gebaut, getestet und deployt.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Typische Merkmale</h3>
+                        <ul>
+                            <li>Ein Codebase oder eng gekoppeltes Gesamtprojekt</li>
+                            <li>Häufig eine zentrale Datenbank</li>
+                            <li>Direkte Funktionsaufrufe statt Netzwerkkommunikation</li>
+                            <li>Ein gemeinsames Release-Artefakt</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Wann ein Monolith sinnvoll ist</h2>
+                <ul>
+                    <li>Zu Beginn eines Produkts, wenn Anforderungen noch stark in Bewegung sind.</li>
+                    <li>Bei kleinen bis mittleren Teams mit engem fachlichem Austausch.</li>
+                    <li>Wenn schnelle Iteration wichtiger ist als maximale technische Entkopplung.</li>
+                    <li>Wenn Betrieb und Infrastruktur bewusst einfach gehalten werden sollen.</li>
+                </ul>
+                <p class="ok">Wichtiger Praxispunkt: Ein gut strukturierter Monolith ist keine schlechte Architektur.</p>
+            </section>
+
+            <section>
+                <h2>Grenzen des Monolithen</h2>
+                <ul>
+                    <li>Ein kleines Release kann einen kompletten Rebuild und Re-Deploy auslösen.</li>
+                    <li>Mit wachsender Codebasis steigen Kopplung und Koordinationsaufwand.</li>
+                    <li>Skalierung ist oft nur für die gesamte Anwendung möglich.</li>
+                    <li>Technologieentscheide wirken schnell auf das ganze System.</li>
+                </ul>
+                <div class="callout">
+                    Problematisch wird nicht der Monolith an sich, sondern ein ungepflegter Monolith ohne klare Modulgrenzen.
+                </div>
+            </section>
+
+            <section>
+                <h2>Microservices</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Kerngedanke</h3>
+                        <p>Fachliche Fähigkeiten werden in mehrere eigenständige Services aufgeteilt, die über APIs oder Messaging zusammenarbeiten.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Typische Merkmale</h3>
+                        <ul>
+                            <li>Eigene Deployments pro Service</li>
+                            <li>Häufig eigene Datenhaltung pro Service</li>
+                            <li>Netzwerkkommunikation zwischen Diensten</li>
+                            <li>Hohe Anforderungen an Observability und Betrieb</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Was Microservices attraktiv macht</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Vorteil</th>
+                            <th>Nutzen in der Praxis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Unabhängige Deployments</td>
+                            <td>Ein Team kann seinen Service ändern, ohne das ganze System neu auszuliefern.</td>
+                        </tr>
+                        <tr>
+                            <td>Gezielte Skalierung</td>
+                            <td>Nur stark belastete Teile werden hochskaliert.</td>
+                        </tr>
+                        <tr>
+                            <td>Klare Teamgrenzen</td>
+                            <td>Verantwortung kann fachlich sauber verteilt werden.</td>
+                        </tr>
+                        <tr>
+                            <td>Technologische Freiheit</td>
+                            <td>Einzelne Services können begründet unterschiedliche Technologien nutzen.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Was Microservices teuer macht</h2>
+                <ul>
+                    <li>Mehr Netzwerk, mehr Fehlerfälle, mehr Timeouts, mehr Retries.</li>
+                    <li>Monitoring, Tracing, Logging und Deployment-Pipelines werden Pflicht.</li>
+                    <li>Datenkonsistenz über Servicegrenzen wird schwieriger.</li>
+                    <li>Zu kleine Services erzeugen schnell verteilten Spaghetti-Code.</li>
+                </ul>
+                <p class="danger">Microservices lösen kein Organisationsproblem automatisch. Sie verstärken gute und schlechte Teamstrukturen.</p>
+            </section>
+
+            <section>
+                <h2>Client-Server</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Client</h3>
+                        <ul>
+                            <li>Startet Anfragen</li>
+                            <li>Stellt UI bereit</li>
+                            <li>Kann Browser, Mobile App oder Desktop-App sein</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Server</h3>
+                        <ul>
+                            <li>Bietet Funktionen oder Daten an</li>
+                            <li>Verarbeitet Anfragen zentral</li>
+                            <li>Setzt Regeln, Authentisierung und Persistenz um</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout">
+                    Client-Server ist weiterhin ein Standardmuster: Webanwendungen, REST-APIs, Mobile Backends und viele Unternehmenssysteme funktionieren genau so.
+                </div>
+            </section>
+
+            <section>
+                <h2>Peer-to-Peer</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Kerngedanke</h3>
+                        <p>Teilnehmer kommunizieren direkt miteinander. Es gibt nicht zwingend einen zentralen Hauptserver für alle Datenflüsse.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Typische Beispiele</h3>
+                        <ul>
+                            <li>Dateiverteilung und File-Sharing</li>
+                            <li>Blockchain- und DLT-Netzwerke</li>
+                            <li>Einige RTC- oder Mesh-Kommunikationsmodelle</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Client-Server vs. Peer-to-Peer</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Frage</th>
+                            <th>Client-Server</th>
+                            <th>Peer-to-Peer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Wer steuert die zentrale Logik?</td>
+                            <td>Meist Server</td>
+                            <td>Verteilt auf mehrere Teilnehmer</td>
+                        </tr>
+                        <tr>
+                            <td>Wer speichert oder kontrolliert Daten?</td>
+                            <td>Oft zentral</td>
+                            <td>Häufig verteilt</td>
+                        </tr>
+                        <tr>
+                            <td>Betrieb und Governance</td>
+                            <td>Einfacher zentral steuerbar</td>
+                            <td>Komplexer koordinierbar</td>
+                        </tr>
+                        <tr>
+                            <td>Typischer Einsatz</td>
+                            <td>Geschäftsanwendungen, Web, APIs</td>
+                            <td>Spezielle Netzwerke mit direkter Teilnehmerkommunikation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Architekturen kombinieren sich</h2>
+                <ul>
+                    <li>Ein Monolith kann im Client-Server-Modell laufen.</li>
+                    <li>Ein Microservice-System besteht oft aus vielen Servern und mehreren Clients.</li>
+                    <li>Ein P2P-System kann zusätzliche zentrale Dienste für Registrierung, Suche oder Authentisierung besitzen.</li>
+                </ul>
+                <p class="small muted">Deshalb sollte man immer präzisieren, über welche Sicht man spricht: Struktur des Codes, Laufzeitkommunikation oder Verteilung im Netzwerk.</p>
+            </section>
+
+            <section>
+                <h2>Praxisfall: Schulplattform</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Startphase</h3>
+                        <ul>
+                            <li>Kleines Team</li>
+                            <li>Schnelle Änderungen</li>
+                            <li>Ein Hauptprodukt mit Login, Aufgaben und Upload</li>
+                        </ul>
+                        <p class="ok">Naheliegend: modularer Monolith</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Späteres Wachstum</h3>
+                        <ul>
+                            <li>Video, Messaging, Prüfungen, Reporting</li>
+                            <li>Stark unterschiedliche Lastprofile</li>
+                            <li>Mehrere Teams mit eigener Verantwortung</li>
+                        </ul>
+                        <p class="ok">Dann können einzelne Microservices sinnvoll werden</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Entscheidungskriterien</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Kriterium</th>
+                            <th>Frage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Teamstruktur</td>
+                            <td>Arbeiten wenige Personen eng zusammen oder mehrere autonome Teams?</td>
+                        </tr>
+                        <tr>
+                            <td>Release-Bedarf</td>
+                            <td>Müssen Teile unabhängig ausgeliefert werden?</td>
+                        </tr>
+                        <tr>
+                            <td>Lastprofil</td>
+                            <td>Werden einzelne Teile sehr viel stärker belastet als andere?</td>
+                        </tr>
+                        <tr>
+                            <td>Komplexitätstoleranz</td>
+                            <td>Kann das Team Betrieb, Observability und verteilte Fehlerbilder beherrschen?</td>
+                        </tr>
+                        <tr>
+                            <td>Domänenschnitt</td>
+                            <td>Lassen sich klare fachliche Grenzen ziehen?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Anti-Patterns</h2>
+                <ul>
+                    <li>Microservices nur wählen, weil sie modern klingen.</li>
+                    <li>Monolith und "schlecht gepflegt" gleichsetzen.</li>
+                    <li>Zu frühe Aufteilung ohne klare fachliche Grenzen.</li>
+                    <li>P2P einsetzen, obwohl zentrale Kontrolle, Compliance oder einfache Administration wichtiger wären.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Merksätze</h2>
+                <ol>
+                    <li>Ein guter Monolith ist oft der richtige Startpunkt.</li>
+                    <li>Microservices sind eine Organisations- und Betriebsentscheidung, nicht nur ein Code-Muster.</li>
+                    <li>Client-Server ist in der Praxis weiterhin das häufigste Kommunikationsmodell.</li>
+                    <li>Peer-to-Peer ist nützlich, aber deutlich spezieller und betrieblich anspruchsvoller.</li>
+                    <li>Die beste Architektur ist die, die Problem, Team und Betrieb am saubersten zusammenbringt.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Mini-Check</h2>
+                <ol>
+                    <li>Warum ist ein Monolith nicht automatisch veraltet?</li>
+                    <li>Welche neue Komplexität entsteht durch Microservices?</li>
+                    <li>Worin unterscheidet sich Peer-to-Peer fachlich von einem klassischen Client-Server-System?</li>
+                </ol>
+            </section>
+        </div>
+    </div>
+
+    <script src="../../01_einfuehrung/slides/dist/reveal.js"></script>
+    <script src="../../01_einfuehrung/slides/plugin/zoom/zoom.js"></script>
+    <script src="../../01_einfuehrung/slides/plugin/notes/notes.js"></script>
+    <script src="../../01_einfuehrung/slides/plugin/markdown/markdown.js"></script>
+    <script src="../../01_einfuehrung/slides/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes],
+        });
+    </script>
+</body>
+
+</html>

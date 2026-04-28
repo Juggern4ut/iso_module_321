@@ -1,0 +1,174 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\answerline}[1]{\rule{#1}{0.4pt}}
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+
+\title{\textbf{Aufgabenblatt: Eigenschaften verteilter Systeme}}
+\author{Modul 321 -- Lektion 2}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Name:} \answerline{7cm} \hfill \textbf{Datum:} \answerline{3.5cm}
+
+\vspace{0.8em}
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Ziel der Lektion:} Sie können typische Eigenschaften verteilter Systeme
+    an realistischen Szenarien erklären und geeignete Architekturentscheidungen
+    für Retry, Idempotenz, Resilience sowie Transaktionsgrenzen begründen.
+  }
+}
+
+\section*{Hinweise}
+\begin{itemize}
+  \item Antworten Sie in ganzen Sätzen oder präzisen Stichworten.
+  \item Begründen Sie fachliche Entscheidungen knapp, aber klar.
+  \item Verwenden Sie bei Bedarf kleine Skizzen oder Ablaufdiagramme.
+\end{itemize}
+
+\section*{1. Begriffe sauber erklären}
+Erklären Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen Sätzen}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Ihre Erklärung} \\
+\hline
+\term{Idempotenz} & \\[2.4cm] \hline
+\term{Retry} & \\[2.0cm] \hline
+\term{Resilience / Design for Failure} & \\[2.4cm] \hline
+\term{CQRS} & \\[2.2cm] \hline
+\term{Event Sourcing} & \\[2.2cm] \hline
+\end{longtable}
+
+\section*{2. Retry beurteilen}
+Kreuzen Sie an oder notieren Sie \textbf{Ja / Nein / Nur unter Bedingungen}. Begründen Sie anschliessend jede Entscheidung in \textbf{einem kurzen Satz}.
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.52\linewidth}|>{\centering\arraybackslash}p{0.14\linewidth}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Situation} & \textbf{Retry?} & \textbf{Begründung} \\
+\hline
+Ein Request endet wegen Timeout, die Ursache ist vermutlich ein temporärer Netzwerkfehler. & & \\[1.0cm] \hline
+Ein Request schlägt wegen ungültiger Kundendaten fehl. & & \\[1.0cm] \hline
+Eine Zahlung wurde möglicherweise schon verarbeitet, aber die Antwort kam nicht beim Client an. & & \\[1.2cm] \hline
+Ein externer Dienst liefert HTTP~503 wegen Überlastung. & & \\[1.0cm] \hline
+\end{tabularx}
+
+\section*{3. Idempotenz im Praxisfall}
+Ein Shop sendet an den Payment-Service:
+
+\begin{quote}
+\texttt{POST /payments} mit Betrag, Bestellnummer und Kreditkartendaten.
+\end{quote}
+
+Nach 4 Sekunden erhält der Shop keine Antwort mehr und sendet dieselbe Anfrage erneut.
+
+\begin{enumerate}
+  \item Welches fachliche Risiko entsteht?
+  \item Warum reicht ein einfacher Retry hier nicht aus?
+  \item Beschreiben Sie, wie ein \term{Idempotency Key} das Problem entschärfen kann.
+  \item Welche Information müsste der Service zu diesem Schlüssel mindestens speichern?
+\end{enumerate}
+
+\section*{4. Resilience auf Architektur-Ebene}
+Ein Online-Shop besteht aus folgenden Teilen:
+
+\begin{itemize}
+  \item Frontend
+  \item Produktkatalog
+  \item Warenkorb
+  \item Empfehlungssystem
+  \item Payment-Service
+\end{itemize}
+
+Das Empfehlungssystem fällt aus.
+
+\begin{enumerate}
+  \item Beschreiben Sie ein \textbf{schlechtes Verhalten} des Gesamtsystems.
+  \item Beschreiben Sie ein \textbf{resilientes Verhalten} des Gesamtsystems.
+  \item Nennen Sie \textbf{zwei technische Massnahmen}, die ein solches resilientes Verhalten unterstützen.
+  \item Warum ist \emph{degradierter Betrieb} oft besser als ein Totalausfall?
+\end{enumerate}
+
+\section*{5. Transaktionsgrenzen verstehen}
+Betrachten Sie folgendes Szenario:
+
+\begin{quote}
+Ein Bestellprozess umfasst drei Services: \textbf{Order-Service}, \textbf{Payment-Service} und \textbf{Inventory-Service}. Der Order-Service erstellt die Bestellung, der Payment-Service autorisiert die Zahlung und der Inventory-Service reserviert den Bestand.
+\end{quote}
+
+Bearbeiten Sie die Aufgaben:
+\begin{enumerate}
+  \item Warum ist eine einzige klassische Datenbanktransaktion über alle drei Services schwierig?
+  \item Welche Probleme entstehen, wenn ein Service langsam ist oder ausfällt?
+  \item Was bedeutet in diesem Kontext \term{eventual consistency} in eigenen Worten?
+  \item Nennen Sie ein Beispiel, wie man fachlich mit einem Teilfehler umgehen könnte.
+\end{enumerate}
+
+\section*{6. CQRS anwenden}
+Ein Ticketsystem für Konzerte hat:
+
+\begin{itemize}
+  \item sehr viele Lesezugriffe auf verfügbare Veranstaltungen,
+  \item vergleichsweise wenige, aber kritische Schreibvorgänge beim Kauf.
+\end{itemize}
+
+\begin{enumerate}
+  \item Warum könnte \term{CQRS} hier sinnvoll sein?
+  \item Was wäre typischerweise Aufgabe der \textbf{Command Side}?
+  \item Was wäre typischerweise Aufgabe der \textbf{Query Side}?
+  \item Nennen Sie \textbf{einen Vorteil} und \textbf{einen Nachteil} dieses Musters.
+\end{enumerate}
+
+\section*{7. Event Sourcing einordnen}
+Ordnen Sie die folgenden Aussagen \textbf{zu} und kommentieren Sie kurz, ob sie zu \term{Event Sourcing} passen.
+
+\begin{enumerate}
+  \item Es wird nur der aktuelle Zustand gespeichert, frühere Änderungen interessieren nicht.
+  \item Ereignisse wie \texttt{OrderPlaced} oder \texttt{PaymentAuthorized} werden dauerhaft gespeichert.
+  \item Ein Read-Model kann aus einer Folge von Events neu aufgebaut werden.
+  \item Event Sourcing ist immer die beste Wahl für einfache CRUD-Anwendungen.
+\end{enumerate}
+
+\section*{8. Entwurfsaufgabe}
+Sie entwerfen eine kleine Plattform zur \textbf{Online-Reservation von Arbeitsplätzen} in einem Schulhaus.
+
+Die Plattform soll:
+\begin{itemize}
+  \item Reservierungen annehmen,
+  \item Verfügbarkeiten anzeigen,
+  \item Bestätigungs-E-Mails senden,
+  \item mit temporären Störungen einzelner Komponenten umgehen können.
+\end{itemize}
+
+Bearbeiten Sie dazu:
+\begin{enumerate}
+  \item Zeichnen oder beschreiben Sie eine einfache Architektur mit mindestens vier Komponenten.
+  \item Nennen Sie eine Stelle, an der \term{Retry} sinnvoll sein kann.
+  \item Nennen Sie eine Stelle, an der \term{Idempotenz} wichtig sein kann.
+  \item Beschreiben Sie ein Beispiel für \term{degradierten Betrieb}.
+  \item Begründen Sie, ob Sie in diesem Szenario \term{CQRS} oder \term{Event Sourcing} einsetzen würden oder bewusst nicht.
+\end{enumerate}
+
+\section*{Abgabe / Besprechung}
+Die Aufgaben werden in der Lektion besprochen. Halten Sie Ihre Antworten so fest, dass Sie diese fachlich sauber vorstellen und begründen können.
+
+\end{document}

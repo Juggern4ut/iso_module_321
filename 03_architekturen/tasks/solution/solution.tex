@@ -1,0 +1,134 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+\newcommand{\solution}[1]{\textcolor{black}{#1}}
+
+\title{\textbf{Lösungsblatt: Systemarchitekturen zur Softwareentwicklung}}
+\author{Modul 321 -- Lektion 3}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Hinweis:} Dieses Lösungsblatt enthält Musterlösungen und einen möglichen
+    Erwartungshorizont. Andere Antworten sind korrekt, wenn sie fachlich sauber
+    begründet sind und die Architekturmerkmale nachvollziehbar eingeordnet werden.
+  }
+}
+
+\section*{1. Begriffe erklären}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Mögliche Lösung} \\
+\hline
+\term{Monolith} &
+\solution{Ein Monolith ist eine Anwendung, die als zusammenhängendes System entwickelt und meist gemeinsam deployt wird. Viele fachliche Teile liegen in derselben Codebasis und laufen im selben Hauptsystem.} \\ \hline
+\term{Microservices} &
+\solution{Microservices teilen ein System in mehrere eigenständige Dienste auf, die über APIs oder Messaging miteinander kommunizieren. Jeder Dienst hat idealerweise eine klar abgegrenzte fachliche Verantwortung.} \\ \hline
+\term{Client-Server} &
+\solution{Beim Client-Server-Modell sendet ein Client Anfragen an einen Server, der Daten oder Funktionen bereitstellt. Typische Clients sind Browser oder Apps, typische Server sind Web- oder API-Dienste.} \\ \hline
+\term{Peer-to-Peer} &
+\solution{Beim Peer-to-Peer-Modell kommunizieren Teilnehmer direkt miteinander und übernehmen ähnliche Rollen im Netzwerk. Es gibt nicht zwingend einen zentralen Hauptserver für alle Datenflüsse.} \\ \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+\begin{enumerate}
+  \item \solution{Monolith}
+  \item \solution{Client-Server}
+  \item \solution{Microservices}
+  \item \solution{Peer-to-Peer}
+  \item \solution{Monolith}
+  \item \solution{Peer-to-Peer}
+\end{enumerate}
+
+\textbf{Mögliche Begründungen:}
+\begin{itemize}
+  \item \solution{Beispiel 1 ist ein Monolith, weil die Anwendung als gemeinsames System mit zentraler Datenbank betrieben wird.}
+  \item \solution{Beispiel 2 ist Client-Server, weil der Browser als Client eine zentrale API als Server anspricht.}
+  \item \solution{Beispiel 3 ist ein Microservice-System, weil mehrere fachlich getrennte Dienste über Schnittstellen zusammenarbeiten.}
+\end{itemize}
+
+\section*{3. Monolith oder Microservices?}
+\begin{enumerate}
+  \item \solution{Als Startpunkt ist ein gut strukturierter Monolith naheliegend.}
+  \item \solution{Gründe: kleines Team, geringe Betriebs-Komplexität, schnelle Änderungen, enger fachlicher Zusammenhang und noch wenig Last.}
+  \item \solution{Ein mögliches Risiko ist, dass bei starkem Wachstum die Kopplung zunimmt und unabhängige Releases oder gezielte Skalierung schwieriger werden.}
+  \item \solution{Wichtig sind saubere Modulgrenzen, gute Tests, klare Verantwortlichkeiten im Code und bewusstes Vermeiden unnötiger Vermischung von Fachlichkeiten.}
+\end{enumerate}
+
+\section*{4. Microservices kritisch beurteilen}
+\begin{enumerate}
+  \item \solution{Vorteile: unabhängige Deployments, gezielte Skalierung, fachlich klarere Teamverantwortung.}
+  \item \solution{Herausforderungen: Netzwerkfehler und Timeouts, verteiltes Monitoring/Tracing, schwierigere Datenkonsistenz, mehr Deployment- und Infrastrukturaufwand.}
+  \item \solution{Weil fachliche Unklarheit oder schlechte Zusammenarbeit durch technische Aufteilung nicht verschwinden, sondern oft sichtbarer und teurer werden.}
+  \item \solution{Sie wären eher übertrieben bei kleinen Teams, einfachen Produkten oder frühen Projektphasen mit häufigen Richtungswechseln.}
+\end{enumerate}
+
+\section*{5. Client-Server vs. Peer-to-Peer}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.25\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Client-Server} & \textbf{Peer-to-Peer} \\
+\hline
+Wer stellt typischerweise die zentrale Logik bereit? & \solution{Der Server} & \solution{Die Logik ist auf mehrere Teilnehmer verteilt} \\ \hline
+Wie erfolgt die Datenkontrolle oder Datenspeicherung? & \solution{Oft zentral oder serverseitig kontrolliert} & \solution{Häufig verteilt auf mehrere Knoten} \\ \hline
+Wo ist der Betrieb meist einfacher? & \solution{Im Client-Server-Modell} & \solution{Peer-to-Peer ist meist schwerer zu steuern und zu koordinieren} \\ \hline
+Nennen Sie ein typisches Praxisbeispiel. & \solution{Webshop, Web-API, Mobile Backend} & \solution{File-Sharing, Blockchain-Netzwerk} \\ \hline
+\end{tabularx}
+
+\section*{6. Architektur eines Online-Shops}
+\begin{enumerate}
+  \item \solution{Als Monolith könnten Produktanzeige, Warenkorb, Checkout, Suche und Benachrichtigungen in einer gemeinsamen Anwendung mit zentraler Datenbank umgesetzt werden.}
+  \item \solution{Als Microservice-System könnte es separate Dienste für Katalog, Warenkorb, Checkout, Suche und Benachrichtigungen geben, die über APIs oder Events kommunizieren.}
+  \item \solution{Für ein kleines Team zu Beginn ist meist der Monolith sinnvoller, weil Entwicklung, Testing und Betrieb einfacher bleiben.}
+  \item \solution{Bei starkem Wachstum könnten Microservices interessanter werden, wenn einzelne Teile sehr unterschiedlich skalieren oder mehrere Teams unabhängig liefern müssen.}
+\end{enumerate}
+
+\section*{7. Kombinationsverständnis}
+\begin{enumerate}
+  \item \solution{Richtig. Ein Monolith kann als zentrale Server-Anwendung betrieben werden, die von Browsern oder Apps angesprochen wird.}
+  \item \solution{Falsch. Microservices beschreiben die Aufteilung in Dienste, nicht automatisch ein Peer-to-Peer-Kommunikationsmodell.}
+  \item \solution{Falsch. Auch P2P-Systeme können zentrale Hilfsdienste besitzen, etwa für Registrierung, Discovery oder Authentisierung.}
+  \item \solution{Richtig. Wenn er sauber modularisiert ist, kann ein Monolith lange tragfähig und wirtschaftlich sein.}
+\end{enumerate}
+
+\section*{8. Entwurfsaufgabe}
+\textbf{Mögliche Zielarchitektur:}
+\begin{itemize}
+  \item \solution{Frontend im Browser}
+  \item \solution{Backend / API für Aufgaben, Material und Nachrichten}
+  \item \solution{Datenbank}
+  \item \solution{Externer Videokonferenz-Dienst}
+  \item \solution{Optional später separater Messaging- oder Datei-Service}
+\end{itemize}
+
+\textbf{Mögliche Antworten:}
+\begin{enumerate}
+  \item \solution{Eine einfache Zielarchitektur kann aus Browser-Frontend, zentralem Backend, Datenbank und angebundenem Video-Dienst bestehen.}
+  \item \solution{Für den Start ist ein modularer Monolith meist sinnvoll, weil die Fachlichkeiten eng zusammenhängen und die Komplexität sonst unnötig steigt.}
+  \item \solution{Das Client-Server-Muster erscheint zwischen Browser/App als Client und Backend/API als Server.}
+  \item \solution{Später könnte zum Beispiel Videofunktion, Suche oder Nachrichtenfunktion in einen eigenen Dienst ausgelagert werden.}
+  \item \solution{Peer-to-Peer wäre hier eher unpassend, weil die Schule meist zentrale Kontrolle, Datenschutz, einfache Administration und klare Verantwortlichkeiten braucht.}
+\end{enumerate}
+
+\section*{Didaktischer Hinweis}
+\solution{Die Lernenden sollen nicht nur Begriffe wiedergeben, sondern Architektur als Abwägung verstehen: einfache Systeme profitieren oft von einem modularen Monolithen, während Microservices erst bei klaren fachlichen Grenzen, höherer Last oder mehreren autonomen Teams ihren Aufwand rechtfertigen.}
+
+\end{document}
