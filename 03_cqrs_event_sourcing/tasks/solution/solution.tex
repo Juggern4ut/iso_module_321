@@ -1,0 +1,120 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+\newcommand{\solution}[1]{\textcolor{black}{#1}}
+
+\title{\textbf{Lösungsblatt: CQRS und Event Sourcing}}
+\author{Modul 321 -- Lektion 03}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Hinweis:} Dieses Lösungsblatt enthält Musterlösungen und einen möglichen
+    Erwartungshorizont. Andere Antworten sind korrekt, wenn sie fachlich sauber
+    begründet sind und CQRS sowie Event Sourcing nachvollziehbar anwenden.
+  }
+}
+
+\section*{1. Begriffe sauber erklären}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Mögliche Lösung} \\
+\hline
+\term{CQRS} &
+\solution{CQRS trennt Schreibzugriffe und Lesezugriffe bewusst in unterschiedliche Verantwortlichkeiten oder Modelle. Dadurch können die Schreibseite auf Fachregeln und Konsistenz und die Leseseite auf schnelle, passende Abfragen optimiert werden.} \\ \hline
+\term{Command} &
+\solution{Ein Command ist die Aufforderung, eine fachliche Änderung auszuführen. Er beschreibt eine Absicht wie zum Beispiel \texttt{PlaceOrder} und kann angenommen oder abgelehnt werden.} \\ \hline
+\term{Query} &
+\solution{Eine Query liest Informationen aus dem System, ohne den fachlichen Zustand zu verändern. Sie dient zum Beispiel der Anzeige, Suche oder Auswertung.} \\ \hline
+\term{Event Sourcing} &
+\solution{Beim Event Sourcing werden nicht nur aktuelle Zustände gespeichert, sondern die fachlichen Ereignisse, die zu diesen Zuständen geführt haben. Der aktuelle Zustand kann aus der Reihenfolge dieser Events wieder aufgebaut werden.} \\ \hline
+\end{longtable}
+
+\section*{2. Command oder Query?}
+\begin{itemize}
+  \item \solution{\texttt{CreateBooking}: Command, weil eine neue Buchung erzeugt und damit der Zustand verändert werden soll.}
+  \item \solution{\texttt{GetOpenBookings}: Query, weil offene Buchungen nur gelesen werden.}
+  \item \solution{\texttt{CancelInvoice}: Command, weil der Status einer Rechnung geändert wird.}
+  \item \solution{\texttt{GetCourseOverview}: Query, weil eine Übersicht für die Anzeige abgefragt wird.}
+\end{itemize}
+
+\section*{3. Warum CQRS?}
+\begin{enumerate}
+  \item \solution{Ein gemeinsames CRUD-Modell kann unpraktisch werden, weil sehr viele Lesezugriffe und wenige, aber fachlich kritische Schreibzugriffe dieselben Strukturen und dieselbe Datenhaltung belasten.}
+  \item \solution{Ein getrenntes Write-Model hilft, weil dort Regeln wie freie Plätze, Fristen oder Doppelanmeldungen sauber geprüft werden können.}
+  \item \solution{Ein getrenntes Read-Model hilft, weil Übersichten, Statistiken und Suchansichten gezielt für schnelle Abfragen aufbereitet werden können.}
+  \item \solution{Das Read-Model darf anders strukturiert sein, weil es nicht primär Fachregeln durchsetzen muss, sondern eine geeignete Form für UI, Reports oder Suche liefern soll. Daher darf es Daten zusammenfassen, duplizieren oder denormalisieren.}
+\end{enumerate}
+
+\section*{4. Event Sourcing nachvollziehen}
+\begin{enumerate}
+  \item \solution{Aktueller Kontostand: 135. Rechnung: 0 + 150 - 40 + 25 = 135.}
+  \item \solution{Beim Replay wird mit einem Anfangszustand gestartet und danach werden alle Events in der richtigen Reihenfolge erneut angewendet. So entsteht derselbe aktuelle Zustand wieder.}
+  \item \solution{Der Vorteil ist die vollständige Nachvollziehbarkeit: Man sieht, wie der Zustand entstanden ist, und kann Projektionen oder Ansichten später neu aufbauen.}
+  \item \solution{Ein Nachteil ist die höhere Komplexität, zum Beispiel bei Event-Modellierung, Versionierung oder beim Umgang mit langen Event-Streams.}
+\end{enumerate}
+
+\section*{5. Command oder Event?}
+\begin{enumerate}
+  \item \solution{\texttt{PlaceOrder}: Command, weil es die Absicht beschreibt, eine Bestellung zu platzieren.}
+  \item \solution{\texttt{OrderPlaced}: Event, weil es die eingetretene Tatsache beschreibt, dass die Bestellung platziert wurde.}
+  \item \solution{\texttt{ReserveSeat}: Command, weil das System aufgefordert wird, einen Platz zu reservieren.}
+  \item \solution{\texttt{SeatReserved}: Event, weil die Reservation bereits erfolgt ist.}
+\end{enumerate}
+
+\textbf{Zusatzfrage:}
+\solution{Ein Command kann abgelehnt werden, wenn Regeln verletzt sind, zum Beispiel wenn kein Platz frei ist. Ein Event beschreibt dagegen etwas, das bereits passiert und erfolgreich festgehalten worden ist.}
+
+\section*{6. CQRS und Event Sourcing kritisch beurteilen}
+\begin{enumerate}
+  \item \solution{Falsch. CQRS bedeutet zuerst eine Trennung von Verantwortungen, nicht zwingend zwei getrennte Anwendungen oder Deployments.}
+  \item \solution{Richtig. Read-Modelle oder Projektionen können aus den gespeicherten Events jederzeit neu aufgebaut werden.}
+  \item \solution{Falsch. Für einfache CRUD-Formulare ist Event Sourcing oft unnötig kompliziert und bringt wenig Mehrwert.}
+  \item \solution{Falsch. Commands beschreiben eine Absicht, Events eine eingetretene fachliche Tatsache.}
+\end{enumerate}
+
+\section*{7. Read-Model entwerfen}
+\begin{enumerate}
+  \item \solution{Ein mögliches Read-Model ist eine Tabelle oder Sicht pro Veranstaltung mit Feldern wie Titel, freie\_Plaetze, reservierte\_Tickets und bezahlte\_Tickets.}
+  \item \solution{Mögliche Events: \texttt{TicketReserved}, \texttt{TicketPaid}, \texttt{TicketCancelled}, eventuell \texttt{EventCreated} oder \texttt{CapacityChanged}.}
+  \item \solution{Dieses Read-Model ist für die Anzeige nützlicher, weil die UI die fertigen Kennzahlen direkt laden kann, statt rohe Event-Folgen selbst auszuwerten.}
+\end{enumerate}
+
+\section*{8. Praxisaufgabe}
+\textbf{Mögliche Lösungsskizze:}
+\begin{enumerate}
+  \item \solution{Die Lösung kann aus einer Command-Seite für Buchungen und Stornierungen, einem Event Store und mehreren Read-Modellen für Verfügbarkeiten und Auslastungs-Dashboards bestehen.}
+  \item \solution{Mögliche Commands: \texttt{CreateRoomReservation}, \texttt{CancelRoomReservation}, \texttt{ConfirmRoomReservation}, \texttt{ChangeReservationTime}.}
+  \item \solution{Mögliche Events: \texttt{RoomReservationCreated}, \texttt{RoomReservationCancelled}, \texttt{RoomReservationConfirmed}, \texttt{ReservationTimeChanged}.}
+  \item \solution{Mögliches Write-Model: ein Aggregat pro Reservation oder pro Raum/Zeitslot. Wichtige Regeln: keine Doppelbelegung desselben Raums im selben Zeitfenster, nur gültige Zeiträume, Stornierung nur für bestehende Reservationen, Änderungen nur innerhalb erlaubter Fristen.}
+  \item \solution{Mögliche Read-Modelle: erstens eine Verfügbarkeitsansicht pro Raum und Datum für die Benutzeroberfläche; zweitens ein Dashboard mit Auslastung pro Tag oder Woche für die Verwaltung.}
+  \item \solution{Event Sourcing unterstützt die Historie, weil jede fachliche Änderung als Event erhalten bleibt. Neue Ansichten können durch Replay oder Projektionen aus denselben Ereignissen aufgebaut werden.}
+  \item \solution{Mögliche zusätzliche Herausforderungen: Event-Versionierung, eventual consistency zwischen Write- und Read-Seite, komplexeres Debugging, Umgang mit Replay und langen Event-Streams.}
+\end{enumerate}
+
+\section*{9. Umsetzungsnahe Zusatzaufgabe}
+\solution{Ein möglicher Ablauf: Erst sendet das Frontend den Command \texttt{CreateRoomReservation}. Danach validiert die Write-Seite, ob der Raum im gewünschten Zeitraum frei ist. Wenn die Regeln erfüllt sind, wird das Event \texttt{RoomReservationCreated} gespeichert. Anschliessend verarbeitet eine Projection dieses Event und aktualisiert das Read-Model für freie Räume. Das Dashboard oder die Raumübersicht liest dann die neue Sicht über eine Query aus. Kurzzeitig kann eventual consistency auftreten, falls die Read-Seite das Event noch nicht verarbeitet hat. Bei einer späteren Stornierung läuft derselbe Mechanismus mit einem neuen Command und einem neuen Event erneut ab.}
+
+\section*{Didaktischer Hinweis}
+\solution{Wichtig ist nicht, dass Lernende eine einzige Zielarchitektur auswendig reproduzieren, sondern dass sie die Denkrichtung verstehen: CQRS trennt Absichten und Abfragen, Event Sourcing speichert fachliche Geschichte, und beide Muster lohnen sich nur dann, wenn sie ein reales Problem besser lösen als ein einfaches CRUD-Modell.}
+
+\end{document}
