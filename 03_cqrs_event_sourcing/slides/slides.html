@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Modul 321 - Lektion 03</title>
+
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/black.css" />
+    <link rel="stylesheet" href="./plugin/highlight/monokai.css" />
+
+    <style>
+        :root {
+            --accent: #80ed99;
+            --accent-2: #ffd166;
+            --panel: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.22);
+            --danger: #ff6b6b;
+            --ok: #7bd88f;
+        }
+
+        .inline-code {
+            font-family:
+                "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono",
+                monospace;
+            display: inline-block;
+            background-color: #2d2d2d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 75%;
+        }
+
+        .reveal p,
+        .reveal li {
+            line-height: 1.35;
+        }
+
+        .reveal table td,
+        .reveal table th {
+            font-size: 0.67em;
+            border-bottom-color: var(--border);
+        }
+
+        .small {
+            font-size: 0.7em;
+        }
+
+        .muted {
+            color: #bbbbbb;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--panel);
+            text-align: left;
+            font-size: 80%;
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.55em;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.66em;
+        }
+
+        .flow .box {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 12px;
+            background: var(--panel);
+        }
+
+        .flow .arrow {
+            font-size: 1.15em;
+            color: var(--accent-2);
+        }
+
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .compare td,
+        .compare th {
+            border: 1px solid var(--border);
+            padding: 10px;
+        }
+
+        tr:last-of-type td {
+            border-bottom: 1px solid var(--border) !important;
+        }
+
+        .callout {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-left: 4px solid var(--accent);
+            background: rgba(128, 237, 153, 0.12);
+            text-align: left;
+            font-size: 0.72em;
+        }
+
+        .callout--danger {
+            border-left: 4px solid var(--danger);
+            background: rgba(237, 128, 128, 0.12);
+        }
+
+        .callout>* {
+            margin: 0 !important;
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+
+        .ok {
+            color: var(--ok);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Modul 321</h2>
+                <hr />
+                <h3>Lektion 03: CQRS und Event Sourcing</h3>
+                <p>
+                    Schreib- und Lesemodelle trennen, Fachereignisse
+                    speichern und Zustände nachvollziehbar aufbauen
+                </p>
+                <img style="width: 180px" src="./assets/img/dist-systems.png" alt="Modul Icon" />
+            </section>
+
+            <section>
+                <h2>Lernziele</h2>
+                <ul>
+                    <li>
+                        Ich kann
+                        <span class="inline-code">CQRS</span> fachlich
+                        sauber erklären.
+                    </li>
+                    <li>
+                        Ich kann
+                        <span class="inline-code">Commands</span> und
+                        <span class="inline-code">Queries</span>
+                        unterscheiden.
+                    </li>
+                    <li>
+                        Ich kann erklären, warum Read-Model und Write-Model
+                        unterschiedlich aussehen dürfen.
+                    </li>
+                    <li>
+                        Ich kann
+                        <span class="inline-code">Event Sourcing</span>
+                        detailliert erklären und mit Beispielen anwenden.
+                    </li>
+                    <li>
+                        Ich kann beurteilen, wann CQRS und Event Sourcing
+                        sinnvoll sind und wann nicht.
+                    </li>
+                </ul>
+            </section>
+
+            <!--<section>
+                    <h2>Warum dieses Thema nach Lektion 2 kommt</h2>
+                    <div class="grid-2">
+                        <div class="panel">
+                            <h3>Bereits bekannt</h3>
+                            <ul>
+                                <li>Verteilte Systeme haben Timeouts und Retries.</li>
+                                <li>Transaktionen über Servicegrenzen sind schwierig.</li>
+                                <li>Eventual Consistency ist oft realistischer als globale ACID.</li>
+                            </ul>
+                        </div>
+                        <div class="panel">
+                            <h3>Heute neu</h3>
+                            <ul>
+                                <li>Wie man Schreib- und Lesezugriffe sauber trennt.</li>
+                                <li>Wie der Systemzustand aus Fachereignissen entstehen kann.</li>
+                                <li>Wie daraus nachvollziehbare und flexible Architekturen entstehen.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>-->
+
+            <section>
+                <h2>Klassisches CRUD-Denken</h2>
+                <div class="callout">
+                    <p>
+                        Bei vielen Anwendungen greifen Schreiben und Lesen
+                        direkt auf dieselben Tabellen und dasselbe
+                        Datenmodell zu.
+                    </p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Einfach</h3>
+                        <ul>
+                            <li>Wenige Tabellen</li>
+                            <li>Direkte SQL-Abfragen</li>
+                            <li>Ein Datenmodell für alles</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Skalierungsprobleme</h3>
+                        <ul>
+                            <li>Vermischen von Schreibregeln und Anzeigeanforderungen</li>
+                            <li>Read- und Schreib-Queries belasten das selbe Modell.</li>
+                            <li>Fachlogik, Historie usw. werden schwer trennbar.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>CQRS</h2>
+                <div class="callout">
+                    <p>
+                        <strong>Command Query Responsibility Segregation</strong>
+                        trennt Zugriffe, die den Zustand ändern, von
+                        Zugriffen, die nur Informationen lesen.
+                    </p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Command</h3>
+                        <ul>
+                            <li>will eine Änderung auslösen</li>
+                            <li>prüft Regeln und Invarianten</li>
+                            <li>liefert meist Erfolg / Fehler zurück</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Query</h3>
+                        <ul>
+                            <li>liest Daten</li>
+                            <li>ändert keinen fachlichen Zustand</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Was ist ein Command, was ist eine Query?</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Beispiel</th>
+                            <th>Typ</th>
+                            <th>Begründung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="inline-code">ReserveSeat</span></td>
+                            <td><span class="fragment" data-fragment-index="1">Command</span></td>
+                            <td><span class="fragment" data-fragment-index="1">Der Zustand des Systems soll sich
+                                    ändern.</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="inline-code">GetSeatAvailability</span></td>
+                            <td><span class="fragment" data-fragment-index="2">Query</span></td>
+                            <td><span class="fragment" data-fragment-index="2">Es werden nur Daten gelesen.</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="inline-code">CancelReservation</span></td>
+                            <td><span class="fragment" data-fragment-index="3">Command</span></td>
+                            <td><span class="fragment" data-fragment-index="3">Eine bestehende fachliche Tatsache wird
+                                    verändert.</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="inline-code">ListOpenInvoices</span></td>
+                            <td><span class="fragment" data-fragment-index="4">Query</span></td>
+                            <td><span class="fragment" data-fragment-index="4">Die Antwort dient nur der Ansicht oder
+                                    Auswertung.</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Die Kernidee von CQRS</h2>
+                <div class="flow">
+                    <div class="box">
+                        <strong>Client</strong><br />sendet Command oder
+                        Query
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="box">
+                        <strong>Write Side</strong><br />validiert
+                        Fachregeln und speichert Änderungen
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="box">
+                        <strong>Read Side</strong><br />liefert für die
+                        Anzeige optimierte Sichten
+                    </div>
+                </div>
+                <p class="small muted">
+                    Die Trennung ist fachlich gemeint. Sie kann in einem
+                    Prozess, in einem Monolithen oder über mehrere Services
+                    umgesetzt werden.
+                </p>
+            </section>
+
+            <section>
+                <h2>Read- und Write-Model</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Write-Model</h3>
+                        <ul>
+                            <li>fokussiert auf Konsistenzregeln</li>
+                            <li>kleine, klare Aggregate</li>
+                            <li>validiert Geschäftslogik</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Read-Model</h3>
+                        <ul>
+                            <li>fokussiert auf schnelle Abfragen</li>
+                            <li>darf Daten gezielt duplizieren</li>
+                            <li>darf für UI oder Reports denormalisiert sein</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout">
+                    Ein Dashboard braucht oft ganz andere Datenstrukturen
+                    als ein Command-Handler, der fachliche Regeln korrekt
+                    durchsetzen muss.
+                </div>
+            </section>
+
+            <section>
+                <h2>Beispiel: Kursanmeldung</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <span class="badge">Command-Seite</span>
+                        <h3>Schreibfall</h3>
+                        <ul>
+                            <li><span class="inline-code">EnrollStudent</span></li>
+                            <li>Prüft: Kurs existiert, Platz frei, Frist offen</li>
+                            <li>Speichert neue Anmeldung</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <span class="badge">Read-Seite</span>
+                        <h3>Lesefall</h3>
+                        <ul>
+                            <li><span class="inline-code">GetCourseOverview</span></li>
+                            <li>Zeigt Titel, freie Plätze, Lehrperson, Teilnehmerzahl</li>
+                            <li>Darf aus vorberechneter Sicht kommen</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>CQRS ist nicht automatisch Microservices</h2>
+                <ul>
+                    <li>Ein modularer Monolith kann CQRS intern einsetzen.</li>
+                    <li>Ein einzelner Service kann Commands und Queries logisch trennen.</li>
+                    <li>Erst bei höherer Komplexität werden getrennte Deployments interessant.</li>
+                </ul>
+                <div class="callout">
+                    Häufiger Irrtum: CQRS bedeutet nicht zwingend zwei
+                    Anwendungen, zwei Datenbanken. Es
+                    bedeutet eine Trennung der
+                    Verantwortungen.
+                </div>
+            </section>
+
+            <section>
+                <h2>Typische Vorteile von CQRS</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Vorteil</th>
+                            <th>Nutzen in der Praxis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Klarere Fachlogik</td>
+                            <td>Write-Code muss nicht gleichzeitig Report-Logik bedienen.</td>
+                        </tr>
+                        <tr>
+                            <td>Optimierte Read-Modelle</td>
+                            <td>Ansichten und Dashboards können schnell und einfach aufgebaut werden.</td>
+                        </tr>
+                        <tr>
+                            <td>Skalierung nach Lastprofil</td>
+                            <td>Leseseite und Schreibseite können unterschiedlich wachsen.</td>
+                        </tr>
+                        <tr>
+                            <td>Bessere Integration mit Events</td>
+                            <td>Read-Modelle können aus Änderungen oder Ereignissen gespeist werden.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Kosten und Fallstricke von CQRS</h2>
+                <ul>
+                    <li>Zwei Modelle sind aufwändiger als eines.</li>
+                    <li>Read-Seite kann zeitlich leicht hinterherhinken.</li>
+                    <li>Debugging wird anspruchsvoller, weil mehr Teile zusammenspielen.</li>
+                    <li>Für einfache CRUD-Systeme ist CQRS oft unnötige Komplexität.</li>
+                </ul>
+                <p class="callout callout--danger">
+                    CQRS lohnt sich dort, wo
+                    Lesebedarf, Fachlogik oder Skalierung wirklich
+                    auseinanderlaufen.
+                </p>
+            </section>
+
+            <section>
+                <h2>Event Sourcing</h2>
+                <div class="callout">
+                    <p>
+                        Statt nur den aktuellen Zustand zu speichern,
+                        speichert man die fachlich relevanten Ereignisse, die
+                        zu diesem Zustand geführt haben.
+                    </p>
+                </div>
+                <ul>
+                    <li><span class="inline-code">ReservationCreated</span></li>
+                    <li><span class="inline-code">SeatAssigned</span></li>
+                    <li><span class="inline-code">ReservationCancelled</span></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Command, Event und Zustand sauber trennen</h2>
+                <div class="grid-3">
+                    <div class="panel">
+                        <h3>Command</h3>
+                        <p>Absicht oder Wunsch an das System.</p>
+                        <p class="small">
+                            Beispiel:
+                            <span class="inline-code">PlaceOrder</span>
+                        </p>
+                    </div>
+                    <div class="panel">
+                        <h3>Event</h3>
+                        <p>Eingetretene fachliche Tatsache.</p>
+                        <p class="small">
+                            Beispiel:
+                            <span class="inline-code">OrderPlaced</span>
+                        </p>
+                    </div>
+                    <div class="panel">
+                        <h3>Zustand</h3>
+                        <p>Ergebnis aus der Verarbeitung der Events.</p>
+                        <p class="small">Beispiel: Bestellung offen</p>
+                    </div>
+                </div>
+                <p class="small muted">
+                    Commands kann man ablehnen. Events nicht mehr: sie
+                    beschreiben etwas, das bereits passiert ist.
+                </p>
+            </section>
+
+            <section>
+                <h2>Wie Event Sourcing arbeitet</h2>
+                <div class="flow">
+                    <div class="box">
+                        Command trifft ein<br /><span class="inline-code">WithdrawMoney</span>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="box">
+                        Aggregate lädt Event-Stream und prüft Regeln
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="box">
+                        Neues Event wird gespeichert<br /><span class="inline-code">MoneyWithdrawn</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Beispiel: Bankkonto als Event-Stream</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Reihenfolge</th>
+                            <th>Event</th>
+                            <th>Wirkung auf den Zustand</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><span class="inline-code">AccountOpened(0)</span></td>
+                            <td>Kontostand = 0</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><span class="inline-code">MoneyDeposited(200)</span></td>
+                            <td>Kontostand = 200</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><span class="inline-code">MoneyWithdrawn(50)</span></td>
+                            <td>Kontostand = 150</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout">
+                    Der Zustand ist nicht primär gespeichert, sondern kann
+                    aus dem Event-Stream jederzeit wieder aufgebaut werden.
+                </div>
+            </section>
+
+            <section>
+                <h2>Replay: Zustand neu berechnen</h2>
+                <div class="panel">
+                    <h3>Gedanklich</h3>
+                    <ol>
+                        <li>Starte mit leerem Anfangszustand.</li>
+                        <li>Lies alle Events eines Aggregats in Reihenfolge.</li>
+                        <li>Wende jedes Event auf den Zustand an.</li>
+                        <li>Am Ende erhältst du den aktuellen Zustand.</li>
+                    </ol>
+                </div>
+                <p class="small muted">
+                    Das ist nützlich für Debugging, Nachvollziehbarkeit,
+                    Recovery und den Neuaufbau von Projektionen.
+                </p>
+            </section>
+
+            <section>
+                <h2>Projektionen und Read-Modelle</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Projection</h3>
+                        <ul>
+                            <li>liest Events</li>
+                            <li>baut daraus eine Sicht auf</li>
+                            <li>z. B. offene Rechnungen oder Tagesumsatz</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Nutzen</h3>
+                        <ul>
+                            <li>neue Reports ohne Änderung am Write-Modell</li>
+                            <li>unterschiedliche Sichten für UI, Suche und Reporting</li>
+                            <li>Read-Modelle können gelöscht und neu aufgebaut werden</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Snapshotting</h2>
+                <div class="callout">
+                    <p>
+                        Wenn ein Event-Stream sehr lang wird, kann man
+                        zwischendurch einen gespeicherten Zwischenzustand
+                        ablegen, damit nicht immer bei Event 1 begonnen
+                        werden muss.
+                    </p>
+                </div>
+                <ul>
+                    <li>Snapshot ist eine Optimierung, kein Ersatz für Events.</li>
+                    <li>Danach werden nur noch spätere Events erneut angewendet.</li>
+                    <li>Besonders relevant bei langlebigen Aggregaten.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Warum Event Sourcing attraktiv sein kann</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Stärke</th>
+                            <th>Praxisnutzen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Vollständige Historie</td>
+                            <td>Fachliche Abläufe bleiben nachvollziehbar.</td>
+                        </tr>
+                        <tr>
+                            <td>Auditierbarkeit</td>
+                            <td>Man sieht, welche Ereignisse zu welchem Zustand geführt haben.</td>
+                        </tr>
+                        <tr>
+                            <td>Flexible Projektionen</td>
+                            <td>Neue Sichten können aus denselben Events entstehen.</td>
+                        </tr>
+                        <tr>
+                            <td>Gute Passung zu CQRS</td>
+                            <td>Events speisen direkt unterschiedliche Read-Modelle.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Event Sourcing ist teuer</h2>
+                <ul>
+                    <li>Das Modellieren guter Events braucht fachliche Disziplin.</li>
+                    <li>Event-Versionierung und Schema-Änderungen werden wichtig.</li>
+                    <li>Löschen oder Korrigieren ist heikler als bei einer einfachen Tabellenzeile.</li>
+                </ul>
+                <p class="callout callout--danger">
+                    Event Sourcing ist kein Speichertrick, sondern ein
+                    anderes Denkmodell.
+                </p>
+            </section>
+
+            <section>
+                <h2>Praxisbeispiel: Ticketverkauf</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Command-Seite</h3>
+                        <ul>
+                            <li><span class="inline-code">ReserveTicket</span></li>
+                            <li>Prüft, ob noch Plätze frei sind</li>
+                            <li>Erzeugt <span class="inline-code">TicketReserved</span></li>
+                            <li>Später eventuell <span class="inline-code">TicketPaid</span></li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Read-Seite</h3>
+                        <ul>
+                            <li>Übersicht freier Plätze pro Veranstaltung</li>
+                            <li>Liste offener Reservierungen</li>
+                            <li>Dashboard mit verkauften Tickets pro Tag</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>CQRS und Event Sourcing zusammen</h2>
+                <div class="flow">
+                    <div class="box">
+                        Command<br />z. B.
+                        <span class="inline-code">BookSeat</span>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="box">
+                        Event Store<br />z. B.
+                        <span class="inline-code">SeatBooked</span>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="box">
+                        Projection / Read Model<br />z. B.
+                        freie Plätze pro Raum
+                    </div>
+                </div>
+                <div class="callout">
+                    Häufige Kombination, aber keine Pflicht: Man kann CQRS
+                    ohne Event Sourcing einsetzen und Event Sourcing auch
+                    ohne strikt getrennte Deployments nutzen.
+                </div>
+            </section>
+
+            <section>
+                <h2>Wann ist das sinnvoll?</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Eher passend</h3>
+                        <ul>
+                            <li>komplexe Fachregeln</li>
+                            <li>hoher Bedarf an Historie und Audit</li>
+                            <li>viele unterschiedliche Read-Modelle</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Eher unpassend</h3>
+                        <ul>
+                            <li>einfaches CRUD-Backoffice</li>
+                            <li>kleines Team ohne Erfahrung</li>
+                            <li>wenig Mehrwert durch Historie</li>
+                            <li>hoher Zeitdruck bei sehr einfachem Problem</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Typische Fehlerbilder</h2>
+                <ul>
+                    <li>Commands und Events gleich benennen und fachlich vermischen.</li>
+                    <li>Read-Modelle wie die einzige Wahrheit behandeln.</li>
+                    <li>Jede kleine CRUD-Tabelle zwanghaft event-sourced bauen.</li>
+                    <li>Zu technische Events statt fachlich verständlicher Ereignisse modellieren.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Merksätze</h2>
+                <ol>
+                    <li>Ein Command will ändern, eine Query nur lesen.</li>
+                    <li>CQRS trennt Verantwortungen, nicht zwingend Deployments.</li>
+                    <li>Event Sourcing speichert fachliche Ereignisse statt nur Endzustände.</li>
+                    <li>Read-Modelle dürfen aus Events neu aufgebaut werden.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Mini-Check</h2>
+                <p>Warum darf ein Read-Model bewusst anders strukturiert sein als das Write-Model?</p>
+                <div class="fragment callout">
+                    Unterschiedliche Ziele: Das Write-Model soll Fachregeln und
+                    Konsistenz korrekt abbilden, das Read-Model soll Abfragen für UI, Suche oder
+                    Reports möglichst einfach und schnell liefern.
+                </div>
+            </section>
+
+            <section>
+                <h2>Mini-Check</h2>
+                <p>Worin liegt der Unterschied zwischen <span class="inline-code">PlaceOrder</span> und <span
+                        class="inline-code">OrderPlaced</span>?</p>
+                <div class="fragment callout">
+                    <span class="inline-code">PlaceOrder</span> ist ein Command, also die Aufforderung oder Absicht,
+                    eine
+                    Bestellung zu erfassen. <span class="inline-code">OrderPlaced</span> ist ein Event, also die
+                    fachliche
+                    Tatsache, dass die Bestellung bereits erfolgreich erfasst wurde.
+                </div>
+            </section>
+            <section>
+                <h2>Mini-Check</h2>
+                <p>Weshalb ist Event Sourcing für Audit und Historie besonders interessant?</p>
+                <div class="fragment callout">
+                    Weil nicht nur der aktuelle Zustand gespeichert wird, sondern die vollständige
+                    Folge fachlicher Ereignisse. Dadurch bleibt nachvollziehbar, wann was passiert
+                    ist, wie ein Zustand entstanden ist und welche Änderungen im Zeitverlauf
+                    stattgefunden haben.
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes],
+        });
+    </script>
+</body>
+
+</html>

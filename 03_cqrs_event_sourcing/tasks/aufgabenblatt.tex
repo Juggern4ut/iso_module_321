@@ -1,0 +1,188 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\answerline}[1]{\rule{#1}{0.4pt}}
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+
+\title{\textbf{Aufgabenblatt: CQRS und Event Sourcing}}
+\author{Modul 321 -- Lektion 03}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Name:} \answerline{7cm} \hfill \textbf{Datum:} \answerline{3.5cm}
+
+\vspace{0.8em}
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Ziel der Lektion:} Sie können CQRS und Event Sourcing fachlich sauber
+    erklären, mit Beispielen anwenden und deren Nutzen sowie Grenzen in
+    verteilten Systemen begründet einordnen.
+  }
+}
+
+\section*{Hinweise}
+\begin{itemize}
+  \item Antworten Sie in ganzen Sätzen oder präzisen Stichworten.
+  \item Begründen Sie fachliche Entscheidungen knapp, aber nachvollziehbar.
+  \item Kleine Skizzen, Event-Flows oder Tabellen sind ausdrücklich erlaubt.
+\end{itemize}
+
+\section*{1. Begriffe sauber erklären}
+Erklären Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen Sätzen}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Ihre Erklärung} \\
+\hline
+\term{CQRS} & \\[2.4cm] \hline
+\term{Command} & \\[2.0cm] \hline
+\term{Query} & \\[2.0cm] \hline
+\term{Event Sourcing} & \\[2.4cm] \hline
+\end{longtable}
+
+\section*{2. Command oder Query?}
+Ordnen Sie die folgenden Beispiele zu. Schreiben Sie jeweils \textbf{Command} oder \textbf{Query} hin und begründen Sie kurz.
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.44\linewidth}|>{\centering\arraybackslash}p{0.16\linewidth}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Beispiel} & \textbf{Typ} & \textbf{Begründung} \\
+\hline
+\texttt{CreateBooking} & & \\[0.9cm] \hline
+\texttt{GetOpenBookings} & & \\[0.9cm] \hline
+\texttt{CancelInvoice} & & \\[0.9cm] \hline
+\texttt{GetCourseOverview} & & \\[0.9cm] \hline
+\end{tabularx}
+
+\section*{3. Warum CQRS?}
+Eine Plattform für Kursanmeldungen hat folgende Anforderungen:
+\begin{itemize}
+  \item Viele Lernende rufen ständig Übersichten und freie Plätze ab.
+  \item Schreibvorgänge sind seltener, müssen aber Regeln strikt prüfen.
+  \item Die Startseite zeigt mehrere vorberechnete Statistiken.
+\end{itemize}
+
+Bearbeiten Sie die Fragen:
+\begin{enumerate}
+  \item Warum könnte ein gemeinsames CRUD-Modell hier unpraktisch werden?
+  \item Welchen Vorteil bringt ein getrenntes \term{Write-Model}?
+  \item Welchen Vorteil bringt ein getrenntes \term{Read-Model}?
+  \item Weshalb darf das Read-Model Daten anders strukturieren als das Write-Model?
+\end{enumerate}
+
+\section*{4. Event Sourcing nachvollziehen}
+Betrachten Sie folgenden Event-Stream eines Bankkontos:
+
+\begin{quote}
+\texttt{AccountOpened(0)} \\
+\texttt{MoneyDeposited(150)} \\
+\texttt{MoneyWithdrawn(40)} \\
+\texttt{MoneyDeposited(25)}
+\end{quote}
+
+Bearbeiten Sie die Aufgaben:
+\begin{enumerate}
+  \item Berechnen Sie den aktuellen Kontostand.
+  \item Beschreiben Sie in eigenen Worten, was beim \term{Replay} dieses Streams passiert.
+  \item Welcher Vorteil entsteht, wenn diese Ereignisse dauerhaft gespeichert bleiben?
+  \item Nennen Sie einen möglichen Nachteil dieses Ansatzes.
+\end{enumerate}
+
+\section*{5. Command oder Event?}
+Ordnen Sie die folgenden Begriffe zu und erklären Sie jeweils kurz, warum:
+
+\term{Command}, \term{Event}
+
+\begin{enumerate}
+  \item \texttt{PlaceOrder}
+  \item \texttt{OrderPlaced}
+  \item \texttt{ReserveSeat}
+  \item \texttt{SeatReserved}
+\end{enumerate}
+
+\vspace{0.8em}
+\textbf{Zusatzfrage:} Warum kann ein System einen Command ablehnen, ein Event aber nicht einfach wieder "wünschen"?
+
+\section*{6. CQRS und Event Sourcing kritisch beurteilen}
+Beantworten Sie die Aussagen mit \textbf{richtig / falsch} und begründen Sie kurz.
+
+\begin{enumerate}
+  \item CQRS bedeutet zwingend zwei getrennte Anwendungen.
+  \item Ein Read-Model darf aus Events neu aufgebaut werden.
+  \item Event Sourcing ist immer die beste Wahl für einfache CRUD-Formulare.
+  \item Commands und Events beschreiben fachlich dasselbe aus derselben Perspektive.
+\end{enumerate}
+
+\section*{7. Read-Model entwerfen}
+Ein Ticketsystem soll folgende Anzeige liefern:
+\begin{itemize}
+  \item Veranstaltungstitel
+  \item Anzahl freie Plätze
+  \item Anzahl reservierte Tickets
+  \item Anzahl bezahlte Tickets
+\end{itemize}
+
+Die Write-Seite arbeitet mit Commands wie \texttt{ReserveTicket} und \texttt{PayTicket}.
+
+Bearbeiten Sie die Aufgaben:
+\begin{enumerate}
+  \item Beschreiben Sie ein mögliches Read-Model für diese Ansicht.
+  \item Welche Events könnten dieses Read-Model aktualisieren?
+  \item Warum wäre dieses Read-Model für die Anzeige nützlicher als rohe Event-Daten?
+\end{enumerate}
+
+\section*{8. Grössere Praxisaufgabe}
+Sie entwerfen eine Plattform zur \textbf{Reservation von Gruppenräumen} für eine Schule. Die Plattform soll:
+\begin{itemize}
+  \item Räume buchbar machen,
+  \item freie Kapazitäten schnell anzeigen,
+  \item Stornierungen unterstützen,
+  \item eine Historie aller Änderungen behalten,
+  \item ein Dashboard mit Auslastung pro Tag anzeigen.
+\end{itemize}
+
+Bearbeiten Sie dazu:
+\begin{enumerate}
+  \item Beschreiben oder zeichnen Sie eine Lösung mit \term{CQRS}.
+  \item Definieren Sie mindestens \textbf{vier Commands}.
+  \item Definieren Sie mindestens \textbf{vier Events}.
+  \item Beschreiben Sie ein mögliches \term{Write-Model} oder Aggregat mit wichtigen Fachregeln.
+  \item Beschreiben Sie mindestens \textbf{zwei Read-Modelle} für unterschiedliche Ansichten.
+  \item Erklären Sie, wie \term{Event Sourcing} in diesem Szenario die Historie und den Neuaufbau von Ansichten unterstützen würde.
+  \item Nennen Sie \textbf{zwei zusätzliche technische Herausforderungen}, die bei dieser Lösung entstehen.
+\end{enumerate}
+
+\section*{9. Umsetzungsnahe Zusatzaufgabe}
+Formulieren Sie für die Plattform aus Aufgabe 8 einen möglichen Ablauf in \textbf{5 bis 8 Schritten}, wie eine Raumreservation verarbeitet wird.
+
+Verwenden Sie dabei möglichst die Begriffe:
+\begin{itemize}
+  \item Command
+  \item Validierung
+  \item Event
+  \item Projection / Read-Model
+  \item eventual consistency
+\end{itemize}
+
+\section*{Abgabe / Besprechung}
+Die Aufgaben werden in der Lektion besprochen. Halten Sie Ihre Antworten so fest,
+dass Sie diese fachlich sauber vorstellen und begründen können.
+
+\end{document}
