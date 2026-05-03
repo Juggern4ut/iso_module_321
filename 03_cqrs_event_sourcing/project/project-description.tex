@@ -1,0 +1,236 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+
+\title{Praktische Übung: CQRS und Event Sourcing mit Node.js}
+\author{Informatik}
+\date{\today}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Ziel der Übung}
+
+In dieser Übung entwickelt ihr ein einfaches Bankkonto-System und wendet dabei zwei wichtige Architekturkonzepte an:
+
+\begin{itemize}
+\item \textbf{CQRS (Command Query Responsibility Segregation)}
+\item \textbf{Event Sourcing}
+\end{itemize}
+
+\textbf{Wichtig:} Der Kontostand darf niemals direkt gespeichert werden!
+
+Stattdessen werden alle Änderungen als \textbf{Events} gespeichert.
+
+\section*{Funktionalität}
+
+Euer System soll:
+
+\begin{itemize}
+\item Konto eröffnen
+\item Geld einzahlen
+\item Geld abheben
+\item Kontostand anzeigen
+\item Alle Events anzeigen
+\item Zustand durch Events rekonstruieren
+\end{itemize}
+
+\section*{Projektstruktur}
+
+\begin{lstlisting}
+cqrs-event-sourcing-bank/
+│
+├── data/
+│   └── events.jsonl
+│
+├── src/
+│   ├── eventStore.js
+│   ├── account.js
+│   ├── commands.js
+│   ├── queries.js
+│   └── app.js
+\end{lstlisting}
+
+\section*{JSONL Format}
+
+Jede Zeile ist ein Event:
+
+\begin{lstlisting}
+{"type":"AccountOpened","accountId":"A-100","owner":"Mia"}
+{"type":"MoneyDeposited","accountId":"A-100","amount":100}
+\end{lstlisting}
+
+\section*{Aufgabe 1: Event Store}
+
+Implementiert:
+
+\begin{itemize}
+\item appendEvent(event)
+\item readEvents()
+\end{itemize}
+
+\section*{Aufgabe 2: Zustand berechnen}
+
+Startzustand:
+
+\begin{lstlisting}
+{
+  accountId: null,
+  owner: null,
+  balance: 0,
+  isOpen: false
+}
+\end{lstlisting}
+
+Implementiert:
+
+\begin{itemize}
+\item applyEvent(account, event)
+\item rebuildAccountFromEvents(events, accountId)
+\end{itemize}
+
+\section*{Aufgabe 3: Commands}
+
+Implementiert:
+
+\begin{itemize}
+\item openAccount(accountId, owner)
+\item depositMoney(accountId, amount)
+\item withdrawMoney(accountId, amount)
+\item closeAccount(accountId)
+\end{itemize}
+
+\textbf{Wichtig:}  
+Commands verändern niemals direkt den Zustand!
+
+Sie erzeugen nur Events.
+
+\section*{Aufgabe 4: Queries}
+
+Implementiert:
+
+\begin{itemize}
+\item getAccount(accountId)
+\item getAllEvents()
+\end{itemize}
+
+\textbf{Wichtig:}  
+Queries verändern keine Daten.
+
+\section*{Aufgabe 5: Testprogramm}
+
+Beispiel:
+
+\begin{lstlisting}
+openAccount("A-100", "Mia");
+depositMoney("A-100", 200);
+withdrawMoney("A-100", 50);
+
+console.log(getAccount("A-100"));
+\end{lstlisting}
+
+\section*{Beobachtungsaufgaben}
+
+Beantwortet:
+
+\begin{enumerate}
+\item Wird der Kontostand direkt gespeichert?
+\item Welche Events entstehen?
+\item Kann man den Zustand aus Events rekonstruieren?
+\item Was passiert bei mehrfacher Ausführung?
+\end{enumerate}
+
+\section*{CQRS verstehen}
+
+\textbf{Command-Seite:}
+\begin{itemize}
+\item openAccount
+\item depositMoney
+\item withdrawMoney
+\item closeAccount
+\end{itemize}
+
+\textbf{Query-Seite:}
+\begin{itemize}
+\item getAccount
+\item getAllEvents
+\end{itemize}
+
+\section*{Erweiterung: Read Model}
+
+Erstellt eine Datei:
+
+\begin{lstlisting}
+accounts_read_model.json
+\end{lstlisting}
+
+Diese darf den Kontostand speichern, wird aber aus Events berechnet.
+
+\section*{Reflexionsfragen}
+
+\begin{enumerate}
+\item Warum wird der Kontostand nicht direkt gespeichert?
+\item Was ist der Vorteil von Event Sourcing?
+\item Was ist ein Nachteil?
+\item Warum trennt man Commands und Queries?
+\item Was passiert, wenn das Read Model gelöscht wird?
+\item Kann man es wiederherstellen?
+\end{enumerate}
+
+\section*{Zusatzaufgaben}
+
+\subsection*{Mehrere Konten}
+
+Erstellt mehrere Konten und zeigt sie an.
+
+\subsection*{Überweisung}
+
+Implementiert:
+
+\begin{lstlisting}
+transferMoney(from, to, amount)
+\end{lstlisting}
+
+\subsection*{REST API}
+
+Optional mit Express:
+
+\begin{lstlisting}
+POST /accounts
+POST /accounts/:id/deposit
+GET /accounts/:id
+\end{lstlisting}
+
+\section*{Bewertung}
+
+\begin{itemize}
+\item Events werden korrekt gespeichert
+\item Trennung von Commands und Queries
+\item Zustand wird aus Events berechnet
+\item Fehler werden behandelt
+\item Struktur ist verständlich
+\end{itemize}
+
+\section*{Diskussion}
+
+\begin{itemize}
+\item Wann ist Event Sourcing sinnvoll?
+\item Wann ist es zu kompliziert?
+\item Welche Systeme könnten davon profitieren?
+\end{itemize}
+
+\end{document}

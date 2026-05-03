@@ -1,0 +1,11 @@
+{
+  "name": "cqrs-event-sourcing-bank",
+  "version": "1.0.0",
+  "description": "Musterlösung: CQRS und Event Sourcing mit Node.js (Modul 321, Lektion 03)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": ["cqrs", "event-sourcing", "nodejs"],
+  "license": "MIT"
+}

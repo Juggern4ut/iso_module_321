@@ -1,0 +1,14 @@
+[
+  {
+    "accountId": "A-100",
+    "owner": "Mia",
+    "balance": 250,
+    "isOpen": true
+  },
+  {
+    "accountId": "A-200",
+    "owner": "Noah",
+    "balance": 500,
+    "isOpen": true
+  }
+]
