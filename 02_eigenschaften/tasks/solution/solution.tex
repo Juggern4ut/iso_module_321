@@ -83,15 +83,7 @@
   \item \solution{Beispiel: Wenn Zahlung fehlschlägt, wird die Bestellung storniert oder die Bestandsreservation wieder freigegeben.}
 \end{enumerate}
 
-\section*{6. CQRS anwenden}
-\begin{enumerate}
-  \item \solution{CQRS kann sinnvoll sein, weil Lesen und Schreiben sehr unterschiedliche Anforderungen haben: viele schnelle Abfragen auf der einen Seite, wenige aber kritische Käufe auf der anderen.}
-  \item \solution{Command Side: Reservieren oder Kaufen von Tickets, Prüfen von Regeln, Verhindern von Überverkäufen, Auslösen fachlicher Events.}
-  \item \solution{Query Side: Anzeigen von Veranstaltungen, verfügbaren Plätzen, Filterlisten, Suchresultaten oder Reports.}
-  \item \solution{Vorteil: Lese- und Schreibmodell können separat optimiert werden. Nachteil: zusätzliche Komplexität und mögliche Verzögerung zwischen Schreib- und Lesesicht.}
-\end{enumerate}
-
-\section*{7. Event Sourcing einordnen}
+\section*{6. Event Sourcing einordnen}
 \begin{enumerate}
   \item \solution{Passt nicht. Das wäre eher ein klassisches Zustandsmodell ohne Historie.}
   \item \solution{Passt. Genau solche fachlichen Ereignisse werden typischerweise dauerhaft gespeichert.}
@@ -99,7 +91,7 @@
   \item \solution{Passt nicht. Für einfache CRUD-Anwendungen ist Event Sourcing oft unnötig komplex.}
 \end{enumerate}
 
-\section*{8. Entwurfsaufgabe}
+\section*{7. Entwurfsaufgabe}
 \textbf{Mögliche Architektur:}
 \begin{itemize}
   \item \solution{Frontend für Lernende und Mitarbeitende}
