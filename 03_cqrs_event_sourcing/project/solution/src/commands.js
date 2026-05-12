@@ -15,6 +15,7 @@ const { rebuildAccountFromEvents } = require('./account');
 function openAccount(accountId, owner) {
   const events = readEvents();
   const existing = rebuildAccountFromEvents(events, accountId);
+  //{ amount: 200, accountId: 'A-200', name: "Peter" }
 
   // Geschäftsregel: Konto-ID darf nicht bereits vergeben sein
   if (existing.isOpen) {
@@ -23,8 +24,8 @@ function openAccount(accountId, owner) {
 
   appendEvent({
     type: 'AccountOpened',
-    accountId,
-    owner,
+    accountId: accountId,
+    owner: owner,
     timestamp: new Date().toISOString(),
   });
 
@@ -42,8 +43,8 @@ function depositMoney(accountId, amount) {
 
   appendEvent({
     type: 'MoneyDeposited',
-    accountId,
-    amount,
+    accountId: accountId,
+    amount: amount,
     timestamp: new Date().toISOString(),
   });
 
