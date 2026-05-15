@@ -1,0 +1,116 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+\newcommand{\solution}[1]{\textcolor{black}{#1}}
+
+\title{\textbf{Lösungsblatt: Softwaresysteme migrieren}}
+\author{Modul 321 -- Lektion 05}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Hinweis:} Dieses Lösungsblatt enthält Musterlösungen und einen möglichen
+    Erwartungshorizont. Andere Antworten sind korrekt, wenn sie fachlich sauber
+    begründet sind und die Migrationsstrategie nachvollziehbar gewählt wird.
+  }
+}
+
+\section*{1. Begriffe erklären}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Mögliche Lösung} \\
+\hline
+\term{Migration} &
+\solution{Eine Migration ist die gezielte Veränderung eines bestehenden Softwaresystems, zum Beispiel bei Technologie, Architektur, Datenhaltung oder Betrieb. Ziel ist es, ein bestehendes System in einen neuen Zustand zu überführen, ohne den fachlichen Nutzen zu verlieren.} \\ \hline
+\term{Big Bang} &
+\solution{Beim Big Bang wird das alte System in einem grossen Schritt durch ein neues ersetzt. Die Umschaltung erfolgt meist zu einem klar definierten Zeitpunkt.} \\ \hline
+\term{Strangler Pattern} &
+\solution{Beim Strangler Pattern werden neue Teile schrittweise um oder vor das bestehende System gebaut. Das neue System übernimmt nach und nach mehr Funktionen, bis das alte entfernt werden kann.} \\ \hline
+\term{Parallelbetrieb} &
+\solution{Parallelbetrieb bedeutet, dass altes und neues System während einer Übergangszeit gleichzeitig laufen. Dadurch können Teilbereiche schrittweise umgestellt werden, was aber zusätzlichen Betriebsaufwand erzeugt.} \\ \hline
+\end{longtable}
+
+\section*{2. Aussagen zuordnen}
+\begin{enumerate}
+  \item \solution{Strangler Pattern}
+  \item \solution{Big Bang}
+  \item \solution{Strangler Pattern}
+  \item \solution{Strangler Pattern}
+  \item \solution{Big Bang}
+  \item \solution{keine von beiden}
+\end{enumerate}
+
+\section*{3. Big Bang beurteilen}
+\begin{enumerate}
+  \item \solution{Das neue System wird vollständig vorbereitet und dann in einem grossen Wechsel produktiv geschaltet.}
+  \item \solution{Vorteile: klare Umstellung, wenig langfristige Übergangslogik, kein langer Parallelbetrieb.}
+  \item \solution{Risiken: hoher Druck am Umstellungstag, grosse Auswirkungen bei Fehlern, schwieriges Rollback, mögliche Datenprobleme bei der Umschaltung.}
+  \item \solution{Eher bei kleinen, überschaubaren Systemen mit guter Testbarkeit, klarer Datenlage und akzeptablem Wartungsfenster.}
+\end{enumerate}
+
+\section*{4. Strangler Pattern verstehen}
+\begin{enumerate}
+  \item \solution{Weil nicht der ganze Shop auf einmal ersetzt wird, sondern nur einzelne Teile Schritt für Schritt übernommen werden.}
+  \item \solution{Katalog und Suche sind oft weniger kritisch als der Checkout und lassen sich deshalb mit geringerem Geschäftsrisiko zuerst migrieren.}
+  \item \solution{Eine Herausforderung ist das Routing oder die Synchronisation, damit Anfragen und Daten während der Übergangsphase korrekt zwischen alt und neu verteilt werden.}
+  \item \solution{Der neue Teil muss die alte Funktion vollständig übernehmen, Abhängigkeiten müssen entfernt werden und der Altcode muss sauber stillgelegt werden.}
+\end{enumerate}
+
+\section*{5. Vergleichstabelle}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Aspekt} & \textbf{Big Bang} & \textbf{Strangler Pattern} \\
+\hline
+Zeitpunkt der Umstellung & \solution{in einem grossen Wechsel zu einem definierten Zeitpunkt} & \solution{in mehreren kleinen Schritten über längere Zeit} \\ \hline
+Risiko im produktiven Betrieb & \solution{hoch im Moment der Umschaltung} & \solution{stärker verteilt und kontrollierbarer} \\ \hline
+Komplexität der Übergangsphase & \solution{eher kürzer, aber mit hohem Spitzendruck} & \solution{länger und technisch oft komplexer wegen Parallelbetrieb} \\ \hline
+Geeignet für welche Situationen? & \solution{kleine, überschaubare Systeme} & \solution{grössere oder kritischere Systeme mit hohem Ausfallrisiko} \\ \hline
+\end{tabularx}
+
+\section*{6. Szenario entscheiden}
+\begin{enumerate}
+  \item \solution{Ein Big Bang ist hier naheliegend.}
+  \item \solution{Argumente: kleines und überschaubares System, akzeptables Offline-Fenster, wenige Funktionen, geringe organisatorische Komplexität.}
+  \item \solution{Trotzdem muss man Datenmigration, Tests und einen Notfallplan sauber vorbereiten.}
+\end{enumerate}
+
+\section*{7. Kritisches Szenario}
+\begin{enumerate}
+  \item \solution{Eher das Strangler Pattern.}
+  \item \solution{Ein Fehler beim Big Bang könnte sofort viele Bestellungen blockieren oder Umsatzausfall verursachen.}
+  \item \solution{Sinnvoll zuerst: Produktkatalog, Suche oder andere weniger kritische Teile.}
+  \item \solution{Später: Checkout, Zahlung oder andere geschäftskritische Kernprozesse.}
+\end{enumerate}
+
+\section*{8. Eigene Migrationsskizze}
+\textbf{Mögliche Lösung:}
+\begin{enumerate}
+  \item \solution{Wahl: Strangler Pattern}
+  \item \solution{Begründung: Die Plattform hat mehrere getrennte Bereiche und nicht alle sind gleich kritisch.}
+  \item \solution{Mögliche Schritte: zuerst Kursübersicht ablösen, danach Videolektionen, danach Nachrichten, danach Dateiupload und am Schluss Login oder zentrale Nutzerverwaltung sauber umstellen.}
+  \item \solution{Hohes Risiko: Login oder Dateiupload, weil Sicherheit und Datenintegrität wichtig sind. Tieferes Risiko: Kursübersicht oder Anzeige von Videolektionen.}
+\end{enumerate}
+
+\section*{Didaktischer Hinweis}
+\solution{Die Lernenden sollen erkennen, dass eine Migrationsstrategie immer eine Abwägung ist. Entscheidend sind nicht nur Technikfragen, sondern auch Ausfallrisiko, Parallelbetrieb, Testbarkeit und die Reihenfolge der fachlichen Ablösung.}
+
+\end{document}

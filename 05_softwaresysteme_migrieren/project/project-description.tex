@@ -1,0 +1,177 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+
+\title{Praktische Übung: Ein Legacy-System migrieren}
+\author{Modul 321}
+\date{\today}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Ziel der Übung}
+
+In dieser Übung plant ihr eine \textbf{einfache Migration} eines bestehenden
+Softwaresystems. Dabei wendet ihr die beiden Strategien aus der Lektion an:
+
+\begin{itemize}
+\item \textbf{Big Bang}
+\item \textbf{Strangler Pattern}
+\end{itemize}
+
+Ihr sollt nicht ein komplettes Produkt bauen, sondern ein kleines Szenario
+analysieren, eine Strategie wählen und sie mit einer einfachen technischen
+Skizze umsetzen.
+
+\section*{Ausgangslage}
+
+Ein bestehendes Schulportal ist als ein älteres System aufgebaut.
+Es enthält:
+
+\begin{itemize}
+\item Login
+\item Kursübersicht
+\item Nachrichten
+\item Dateidownload
+\end{itemize}
+
+Die Kursübersicht soll modernisiert werden.
+Der Rest darf vorerst im bestehenden System bleiben.
+
+\section*{Projektidee}
+
+Erstellt eine \textbf{kleine Demo-Architektur} für die Migration.
+Die Demo kann als Zeichnung, HTML-Skizze oder kleines Node.js-Projekt umgesetzt werden.
+
+\textbf{Minimalziel:}
+\begin{itemize}
+\item Ein Teil wird als \textbf{neu} markiert.
+\item Ein Teil bleibt als \textbf{legacy}.
+\item Ihr zeigt, wie Anfragen entweder direkt auf das alte System gehen
+      oder auf einen neuen Teil umgeleitet werden.
+\end{itemize}
+
+\section*{Variante A: Skizze ohne Code}
+
+Erstellt ein einfaches Diagramm oder ein Dokument mit:
+
+\begin{itemize}
+\item altem System
+\item neuem Teil
+\item Router / Gateway / Umschaltpunkt
+\item Begründung der gewählten Strategie
+\end{itemize}
+
+\section*{Variante B: Kleine technische Demo}
+
+Erstellt ein sehr kleines Projekt, zum Beispiel mit dieser Struktur:
+
+\begin{lstlisting}
+migration-demo/
+|
+|-- legacy/
+|   `-- portal.js
+|
+|-- modern/
+|   `-- course-overview.js
+|
+`-- gateway.js
+\end{lstlisting}
+
+\textbf{Beispielidee:}
+\begin{itemize}
+\item \texttt{legacy/portal.js} liefert alle alten Funktionen.
+\item \texttt{modern/course-overview.js} liefert die neue Kursübersicht.
+\item \texttt{gateway.js} entscheidet, wohin eine Anfrage geht.
+\end{itemize}
+
+\section*{Aufgaben}
+
+\subsection*{Aufgabe 1: System verstehen}
+Beantwortet kurz:
+\begin{enumerate}
+\item Welcher Teil ist \textbf{legacy}?
+\item Welcher Teil wird zuerst ersetzt?
+\item Warum ist genau dieser Teil ein sinnvoller Startpunkt?
+\end{enumerate}
+
+\subsection*{Aufgabe 2: Strategie wählen}
+Entscheidet euch für eine Strategie:
+\begin{itemize}
+\item \textbf{Strangler Pattern} oder
+\item \textbf{Big Bang}
+\end{itemize}
+
+Begründet die Wahl in \textbf{3 bis 5 Sätzen}.
+
+\subsection*{Aufgabe 3: Umschaltlogik zeigen}
+Zeigt praktisch oder als Pseudocode:
+
+\begin{lstlisting}
+if route == "/courses":
+    use new module
+else:
+    use legacy system
+\end{lstlisting}
+
+Die Logik darf auch als Flussdiagramm dargestellt werden.
+
+\subsection*{Aufgabe 4: Risiken benennen}
+Nennen Sie mindestens:
+\begin{itemize}
+\item ein Risiko bei einem \textbf{Big Bang}
+\item ein Risiko beim \textbf{Strangler Pattern}
+\item eine Massnahme, wie dieses Risiko reduziert werden kann
+\end{itemize}
+
+\subsection*{Aufgabe 5: Nächster Migrationsschritt}
+Beschreibt, welcher Teil nach der Kursübersicht als Nächstes migriert werden könnte
+und warum.
+
+\section*{Abgabe}
+
+Die Abgabe soll enthalten:
+
+\begin{itemize}
+\item kurze Beschreibung des Ausgangssystems
+\item gewählte Strategie mit Begründung
+\item Skizze, Diagramm oder kleine Routing-Demo
+\item kurze Reflexion zu Risiken und Reihenfolge
+\end{itemize}
+
+\section*{Reflexionsfragen}
+
+\begin{enumerate}
+\item Warum ist die Reihenfolge bei einer Migration wichtig?
+\item Wann wäre ein Big Bang trotz Risiko sinnvoll?
+\item Welche Vorteile bringt das schrittweise Vorgehen?
+\item Was macht den Parallelbetrieb schwierig?
+\end{enumerate}
+
+\section*{Bewertung}
+
+\begin{itemize}
+\item Strategiewahl ist nachvollziehbar
+\item Unterschied zwischen \textbf{legacy} und \textbf{neu} ist klar
+\item Umschaltlogik ist verständlich dargestellt
+\item Risiken und Gegenmassnahmen sind sinnvoll beschrieben
+\item Die Reihenfolge der Migration ist begründet
+\end{itemize}
+
+\end{document}

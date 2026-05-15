@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Modul 321 - Lektion 05</title>
+
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/black.css" />
+    <link rel="stylesheet" href="./plugin/highlight/monokai.css" />
+
+    <style>
+        :root {
+            --accent: #90be6d;
+            --accent-2: #f9c74f;
+            --panel: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.22);
+            --danger: #ff6b6b;
+            --ok: #7bd88f;
+        }
+
+        .inline-code {
+            font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
+            display: inline-block;
+            background-color: #2d2d2d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 75%;
+        }
+
+        .reveal p,
+        .reveal li {
+            line-height: 1.35;
+        }
+
+        .reveal table td,
+        .reveal table th {
+            font-size: 0.67em;
+        }
+
+        .small {
+            font-size: 0.7em;
+        }
+
+        .muted {
+            color: #bbbbbb;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--panel);
+            text-align: left;
+            font-size: 80%;
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .compare td,
+        .compare th {
+            border: 1px solid var(--border);
+            padding: 10px;
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.66em;
+        }
+
+        .flow .box {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 12px;
+            background: var(--panel);
+        }
+
+        .flow .arrow {
+            font-size: 1.15em;
+            color: var(--accent-2);
+        }
+
+        .callout {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-left: 4px solid var(--accent);
+            background: rgba(144, 190, 109, 0.12);
+            text-align: left;
+            font-size: 0.72em;
+        }
+
+        .callout--danger {
+            border-left: 4px solid var(--danger);
+            background: rgba(255, 107, 107, 0.12);
+        }
+
+        .callout>* {
+            margin: 0 !important;
+        }
+
+        .ok {
+            color: var(--ok);
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Modul 321</h2>
+                <hr />
+                <h3>Lektion 05: Softwaresysteme migrieren</h3>
+                <p>Bestehende Systeme schrittweise oder in einem grossen Wechsel modernisieren</p>
+                <img style="width: 180px" src="./assets/img/dist-systems.png" alt="Modul Icon" />
+            </section>
+
+            <section>
+                <h2>Lernziele</h2>
+                <ul>
+                    <li>Ich kann erklären, was eine Migration von Softwaresystemen bedeutet.</li>
+                    <li>Ich kann <span class="inline-code">Big Bang</span> und <span class="inline-code">Strangler Pattern</span> unterscheiden.</li>
+                    <li>Ich kann typische Risiken von Migrationen benennen.</li>
+                    <li>Ich kann begründen, wann eine schrittweise Migration sinnvoll ist.</li>
+                    <li>Ich kann für einfache Szenarien eine passende Migrationsstrategie auswählen.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Was bedeutet Migration?</h2>
+                <div class="callout">
+                    <p>Eine Migration verändert ein bestehendes System gezielt, zum Beispiel Architektur, Technologie, Datenhaltung oder Betriebsmodell.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Typische Auslöser</h3>
+                        <ul>
+                            <li>Veraltete Technologie</li>
+                            <li>Zu langsame Änderungen</li>
+                            <li>Skalierungsprobleme</li>
+                            <li>Hohe Betriebs- oder Wartungskosten</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Wichtig dabei</h3>
+                        <ul>
+                            <li>Daten dürfen nicht verloren gehen.</li>
+                            <li>Nutzer möglichst wenig stören.</li>
+                            <li>Risiko und Aufwand müssen steuerbar bleiben.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Zwei Grundstrategien</h2>
+                <div class="flow">
+                    <div class="box"><strong>Big Bang</strong><br />Altes System wird in einem grossen Schritt ersetzt.</div>
+                    <div class="arrow">vs.</div>
+                    <div class="box"><strong>Strangler Pattern</strong><br />Neue Teile übernehmen das System schrittweise.</div>
+                </div>
+                <div class="callout">
+                    Beide Strategien können sinnvoll sein. Die bessere Wahl hängt von Risiko, Systemgrösse, Zeitdruck und Testbarkeit ab.
+                </div>
+            </section>
+
+            <section>
+                <h2>Big Bang</h2>
+                <div class="panel">
+                    <h3>Grundidee</h3>
+                    <ul>
+                        <li>Das neue System wird fertig gebaut.</li>
+                        <li>Zu einem definierten Zeitpunkt wird umgeschaltet.</li>
+                        <li>Danach läuft möglichst nur noch das neue System.</li>
+                    </ul>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Vorteile</h3>
+                        <ul>
+                            <li>Klare Trennung alt gegen neu</li>
+                            <li>Keine lange Parallelwelt</li>
+                            <li>Weniger Übergangslogik</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Risiken</h3>
+                        <ul>
+                            <li>Hoher Druck am Umschalttag</li>
+                            <li>Fehler wirken sofort grossflächig</li>
+                            <li>Rollback kann schwierig sein</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Wann Big Bang passen kann</h2>
+                <ul>
+                    <li>Das System ist klein und fachlich überschaubar.</li>
+                    <li>Es gibt klare Testfälle und gute Datenkontrolle.</li>
+                    <li>Ein kurzes Wartungsfenster ist akzeptabel.</li>
+                    <li>Die alte Lösung ist technisch schwer parallel betreibbar.</li>
+                </ul>
+                <p class="danger">Je kritischer das System, desto riskanter wird ein grosser Einmalwechsel.</p>
+            </section>
+
+            <section>
+                <h2>Strangler Pattern</h2>
+                <div class="callout">
+                    <p>Neue Funktionen oder Teilbereiche werden schrittweise vor das alte System gesetzt und übernehmen nach und nach mehr Verantwortung.</p>
+                </div>
+                <div class="flow">
+                    <div class="box"><strong>Alt-System</strong><br />liefert bestehende Funktionen</div>
+                    <div class="arrow">umleiten</div>
+                    <div class="box"><strong>Neue Services / Module</strong><br />ersetzen Teil für Teil</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Typischer Ablauf beim Strangler</h2>
+                <div class="grid-3">
+                    <div class="panel">
+                        <h3>1. Begrenzen</h3>
+                        <ul>
+                            <li>Teilbereich auswählen</li>
+                            <li>Schnittstelle definieren</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>2. Ablösen</h3>
+                        <ul>
+                            <li>Neue Funktion entwickeln</li>
+                            <li>Traffic gezielt umleiten</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>3. Entfernen</h3>
+                        <ul>
+                            <li>Altcode stilllegen</li>
+                            <li>Alte Abhängigkeiten abbauen</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Vorteile und Nachteile des Strangler Pattern</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Aspekt</th>
+                            <th>Vorteil</th>
+                            <th>Nachteil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Risiko</td>
+                            <td>Kleinere Schritte sind leichter kontrollierbar.</td>
+                            <td>Die Migration dauert oft länger.</td>
+                        </tr>
+                        <tr>
+                            <td>Betrieb</td>
+                            <td>Altes System bleibt zunächst nutzbar.</td>
+                            <td>Paralleler Betrieb erzeugt Zusatzaufwand.</td>
+                        </tr>
+                        <tr>
+                            <td>Qualität</td>
+                            <td>Feedback kommt früher aus echten Teilumstellungen.</td>
+                            <td>Übergangsschnittstellen können komplex werden.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Entscheidungskriterien</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Fragen zum System</h3>
+                        <ul>
+                            <li>Wie kritisch ist ein Ausfall?</li>
+                            <li>Wie gross und unübersichtlich ist der Altbestand?</li>
+                            <li>Wie gut sind Tests, Monitoring und Datenqualität?</li>
+                            <li>Kann ein Teilbereich sauber isoliert werden?</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Fragen zum Umfeld</h3>
+                        <ul>
+                            <li>Wie viel Zeit und Budget steht zur Verfügung?</li>
+                            <li>Wie oft darf produktiv umgestellt werden?</li>
+                            <li>Kann das Team zwei Welten gleichzeitig betreiben?</li>
+                            <li>Wie teuer wäre ein Fehler beim Wechsel?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Praxisbeispiel: Online-Shop</h2>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Big Bang</h3>
+                        <ul>
+                            <li>Kompletter Shop wird neu gebaut.</li>
+                            <li>Am Stichtag wird DNS oder Routing umgestellt.</li>
+                            <li>Geeignet nur bei hoher Sicherheit und guter Testabdeckung.</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Strangler</h3>
+                        <ul>
+                            <li>Zuerst Produktkatalog auslagern.</li>
+                            <li>Danach Warenkorb oder Suche ersetzen.</li>
+                            <li>Checkout erst spät migrieren, weil er fachlich kritisch ist.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="small muted">Wichtiger Grundsatz: mit wenig kritischen Bereichen beginnen, Erfahrung sammeln, dann Kernprozesse angehen.</p>
+            </section>
+
+            <section>
+                <h2>Merksätze</h2>
+                <ul>
+                    <li>Migration ist kein reines Technikprojekt, sondern immer auch Betriebs- und Risikoarbeit.</li>
+                    <li><span class="inline-code">Big Bang</span> ist einfach im Konzept, aber riskant im Moment der Umschaltung.</li>
+                    <li><span class="inline-code">Strangler Pattern</span> reduziert Risiko, erhöht aber die Dauer und Übergangskomplexität.</li>
+                    <li>Die passende Strategie ergibt sich aus Kontext, nicht aus Mode.</li>
+                </ul>
+                <div class="callout">
+                    Gute Migrationen zerlegen grosse Unsicherheit in kleine, überprüfbare Schritte.
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+
+</html>

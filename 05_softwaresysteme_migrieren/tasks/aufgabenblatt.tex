@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\answerline}[1]{\rule{#1}{0.4pt}}
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+
+\title{\textbf{Aufgabenblatt: Softwaresysteme migrieren}}
+\author{Modul 321 -- Lektion 05}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Name:} \answerline{7cm} \hfill \textbf{Datum:} \answerline{3.5cm}
+
+\vspace{0.8em}
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Ziel der Lektion:} Sie können zentrale Vorgehensweisen zur Migration
+    von Softwaresystemen unterscheiden, Risiken benennen und für einfache
+    Szenarien eine sinnvolle Strategie auswählen und begründen.
+  }
+}
+
+\section*{Hinweise}
+\begin{itemize}
+  \item Antworten Sie in ganzen Sätzen oder präzisen Stichworten.
+  \item Begründen Sie Ihre Entscheidungen knapp, aber nachvollziehbar.
+  \item Wo sinnvoll, dürfen Sie kleine Skizzen oder Ablaufdiagramme ergänzen.
+\end{itemize}
+
+\section*{1. Begriffe erklären}
+Erklären Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen Sätzen}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Ihre Erklärung} \\
+\hline
+\term{Migration} & \\[2.2cm] \hline
+\term{Big Bang} & \\[2.2cm] \hline
+\term{Strangler Pattern} & \\[2.2cm] \hline
+\term{Parallelbetrieb} & \\[2.2cm] \hline
+\end{longtable}
+
+\section*{2. Aussagen zuordnen}
+Ordnen Sie jede Aussage der passenden Strategie zu:
+
+\term{Big Bang}, \term{Strangler Pattern}, \term{beide}, \term{keine von beiden}
+
+\begin{enumerate}
+  \item Das alte System bleibt zunächst teilweise in Betrieb.
+  \item Der Wechsel auf das neue System erfolgt in einem grossen Umschaltmoment.
+  \item Übergangsschnittstellen und Routing spielen oft eine wichtige Rolle.
+  \item Das Risiko verteilt sich eher auf mehrere kleinere Schritte.
+  \item Ein Wartungsfenster am Umstellungstag ist oft besonders wichtig.
+  \item Die Strategie kann nur bei Microservices eingesetzt werden.
+\end{enumerate}
+
+\section*{3. Big Bang beurteilen}
+Beantworten Sie die Fragen kurz.
+
+\begin{enumerate}
+  \item Beschreiben Sie den Grundgedanken eines \term{Big Bang}.
+  \item Nennen Sie \textbf{zwei Vorteile}.
+  \item Nennen Sie \textbf{drei Risiken}.
+  \item Für welche Art von System wäre ein Big Bang eher vertretbar?
+\end{enumerate}
+
+\section*{4. Strangler Pattern verstehen}
+Ein bestehender Webshop soll modernisiert werden. Die Suche und der Produktkatalog
+sollen zuerst erneuert werden, der Checkout bleibt vorerst im alten System.
+
+\begin{enumerate}
+  \item Warum passt dieses Vorgehen zum \term{Strangler Pattern}?
+  \item Was ist der Vorteil, wenn man mit Katalog und Suche beginnt?
+  \item Nennen Sie eine technische Herausforderung beim Parallelbetrieb.
+  \item Was müsste geschehen, damit der alte Teil später entfernt werden kann?
+\end{enumerate}
+
+\section*{5. Vergleichstabelle}
+Vergleichen Sie \term{Big Bang} und \term{Strangler Pattern}.
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Aspekt} & \textbf{Big Bang} & \textbf{Strangler Pattern} \\
+\hline
+Zeitpunkt der Umstellung & & \\[1.1cm] \hline
+Risiko im produktiven Betrieb & & \\[1.1cm] \hline
+Komplexität der Übergangsphase & & \\[1.1cm] \hline
+Geeignet für welche Situationen? & & \\[1.1cm] \hline
+\end{tabularx}
+
+\section*{6. Szenario entscheiden}
+Ein kleines internes Schulverwaltungstool soll ersetzt werden.
+
+Rahmenbedingungen:
+\begin{itemize}
+  \item nur 200 Benutzerinnen und Benutzer
+  \item wenige Funktionen
+  \item die Anwendung darf an einem Wochenende kurz offline sein
+  \item die Datenstruktur ist überschaubar
+\end{itemize}
+
+\begin{enumerate}
+  \item Welche Migrationsstrategie ist hier naheliegend?
+  \item Begründen Sie die Wahl mit \textbf{zwei Argumenten}.
+  \item Nennen Sie trotzdem \textbf{ein Risiko}, das beachtet werden muss.
+\end{enumerate}
+
+\section*{7. Kritisches Szenario}
+Ein grosser Online-Shop mit vielen täglichen Bestellungen soll modernisiert werden.
+Ein Ausfall während des Checkouts wäre teuer.
+
+\begin{enumerate}
+  \item Welche Strategie ist hier eher naheliegend?
+  \item Warum wäre ein Big Bang in diesem Fall kritisch?
+  \item Welchen Teil des Shops würden Sie zuerst migrieren?
+  \item Welchen Teil würden Sie eher spät migrieren?
+\end{enumerate}
+
+\section*{8. Eigene Migrationsskizze}
+Eine bestehende Lernplattform besteht aus:
+\begin{itemize}
+  \item Login
+  \item Kursübersicht
+  \item Dateiupload
+  \item Nachrichten
+  \item Videolektionen
+\end{itemize}
+
+Bearbeiten Sie die Aufgaben:
+\begin{enumerate}
+  \item Wählen Sie \term{Big Bang} oder \term{Strangler Pattern}.
+  \item Begründen Sie Ihre Wahl.
+  \item Skizzieren oder beschreiben Sie in 3 bis 5 Schritten, wie die Migration ablaufen könnte.
+  \item Nennen Sie einen Bereich mit hohem Risiko und einen Bereich mit tieferem Risiko.
+\end{enumerate}
+
+\end{document}

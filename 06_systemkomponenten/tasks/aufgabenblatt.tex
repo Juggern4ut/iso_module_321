@@ -1,0 +1,164 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\answerline}[1]{\rule{#1}{0.4pt}}
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+
+\title{\textbf{Aufgabenblatt: Kategorien von Systemkomponenten}}
+\author{Modul 321 -- Lektion 06}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Name:} \answerline{7cm} \hfill \textbf{Datum:} \answerline{3.5cm}
+
+\vspace{0.8em}
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Ziel der Lektion:} Sie können wichtige Kategorien von
+    Systemkomponenten benennen, deren Aufgabe erklären und sie in einfachen
+    Softwaresystemen sinnvoll einordnen.
+  }
+}
+
+\section*{Hinweise}
+\begin{itemize}
+  \item Antworten Sie in ganzen Sätzen oder präzisen Stichworten.
+  \item Begründen Sie Zuordnungen kurz und fachlich sauber.
+  \item Skizzen und kleine Übersichten sind erlaubt.
+\end{itemize}
+
+\section*{1. Begriffe erklären}
+Erklären Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen Sätzen}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.30\linewidth}|>{\raggedright\arraybackslash}p{0.62\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Ihre Erklärung} \\
+\hline
+\term{Identitätsverwaltung} & \\[2.1cm] \hline
+\term{Ereignisverwaltung} & \\[2.1cm] \hline
+\term{Monitoring} & \\[2.1cm] \hline
+\term{Datenhaltung} & \\[2.1cm] \hline
+\term{Lastenverteilung} & \\[2.1cm] \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+Ordnen Sie jedem Beispiel die \textbf{passendste Komponentenkategorie} zu:
+
+\term{Identitätsverwaltung}, \term{Ereignisverwaltung}, \term{Monitoring},
+\term{Datenhaltung}, \term{Lastenverteilung}
+
+\begin{enumerate}
+  \item Ein System prüft, ob eine Benutzerin Administratorrechte besitzt.
+  \item Eine Meldung \glqq Datei hochgeladen\grqq{} wird an mehrere Dienste weitergegeben.
+  \item Ein Dashboard zeigt CPU-Last, Fehlerrate und Antwortzeit.
+  \item Kundendaten werden dauerhaft gespeichert und wieder abgefragt.
+  \item Eingehende HTTP-Anfragen werden auf drei identische Serverinstanzen verteilt.
+  \item Ein Access Token wird nach erfolgreichem Login erstellt.
+\end{enumerate}
+
+\section*{3. Komponenten vergleichen}
+Vergleichen Sie die folgenden Kategorien.
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Monitoring} & \textbf{Datenhaltung} \\
+\hline
+Welches Hauptziel hat die Komponente? & & \\[1.1cm] \hline
+Welche typischen Informationen verarbeitet sie? & & \\[1.1cm] \hline
+Was wäre ein typischer Fehlerfall? & & \\[1.1cm] \hline
+\end{tabularx}
+
+\vspace{1em}
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Identitätsverwaltung} & \textbf{Lastenverteilung} \\
+\hline
+Welche Kernaufgabe hat die Komponente? & & \\[1.1cm] \hline
+Welche Probleme löst sie typischerweise? & & \\[1.1cm] \hline
+Warum sollte man sie nicht verwechseln? & & \\[1.1cm] \hline
+\end{tabularx}
+
+\section*{4. Aussagen beurteilen}
+Beantworten Sie mit \textbf{richtig / falsch} und begründen Sie kurz.
+
+\begin{enumerate}
+  \item Monitoring speichert in erster Linie Geschäftsdaten wie Bestellungen.
+  \item Eine Identitätsverwaltung kann für mehrere Anwendungen gemeinsam genutzt werden.
+  \item Lastenverteilung kann helfen, ein System skalierbarer zu machen.
+  \item Ereignisverwaltung bedeutet, dass keine Datenhaltung mehr nötig ist.
+  \item Eine Datenbank allein ersetzt keine Zugriffssteuerung.
+\end{enumerate}
+
+\section*{5. Lernplattform analysieren}
+Eine Lernplattform hat folgende Anforderungen:
+\begin{itemize}
+  \item Benutzer sollen sich anmelden können.
+  \item Dateien sollen gespeichert und heruntergeladen werden.
+  \item Beim Upload einer Datei sollen andere Teile des Systems informiert werden.
+  \item Ausfälle und Fehlerraten sollen sichtbar sein.
+  \item Viele gleichzeitige Zugriffe am Morgen sollen abgefangen werden.
+\end{itemize}
+
+\begin{enumerate}
+  \item Ordnen Sie jeder Anforderung eine passende Komponentenkategorie zu.
+  \item Nennen Sie \textbf{eine} Komponente, die aus Sicherheitsgründen besonders sensibel ist.
+  \item Nennen Sie \textbf{eine} Komponente, die vor allem für Stabilität und Skalierung wichtig ist.
+\end{enumerate}
+
+\section*{6. Fehlende Komponente erkennen}
+Ein Team hat eine Webanwendung mit Frontend, API und Datenbank gebaut.
+Bei hoher Last wird die Anwendung langsam, und Fehler werden oft erst von Benutzenden gemeldet.
+
+\begin{enumerate}
+  \item Welche \textbf{zwei} Komponentenkategorien fehlen offensichtlich oder sind zu schwach ausgeprägt?
+  \item Begründen Sie Ihre Antwort.
+  \item Welche Probleme könnten dadurch im Betrieb entstehen?
+\end{enumerate}
+
+\section*{7. Mini-Entwurf}
+Entwerfen Sie für einen einfachen Online-Shop eine grobe Komponentenübersicht.
+
+Funktionen:
+\begin{itemize}
+  \item Login
+  \item Produkte anzeigen
+  \item Bestellung auslösen
+  \item Benachrichtigung nach Bestellung
+  \item Betrieb mit vielen Benutzeranfragen
+\end{itemize}
+
+\begin{enumerate}
+  \item Nennen Sie mindestens \textbf{vier} passende Komponentenkategorien.
+  \item Beschreiben Sie kurz die Aufgabe jeder gewählten Kategorie.
+  \item Welche Kategorie wäre für die Benachrichtigung nach einer Bestellung besonders passend?
+\end{enumerate}
+
+\section*{8. Reflexion}
+Beantworten Sie die Fragen kurz.
+
+\begin{enumerate}
+  \item Warum ist es problematisch, wenn eine einzelne Komponente zu viele Verantwortungen übernimmt?
+  \item Warum bedeutet \glqq mehr Komponenten\grqq{} nicht automatisch \glqq bessere Architektur\grqq{}?
+  \item Was ist bei der Auswahl von Systemkomponenten wichtiger als ein moderner Technologietrend?
+\end{enumerate}
+
+\end{document}

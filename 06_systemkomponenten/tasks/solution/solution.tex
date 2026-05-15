@@ -1,0 +1,125 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\term}[1]{\fcolorbox{black!20}{blue!6}{\strut #1}}
+\newcommand{\solution}[1]{\textcolor{black}{#1}}
+
+\title{\textbf{Lösungsblatt: Kategorien von Systemkomponenten}}
+\author{Modul 321 -- Lektion 06}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\fcolorbox{blue!40}{blue!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Hinweis:} Dieses Lösungsblatt enthält Musterlösungen und einen möglichen
+    Erwartungshorizont. Andere Antworten sind korrekt, wenn sie fachlich sauber
+    begründet sind und die Rollen der Komponenten nachvollziehbar eingeordnet werden.
+  }
+}
+
+\section*{1. Begriffe erklären}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.30\linewidth}|>{\raggedright\arraybackslash}p{0.62\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Mögliche Lösung} \\
+\hline
+\term{Identitätsverwaltung} &
+\solution{Die Identitätsverwaltung kümmert sich um Benutzeridentitäten, Anmeldung, Rollen und Berechtigungen. Sie prüft also, wer eine Person ist und worauf sie zugreifen darf.} \\ \hline
+\term{Ereignisverwaltung} &
+\solution{Ereignisverwaltung verarbeitet oder verteilt Meldungen über eingetretene Zustandsänderungen. Dadurch können mehrere Teile eines Systems auf ein Ereignis reagieren.} \\ \hline
+\term{Monitoring} &
+\solution{Monitoring beobachtet den Zustand und das Verhalten eines Systems. Es sammelt zum Beispiel Logs, Metriken oder Fehlerraten, damit Probleme sichtbar werden.} \\ \hline
+\term{Datenhaltung} &
+\solution{Datenhaltung speichert Informationen dauerhaft und stellt sie für Lese- und Schreibzugriffe bereit. Dazu gehören zum Beispiel Datenbanken oder Dateispeicher.} \\ \hline
+\term{Lastenverteilung} &
+\solution{Lastenverteilung verteilt Anfragen oder Arbeit auf mehrere Instanzen. Dadurch kann ein System stabiler laufen und besser skalieren.} \\ \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+\begin{enumerate}
+  \item \solution{Identitätsverwaltung}
+  \item \solution{Ereignisverwaltung}
+  \item \solution{Monitoring}
+  \item \solution{Datenhaltung}
+  \item \solution{Lastenverteilung}
+  \item \solution{Identitätsverwaltung}
+\end{enumerate}
+
+\section*{3. Komponenten vergleichen}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Monitoring} & \textbf{Datenhaltung} \\
+\hline
+Welches Hauptziel hat die Komponente? & \solution{Systemzustand beobachten und Probleme sichtbar machen} & \solution{Daten dauerhaft speichern und verfügbar halten} \\ \hline
+Welche typischen Informationen verarbeitet sie? & \solution{Logs, Metriken, Fehlerraten, Antwortzeiten} & \solution{Geschäftsdaten, Benutzerdaten, Dateien, Datensätze} \\ \hline
+Was wäre ein typischer Fehlerfall? & \solution{Alarme fehlen oder Fehler bleiben unbemerkt} & \solution{Datenverlust, inkonsistente oder nicht verfügbare Daten} \\ \hline
+\end{tabularx}
+
+\vspace{1em}
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Identitätsverwaltung} & \textbf{Lastenverteilung} \\
+\hline
+Welche Kernaufgabe hat die Komponente? & \solution{Authentisierung und Autorisierung} & \solution{Anfragen auf mehrere Instanzen verteilen} \\ \hline
+Welche Probleme löst sie typischerweise? & \solution{Wer darf zugreifen, zentrale Rechteverwaltung, sichere Anmeldung} & \solution{Überlastung einzelner Instanzen, bessere Skalierung, Ausfallschutz} \\ \hline
+Warum sollte man sie nicht verwechseln? & \solution{Weil Sicherheit und Zugriffssteuerung eine andere Verantwortung sind als Betriebs- und Lastverteilung.} & \solution{Weil ein Load Balancer keine Benutzerrechte prüft und ein Login-System keine Last verteilt.} \\ \hline
+\end{tabularx}
+
+\section*{4. Aussagen beurteilen}
+\begin{enumerate}
+  \item \solution{Falsch. Monitoring sammelt vor allem Betriebsinformationen, nicht primär Geschäftsdaten.}
+  \item \solution{Richtig. Eine zentrale Identitätsverwaltung kann von mehreren Anwendungen gemeinsam verwendet werden.}
+  \item \solution{Richtig. Lastenverteilung hilft, Anfragen auf mehrere Instanzen zu verteilen und damit Skalierung zu unterstützen.}
+  \item \solution{Falsch. Auch in eventbasierten Systemen müssen Daten weiterhin gespeichert werden.}
+  \item \solution{Richtig. Eine Datenbank speichert Daten, entscheidet aber nicht automatisch sauber über Rollen und Berechtigungen.}
+\end{enumerate}
+
+\section*{5. Lernplattform analysieren}
+\begin{enumerate}
+  \item \solution{Anmelden: Identitätsverwaltung. Dateien speichern: Datenhaltung. Andere Teile informieren: Ereignisverwaltung. Ausfälle sichtbar machen: Monitoring. Viele Zugriffe abfangen: Lastenverteilung.}
+  \item \solution{Besonders sensibel ist die Identitätsverwaltung, weil dort Anmeldung und Berechtigungen geregelt werden.}
+  \item \solution{Für Stabilität und Skalierung ist besonders die Lastenverteilung wichtig.}
+\end{enumerate}
+
+\section*{6. Fehlende Komponente erkennen}
+\begin{enumerate}
+  \item \solution{Monitoring und Lastenverteilung.}
+  \item \solution{Monitoring fehlt, weil Fehler erst von Benutzenden gemeldet werden. Lastenverteilung fehlt oder ist zu schwach, weil das System bei hoher Last langsam wird.}
+  \item \solution{Mögliche Folgen sind schlechte Reaktionszeiten, Ausfälle, schwer erkennbare Fehler und verspätete Problemanalyse.}
+\end{enumerate}
+
+\section*{7. Mini-Entwurf}
+\begin{enumerate}
+  \item \solution{Mögliche Kategorien: Identitätsverwaltung, Datenhaltung, Ereignisverwaltung, Lastenverteilung, Monitoring.}
+  \item \solution{Identitätsverwaltung für Login und Rechte. Datenhaltung für Produkte, Bestellungen und Kundendaten. Ereignisverwaltung für Meldungen wie \glqq Bestellung erstellt\grqq{}. Lastenverteilung für viele gleichzeitige Anfragen. Monitoring für Logs, Fehlerraten und Reaktionszeiten.}
+  \item \solution{Für die Benachrichtigung nach einer Bestellung ist besonders die Ereignisverwaltung passend.}
+\end{enumerate}
+
+\section*{8. Reflexion}
+\begin{enumerate}
+  \item \solution{Zu viele Verantwortungen in einer Komponente erhöhen Kopplung, Komplexität und Fehlerrisiko.}
+  \item \solution{Weil zusätzliche Komponenten auch zusätzlichen Betriebs- und Abstimmungsaufwand erzeugen können.}
+  \item \solution{Wichtiger ist, welche fachliche oder technische Verantwortung im konkreten System wirklich gebraucht wird.}
+\end{enumerate}
+
+\section*{Didaktischer Hinweis}
+\solution{Die Lernenden sollen verstehen, dass Systemkomponenten nicht primär nach Produktnamen, sondern nach Verantwortung eingeordnet werden. Entscheidend ist, welche Aufgabe im System gelöst werden soll und wie diese Aufgabe sinnvoll abgegrenzt wird.}
+
+\end{document}

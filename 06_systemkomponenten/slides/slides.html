@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Modul 321 - Lektion 06</title>
+
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/black.css" />
+    <link rel="stylesheet" href="./plugin/highlight/monokai.css" />
+
+    <style>
+        :root {
+            --accent: #4cc9f0;
+            --accent-2: #ffd166;
+            --panel: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.22);
+            --danger: #ff6b6b;
+            --ok: #7bd88f;
+        }
+
+        .inline-code {
+            font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
+            display: inline-block;
+            background-color: #2d2d2d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 75%;
+        }
+
+        .reveal p,
+        .reveal li {
+            line-height: 1.35;
+        }
+
+        .reveal table td,
+        .reveal table th {
+            font-size: 0.67em;
+        }
+
+        .small {
+            font-size: 0.7em;
+        }
+
+        .muted {
+            color: #bbbbbb;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--panel);
+            text-align: left;
+            font-size: 80%;
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .compare td,
+        .compare th {
+            border: 1px solid var(--border);
+            padding: 10px;
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            align-items: stretch;
+            margin-top: 24px;
+            font-size: 0.62em;
+        }
+
+        .flow .box {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 12px;
+            background: var(--panel);
+        }
+
+        .callout {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-left: 4px solid var(--accent);
+            background: rgba(76, 201, 240, 0.12);
+            text-align: left;
+            font-size: 0.72em;
+        }
+
+        .callout>* {
+            margin: 0 !important;
+        }
+
+        .ok {
+            color: var(--ok);
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Modul 321</h2>
+                <hr />
+                <h3>Lektion 06: Kategorien von Systemkomponenten</h3>
+                <p>Typische Bausteine verteilter Systeme erkennen und fachlich einordnen</p>
+                <img style="width: 180px" src="./assets/img/dist-systems.png" alt="Modul Icon" />
+            </section>
+
+            <section>
+                <h2>Lernziele</h2>
+                <ul>
+                    <li>Ich kann wichtige Kategorien von Systemkomponenten benennen.</li>
+                    <li>Ich kann erklären, was Identitätsverwaltung, Ereignisverwaltung, Monitoring, Datenhaltung und Lastenverteilung sind.</li>
+                    <li>Ich kann Systemkomponenten zuordnen.</li>
+                    <li>Ich kann begründen, warum nicht jede Komponente dieselbe Verantwortung haben darf.</li>
+                    <li>Ich kann für einfache Szenarien passende Systemkomponenten auswählen.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Was sind Systemkomponenten?</h2>
+                <div class="callout">
+                    <p>Systemkomponenten sind Bausteine eines Softwaresystems mit klarer technischer oder fachlicher Verantwortung.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Warum trennen?</h3>
+                        <ul>
+                            <li>Verantwortungen werden klarer.</li>
+                            <li>Wartung und Austausch werden einfacher.</li>
+                            <li>Probleme lassen sich gezielter eingrenzen.</li>
+                            <li>Betrieb und Skalierung werden planbarer.</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Wichtig</h3>
+                        <ul>
+                            <li>Eine Komponente ist nicht einfach nur ein Server.</li>
+                            <li>Sie übernimmt eine bestimmte Aufgabe im System.</li>
+                            <li>Mehrere Komponenten arbeiten zusammen.</li>
+                            <li>Klare Rollen reduzieren unnötige Kopplung.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Fünf wichtige Kategorien</h2>
+                <div class="flow">
+                    <div class="box"><strong>Identitätsverwaltung</strong><br />Wer darf was?</div>
+                    <div class="box"><strong>Ereignisverwaltung</strong><br />Was ist passiert?</div>
+                    <div class="box"><strong>Monitoring</strong><br />Wie gesund läuft das System?</div>
+                    <div class="box"><strong>Datenhaltung</strong><br />Wo liegen Daten dauerhaft?</div>
+                    <div class="box"><strong>Lastenverteilung</strong><br />Wie werden Anfragen verteilt?</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Identitätsverwaltung</h2>
+                <div class="callout">
+                    <p>Die Identitätsverwaltung kümmert sich um Benutzer, Anmeldung, Rollen und Zugriffsrechte.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Typische Aufgaben</h3>
+                        <ul>
+                            <li>Login und Logout</li>
+                            <li>Passwortverwaltung</li>
+                            <li>Rollen und Berechtigungen</li>
+                            <li>Token oder Sessions ausstellen</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Warum separat?</h3>
+                        <ul>
+                            <li>Sicherheitslogik ist sensibel.</li>
+                            <li>Mehrere Anwendungen können dieselbe Anmeldung nutzen.</li>
+                            <li>Rechte sollen zentral verwaltet werden.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Ereignisverwaltung</h2>
+                <div class="callout">
+                    <p>Ereignisverwaltung verarbeitet oder verteilt Meldungen über eingetretene Zustandsänderungen im System.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Typische Beispiele</h3>
+                        <ul>
+                            <li>Bestellung wurde erstellt</li>
+                            <li>Zahlung ist eingegangen</li>
+                            <li>Datei wurde hochgeladen</li>
+                            <li>Benutzer wurde registriert</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Nutzen</h3>
+                        <ul>
+                            <li>Komponenten werden loser gekoppelt.</li>
+                            <li>Mehrere Empfänger können auf ein Ereignis reagieren.</li>
+                            <li>Asynchrone Verarbeitung wird einfacher.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Monitoring</h2>
+                <div class="panel">
+                    <h3>Aufgabe</h3>
+                    <ul>
+                        <li>Zustand und Verhalten des Systems beobachten</li>
+                        <li>Fehler, Ausfälle und Engpässe sichtbar machen</li>
+                        <li>Alarme und Trends erkennen</li>
+                    </ul>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Typische Signale</h3>
+                        <ul>
+                            <li>Logs</li>
+                            <li>Metriken</li>
+                            <li>Fehlerraten</li>
+                            <li>Antwortzeiten</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Praxisnutzen</h3>
+                        <ul>
+                            <li>Probleme werden schneller erkannt.</li>
+                            <li>Fehler lassen sich besser eingrenzen.</li>
+                            <li>Betrieb wird messbar statt gefühlt.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Datenhaltung</h2>
+                <div class="callout">
+                    <p>Datenhaltung sorgt dafür, dass Informationen dauerhaft gespeichert, gelesen und konsistent verwaltet werden können.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Typische Formen</h3>
+                        <ul>
+                            <li>Relationale Datenbank</li>
+                            <li>Dokumentdatenbank</li>
+                            <li>Dateispeicher</li>
+                            <li>Cache als Ergänzung</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Fragen dazu</h3>
+                        <ul>
+                            <li>Welche Daten müssen dauerhaft bleiben?</li>
+                            <li>Wie wichtig ist Konsistenz?</li>
+                            <li>Wie schnell muss gelesen werden?</li>
+                            <li>Wer darf welche Daten verändern?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Lastenverteilung</h2>
+                <div class="callout">
+                    <p>Lastenverteilung verteilt Anfragen oder Arbeit auf mehrere Instanzen, damit das System stabil und schnell bleibt.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Typische Aufgaben</h3>
+                        <ul>
+                            <li>Anfragen auf mehrere Server verteilen</li>
+                            <li>Ausfälle einzelner Instanzen abfedern</li>
+                            <li>Skalierung erleichtern</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Wichtige Punkte</h3>
+                        <ul>
+                            <li>Health Checks</li>
+                            <li>Verteilung nach Regeln</li>
+                            <li>Keine einzelne Instanz überlasten</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Zusammenspiel im System</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Komponente</th>
+                            <th>Frage, die sie beantwortet</th>
+                            <th>Beispiel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Identitätsverwaltung</td>
+                            <td>Wer ist angemeldet und was darf diese Person?</td>
+                            <td>Login mit Rollen</td>
+                        </tr>
+                        <tr>
+                            <td>Ereignisverwaltung</td>
+                            <td>Welche Zustandsänderung wurde ausgelöst?</td>
+                            <td>Bestellung erstellt</td>
+                        </tr>
+                        <tr>
+                            <td>Monitoring</td>
+                            <td>Läuft das System gesund und schnell?</td>
+                            <td>Fehlerrate steigt</td>
+                        </tr>
+                        <tr>
+                            <td>Datenhaltung</td>
+                            <td>Wo werden Informationen dauerhaft gespeichert?</td>
+                            <td>Kundendatenbank</td>
+                        </tr>
+                        <tr>
+                            <td>Lastenverteilung</td>
+                            <td>Wie werden Anfragen sinnvoll verteilt?</td>
+                            <td>Load Balancer vor Webservern</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Beispiel: Lernplattform</h2>
+                <div class="grid-3">
+                    <div class="panel">
+                        <h3>Frontend / API</h3>
+                        <ul>
+                            <li>nimmt Anfragen an</li>
+                            <li>zeigt Kurse und Dateien</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Weitere Komponenten</h3>
+                        <ul>
+                            <li>Login-Service</li>
+                            <li>Datenbank</li>
+                            <li>Monitoring</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Betrieb</h3>
+                        <ul>
+                            <li>Load Balancer davor</li>
+                            <li>Ereignisse bei Uploads</li>
+                            <li>Alarme bei Fehlern</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="small muted">Eine reale Anwendung kombiniert oft mehrere dieser Komponenten gleichzeitig.</p>
+            </section>
+
+            <section>
+                <h2>Typische Fehlannahmen</h2>
+                <ul>
+                    <li>Eine Datenbank ersetzt kein Monitoring.</li>
+                    <li>Ein Login-Modul ist nicht automatisch eine vollständige Identitätsverwaltung.</li>
+                    <li>Ein Event bedeutet nicht, dass Datenhaltung unwichtig wird.</li>
+                    <li>Lastenverteilung löst keine fachlichen Fehler.</li>
+                    <li>Mehr Komponenten sind nicht automatisch besser.</li>
+                </ul>
+                <div class="callout">
+                    Gute Architektur trennt Verantwortungen, ohne unnötig viele Bausteine zu erzeugen.
+                </div>
+            </section>
+
+            <section>
+                <h2>Merksätze</h2>
+                <ul>
+                    <li>Systemkomponenten haben klar unterscheidbare Aufgaben.</li>
+                    <li>Identität, Ereignisse, Beobachtung, Speicherung und Lastverteilung sind verschiedene Verantwortungen.</li>
+                    <li>Ein System wird verständlicher, wenn diese Verantwortungen sauber benannt und eingeordnet werden.</li>
+                    <li>Die passende Auswahl von Komponenten hängt vom konkreten System ab.</li>
+                </ul>
+                <p class="ok">Wichtiger Praxispunkt: erst Verantwortung klären, dann Technik auswählen.</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+
+</html>

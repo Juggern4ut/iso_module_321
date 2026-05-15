@@ -1,0 +1,170 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+
+\title{Praktische Übung: Systemkomponenten für eine Webanwendung auswählen}
+\author{Modul 321}
+\date{\today}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Ziel der Übung}
+
+In dieser Übung plant ihr für eine einfache Webanwendung passende
+\textbf{Systemkomponenten}. Ziel ist nicht eine vollständige Produktentwicklung,
+sondern das saubere Einordnen technischer Verantwortungen.
+
+\section*{Ausgangslage}
+
+Ihr entwickelt eine kleine Lernplattform mit diesen Anforderungen:
+
+\begin{itemize}
+\item Benutzer melden sich an
+\item Kurse werden angezeigt
+\item Dateien können hochgeladen werden
+\item Nach einem Upload sollen andere Teile informiert werden
+\item Das System soll bei vielen Anfragen stabil bleiben
+\item Fehler und Ausfälle sollen sichtbar sein
+\end{itemize}
+
+\section*{Aufgabe}
+
+Entwerft eine einfache Architektur mit passenden Systemkomponenten.
+
+Mindestens diese Kategorien sollen vorkommen:
+
+\begin{itemize}
+\item \textbf{Identitätsverwaltung}
+\item \textbf{Ereignisverwaltung}
+\item \textbf{Monitoring}
+\item \textbf{Datenhaltung}
+\item \textbf{Lastenverteilung}
+\end{itemize}
+
+\section*{Variante A: Skizze ohne Code}
+
+Erstellt ein Diagramm oder ein Dokument mit:
+
+\begin{itemize}
+\item Frontend
+\item Backend / API
+\item den gewählten Systemkomponenten
+\item kurzen Pfeilen oder Beschriftungen, wie die Teile zusammenarbeiten
+\end{itemize}
+
+\section*{Variante B: Kleine technische Demo}
+
+Erstellt eine einfache Ordner- oder Codestruktur, zum Beispiel:
+
+\begin{lstlisting}
+system-components-demo/
+|
+|-- auth/
+|   `-- login.js
+|
+|-- events/
+|   `-- event-bus.js
+|
+|-- monitoring/
+|   `-- logger.js
+|
+|-- data/
+|   `-- repository.js
+|
+|-- loadbalancer/
+|   `-- router.js
+|
+`-- app.js
+\end{lstlisting}
+
+Die Dateien dürfen sehr klein bleiben. Es reicht, wenn klar wird, welche
+Verantwortung jede Komponente hat.
+
+\section*{Arbeitsaufträge}
+
+\subsection*{Aufgabe 1: Komponenten benennen}
+Nennen Sie zu jeder der fünf Kategorien:
+\begin{enumerate}
+\item die Aufgabe der Komponente
+\item ein Beispiel aus der Lernplattform
+\item warum diese Aufgabe nicht einfach in einer beliebigen anderen Komponente liegen sollte
+\end{enumerate}
+
+\subsection*{Aufgabe 2: Systemfluss beschreiben}
+Beschreiben Sie kurz einen möglichen Ablauf:
+
+\begin{enumerate}
+\item Benutzer meldet sich an
+\item Datei wird hochgeladen
+\item ein Ereignis wird ausgelöst
+\item das System protokolliert den Vorgang
+\end{enumerate}
+
+\subsection*{Aufgabe 3: Last und Betrieb}
+Beschreiben Sie:
+\begin{itemize}
+\item wie Lastenverteilung helfen würde
+\item wie Monitoring helfen würde
+\item welche Probleme ohne diese Komponenten entstehen könnten
+\end{itemize}
+
+\subsection*{Aufgabe 4: Risiken bei falscher Zuordnung}
+Beantworten Sie:
+\begin{itemize}
+\item Was wäre problematisch, wenn Login-Logik direkt überall im Code verteilt wäre?
+\item Was wäre problematisch, wenn es keine Ereignisverwaltung gäbe?
+\item Was wäre problematisch, wenn Monitoring fehlt?
+\end{itemize}
+
+\subsection*{Aufgabe 5: Minimalarchitektur}
+Zeichnen oder beschreiben Sie eine einfache Zielarchitektur in 5 bis 8 Schritten.
+
+\section*{Abgabe}
+
+Die Abgabe soll enthalten:
+
+\begin{itemize}
+\item kurze Beschreibung der Anwendung
+\item Übersicht über die gewählten Komponenten
+\item Skizze, Diagramm oder kleine Code-Demo
+\item kurze Begründung der Rollen der Komponenten
+\item kurze Reflexion über Risiken oder fehlende Teile
+\end{itemize}
+
+\section*{Reflexionsfragen}
+
+\begin{enumerate}
+\item Welche Komponente wäre aus Ihrer Sicht am sicherheitskritischsten?
+\item Welche Komponente wäre für Betrieb und Stabilität besonders wichtig?
+\item Welche Komponente hilft, das System später leichter zu erweitern?
+\item Wo wäre zu viel Komplexität für ein kleines Projekt eher unnötig?
+\end{enumerate}
+
+\section*{Bewertung}
+
+\begin{itemize}
+\item Kategorien sind korrekt erkannt
+\item Aufgaben der Komponenten sind nachvollziehbar beschrieben
+\item Zusammenspiel der Komponenten ist verständlich
+\item Risiken oder Fehlannahmen werden erkannt
+\item Die Lösung bleibt einfach und trotzdem fachlich sauber
+\end{itemize}
+
+\end{document}
