@@ -1,0 +1,141 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\term}[1]{\fcolorbox{black!20}{teal!8}{\strut #1}}
+\newcommand{\solution}[1]{\textcolor{black}{#1}}
+
+\title{\textbf{Lösungsblatt: Protokolle und Schnittstellen}}
+\author{Modul 321 -- Lektion 08}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\fcolorbox{teal!40}{teal!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Hinweis:} Dieses Lösungsblatt enthält Musterlösungen und einen möglichen
+    Erwartungshorizont. Andere Antworten sind korrekt, wenn sie fachlich sauber
+    begründet sind und die Rollen der Protokolle und Schnittstellen nachvollziehbar eingeordnet werden.
+  }
+}
+
+\section*{1. Begriffe erklären}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Mögliche Lösung} \\
+\hline
+\term{TCP} &
+\solution{TCP ist ein verbindungsorientiertes Transportprotokoll, das eine zuverlässige und geordnete Datenübertragung garantiert. Verlorene Pakete werden automatisch wiederholt.} \\ \hline
+\term{HTTP} &
+\solution{HTTP ist ein Protokoll für den Austausch von Nachrichten zwischen Client und Server. Es baut auf TCP auf und verwendet Anfragen mit Methoden wie GET oder POST sowie Antwort-Status-Codes.} \\ \hline
+\term{REST} &
+\solution{REST ist ein Architekturstil für APIs, der HTTP-Methoden und Ressourcen-URLs nutzt. Jede Anfrage ist unabhängig (stateless), und Daten werden meist als JSON übertragen.} \\ \hline
+\term{GraphQL} &
+\solution{GraphQL ist eine Abfragesprache für APIs, bei der der Client genau angibt, welche Daten er benötigt. Alle Anfragen laufen über einen einzigen Endpunkt.} \\ \hline
+\term{gRPC} &
+\solution{gRPC ist ein Framework für schnelle, typsichere Kommunikation zwischen Diensten. Es verwendet das binäre Protobuf-Format und setzt auf HTTP/2.} \\ \hline
+\term{WebSocket} &
+\solution{WebSockets ermöglichen eine dauerhafte, bidirektionale Verbindung zwischen Client und Server. Beide Seiten können jederzeit Nachrichten senden, ohne erneuten Verbindungsaufbau.} \\ \hline
+\term{Gateway} &
+\solution{Ein API-Gateway ist ein einzelner Eintrittspunkt für alle Anfragen. Es übernimmt Aufgaben wie Authentifizierung, Routing und Rate Limiting zentral.} \\ \hline
+\term{Proxy} &
+\solution{Ein Proxy ist ein Vermittler im Netzwerk. Ein Forward Proxy steht vor dem Client und leitet dessen Anfragen weiter; ein Reverse Proxy steht vor dem Server und nimmt Anfragen entgegen.} \\ \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+\begin{enumerate}
+  \item \solution{REST}
+  \item \solution{gRPC}
+  \item \solution{WebSocket}
+  \item \solution{GraphQL}
+  \item \solution{Gateway}
+  \item \solution{TCP}
+  \item \solution{Proxy (Forward Proxy)}
+  \item \solution{HTTP}
+\end{enumerate}
+
+\section*{3. Protokolle und Schnittstellen vergleichen}
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.30\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{REST} & \textbf{GraphQL} \\
+\hline
+Wie viele Endpunkte typischerweise? & \solution{Viele, je eine URL pro Ressource (z.\,B. \texttt{/users}, \texttt{/orders})} & \solution{Ein einziger Endpunkt (\texttt{/graphql})} \\ \hline
+Wer bestimmt die Datenstruktur? & \solution{Der Server – er liefert eine feste Antwortstruktur} & \solution{Der Client – er formuliert die Query selbst} \\ \hline
+Geeignetes Szenario? & \solution{Öffentliche API, einfache CRUD-Operationen} & \solution{Mobile Apps, wechselnde Datenanforderungen} \\ \hline
+\end{tabularx}
+
+\vspace{1em}
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.30\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Gateway} & \textbf{Reverse Proxy} \\
+\hline
+Hauptaufgabe? & \solution{Einheitlicher Zugangspunkt, Routing zu internen Diensten, Sicherheitslogik zentral} & \solution{Anfragen vor dem Server entgegennehmen, weiterleiten, SSL und Caching übernehmen} \\ \hline
+Was vereinfacht es? & \solution{Clients müssen nur eine Adresse kennen; Sicherheit und Routing sind zentral geregelt} & \solution{Server werden nach aussen verborgen; SSL und Lastverteilung müssen nicht pro Dienst eingerichtet werden} \\ \hline
+Warum nicht verwechseln? & \solution{Ein Gateway ist fachlich-orientiert und kennt Dienste; ein Reverse Proxy ist technisch und leitet transparent weiter} & \solution{Gleiches Argument: Aufgaben überschneiden sich, aber die Verantwortung ist eine andere} \\ \hline
+\end{tabularx}
+
+\section*{4. Aussagen beurteilen}
+\begin{enumerate}
+  \item \solution{Falsch. HTTP ist ein Transportprotokoll; REST ist ein Architekturstil, der HTTP nutzt. REST setzt HTTP voraus, ist aber nicht identisch damit.}
+  \item \solution{Falsch. GraphQL verwendet genau einen Endpunkt. Der Client steuert über Queries, welche Daten zurückgeliefert werden.}
+  \item \solution{Falsch. gRPC ist in vielen Szenarien schneller, aber nicht grundsätzlich. Bei einfachen Anfragen oder öffentlichen APIs kann REST besser passen.}
+  \item \solution{Richtig. Ein API-Gateway kann Authentifizierungslogik zentral übernehmen, damit einzelne Dienste diese nicht selbst implementieren müssen.}
+  \item \solution{Falsch. WebSockets sind für dauerhafte, bidirektionale Kommunikation ausgelegt. Für einmalige Leseanfragen ist REST oder HTTP einfacher und ausreichend.}
+  \item \solution{Richtig. TCP garantiert, dass Pakete geordnet und vollständig ankommen; verlorene Pakete werden wiederholt gesendet.}
+\end{enumerate}
+
+\section*{5. Szenarien analysieren}
+\begin{enumerate}
+  \item \solution{REST. Öffentliche APIs mit klaren Ressourcen und CRUD-Operationen sind der klassische Anwendungsfall für REST.}
+  \item \solution{GraphQL. Eine mobile App, die je nach Ansicht unterschiedliche Datenmengen braucht, profitiert davon, dass der Client die Datenstruktur selbst bestimmt.}
+  \item \solution{gRPC. Interne Microservice-Kommunikation profitiert von der Performance und Typsicherheit, die gRPC mit Protobuf bietet.}
+  \item \solution{WebSocket. Eine kollaborative Anwendung braucht dauerhaften, bidirektionalen Datenaustausch in Echtzeit.}
+  \item \solution{Gateway. Ein API-Gateway übernimmt den einheitlichen Zugangspunkt und steuert das Routing zu den verschiedenen Diensten.}
+\end{enumerate}
+
+\section*{6. Schnittstellen einordnen}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.18\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Stil} & \textbf{Datenformat} & \textbf{Kommunikationsmuster} & \textbf{Typischer Einsatz} \\
+\hline
+REST & \solution{JSON} & \solution{Request / Response} & \solution{Web-APIs, öffentliche Schnittstellen} \\ \hline
+GraphQL & \solution{JSON} & \solution{Request / Response (flexible Query)} & \solution{Mobile Apps, Aggregation von Daten} \\ \hline
+gRPC & \solution{Protobuf (binär)} & \solution{Streaming möglich, Request / Response} & \solution{Interne Microservices} \\ \hline
+WebSocket & \solution{Beliebig (Text, Binär)} & \solution{Bidirektional, dauerhafte Verbindung} & \solution{Chat, Live-Daten, Echtzeit} \\ \hline
+\end{tabularx}
+
+\section*{7. Mini-Entwurf}
+\begin{enumerate}
+  \item \solution{Mögliche Wahl: REST für Benutzeranmeldung und Bestellverwaltung, GraphQL für die mobile App, gRPC für interne Dienste (Lager, Bezahlung, Versand), WebSocket für Live-Updates der Fahrer, Gateway als einheitlicher Zugangspunkt.}
+  \item \solution{REST ist für Benutzeranmeldung und Bestellungen ausreichend einfach. GraphQL vermeidet unnötigen Datentransfer auf Mobilgeräten. gRPC bietet die nötige Performance zwischen internen Diensten. WebSockets sind nötig, weil Fahrer sofort reagieren müssen. Das Gateway verbirgt die interne Komplexität vor externen Clients.}
+  \item \solution{Der Zugang von aussen wird durch das API-Gateway gesteuert.}
+\end{enumerate}
+
+\section*{8. Reflexion}
+\begin{enumerate}
+  \item \solution{Klar definierte Schnittstellen erlauben es verschiedenen Teams, unabhängig voneinander zu arbeiten. Änderungen können beherrschbar durchgeführt werden, ohne alle Clients gleichzeitig anpassen zu müssen.}
+  \item \solution{Komplexere Technologien bringen auch mehr Betriebsaufwand, Lernkurve und Fehlerquellen mit sich. Oft reicht ein einfacherer Ansatz vollständig aus.}
+  \item \solution{Ein Protokoll legt technische Regeln für den Datentransport fest. Ein Architekturstil wie REST beschreibt, wie man eine Schnittstelle strukturiert und nutzt, und setzt typischerweise ein Protokoll wie HTTP voraus.}
+\end{enumerate}
+
+\section*{Didaktischer Hinweis}
+\solution{Die Lernenden sollen verstehen, dass Protokolle und Schnittstellenstile unterschiedliche Abstraktionsebenen adressieren. Zentral ist die Fähigkeit, für ein gegebenes Kommunikationsmuster (z.\,B. Echtzeit, CRUD, interne Effizienz) den passenden Stil zu begründen – nicht die Kenntnis aller technischen Details jeder Technologie.}
+
+\end{document}

@@ -1,0 +1,166 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.35}
+
+\newcommand{\answerline}[1]{\rule{#1}{0.4pt}}
+\newcommand{\term}[1]{\fcolorbox{black!20}{teal!8}{\strut #1}}
+
+\title{\textbf{Aufgabenblatt: Protokolle und Schnittstellen}}
+\author{Modul 321 -- Lektion 08}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Name:} \answerline{7cm} \hfill \textbf{Datum:} \answerline{3.5cm}
+
+\vspace{0.8em}
+
+\fcolorbox{teal!40}{teal!6}{
+  \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule-6pt\relax}{
+    \textbf{Ziel der Lektion:} Sie können wichtige Protokolle und Schnittstellenstile
+    benennen, deren Aufgaben erklären und für einfache Szenarien sinnvoll auswählen.
+  }
+}
+
+\section*{Hinweise}
+\begin{itemize}
+  \item Antworten Sie in ganzen Sätzen oder präzisen Stichworten.
+  \item Begründen Sie Zuordnungen kurz und fachlich sauber.
+  \item Skizzen und kleine Übersichten sind erlaubt.
+\end{itemize}
+
+\section*{1. Begriffe erklären}
+Erklären Sie die folgenden Begriffe in \textbf{1 bis 3 eigenen Sätzen}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.28\linewidth}|>{\raggedright\arraybackslash}p{0.64\linewidth}|}
+\hline
+\textbf{Begriff} & \textbf{Ihre Erklärung} \\
+\hline
+\term{TCP} & \\[2.1cm] \hline
+\term{HTTP} & \\[2.1cm] \hline
+\term{REST} & \\[2.1cm] \hline
+\term{GraphQL} & \\[2.1cm] \hline
+\term{gRPC} & \\[2.1cm] \hline
+\term{WebSocket} & \\[2.1cm] \hline
+\term{Gateway} & \\[2.1cm] \hline
+\term{Proxy} & \\[2.1cm] \hline
+\end{longtable}
+
+\section*{2. Beispiele zuordnen}
+Ordnen Sie jedem Beispiel den passendsten Begriff zu:
+
+\term{TCP}, \term{HTTP}, \term{REST}, \term{GraphQL},
+\term{gRPC}, \term{WebSocket}, \term{Gateway}, \term{Proxy}
+
+\begin{enumerate}
+  \item Ein Client sendet eine \texttt{GET}-Anfrage an \texttt{/api/products/5} und erhält JSON zurück.
+  \item Zwei Microservices tauschen intern binär kodierte Nachrichten mit automatisch generiertem Code aus.
+  \item Eine Chat-Anwendung empfängt neue Nachrichten sofort, ohne die Seite neu zu laden.
+  \item Ein Client sendet eine Anfrage und fragt gezielt nur nach Name und E-Mail, nicht nach allen Feldern.
+  \item Alle Anfragen laufen über einen einzigen Eintrittspunkt, der Authentifizierung und Routing übernimmt.
+  \item Verlorene Datenpakete werden automatisch erneut gesendet, bis sie ankommen.
+  \item Ein Webserver im Firmen-Netzwerk leitet Anfragen der Mitarbeitenden ans Internet weiter.
+  \item Eine Antwort enthält den Status-Code \texttt{404 Not Found}.
+\end{enumerate}
+
+\section*{3. Protokolle und Schnittstellen vergleichen}
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.30\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{REST} & \textbf{GraphQL} \\
+\hline
+Wie viele Endpunkte hat die Schnittstelle typischerweise? & & \\[1.1cm] \hline
+Wer bestimmt die Struktur der zurückgegebenen Daten? & & \\[1.1cm] \hline
+In welchem Szenario ist dieser Stil besonders geeignet? & & \\[1.1cm] \hline
+\end{tabularx}
+
+\vspace{1em}
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.30\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Frage} & \textbf{Gateway} & \textbf{Reverse Proxy} \\
+\hline
+Welche Hauptaufgabe hat diese Komponente? & & \\[1.1cm] \hline
+Was macht sie für das System einfacher? & & \\[1.1cm] \hline
+Warum sollte man beide nicht verwechseln? & & \\[1.1cm] \hline
+\end{tabularx}
+
+\section*{4. Aussagen beurteilen}
+Beantworten Sie mit \textbf{richtig / falsch} und begründen Sie kurz.
+
+\begin{enumerate}
+  \item REST und HTTP sind dasselbe.
+  \item GraphQL verwendet für jede Ressource einen eigenen Endpunkt.
+  \item gRPC ist immer schneller als REST, unabhängig vom Anwendungsfall.
+  \item Ein API-Gateway kann Authentifizierung zentral übernehmen.
+  \item WebSockets eignen sich besonders gut für einfache einmalige Leseanfragen.
+  \item TCP garantiert, dass Pakete in der richtigen Reihenfolge ankommen.
+\end{enumerate}
+
+\section*{5. Szenarien analysieren}
+Beschreiben Sie für jedes Szenario, welche Schnittstelle oder welches Protokoll am besten passt, und begründen Sie kurz.
+
+\begin{enumerate}
+  \item Ein Entwicklungsteam baut eine öffentliche API für einen Online-Shop. Produkte sollen gelesen, erstellt und gelöscht werden können.
+  \item Eine mobile App zeigt Benutzerprofil, Bestellungen und Empfehlungen an. Je nach Ansicht werden unterschiedliche Daten benötigt.
+  \item Zwei interne Microservices müssen sich bei jeder Bestellung gegenseitig aufrufen. Performance und Typsicherheit sind wichtig.
+  \item Eine kollaborative Textedit-Anwendung soll Änderungen sofort an alle Mitarbeitenden übermitteln.
+  \item Ein Unternehmen betreibt zehn verschiedene Backend-Dienste. Alle Clients sollen nur eine einzige Adresse kennen.
+\end{enumerate}
+
+\section*{6. Schnittstellen einordnen}
+Füllen Sie die Tabelle aus.
+
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{0.18\linewidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Stil} & \textbf{Datenformat} & \textbf{Kommunikations\-muster} & \textbf{Typischer Einsatz} \\
+\hline
+REST & & & \\[0.9cm] \hline
+GraphQL & & & \\[0.9cm] \hline
+gRPC & & & \\[0.9cm] \hline
+WebSocket & & & \\[0.9cm] \hline
+\end{tabularx}
+
+\section*{7. Mini-Entwurf}
+Entwerfen Sie für eine einfache Lieferdienst-Anwendung eine grobe Schnittstellenübersicht.
+
+Funktionen:
+\begin{itemize}
+  \item Benutzer melden sich an und verwalten ihre Bestellungen.
+  \item Eine mobile App soll genau die Daten laden, die sie gerade braucht.
+  \item Interne Dienste (Lager, Bezahlung, Versand) müssen schnell miteinander kommunizieren.
+  \item Fahrer erhalten Live-Updates zu neuen Aufträgen.
+  \item Alle externen Anfragen sollen über einen einzigen Zugangspunkt laufen.
+\end{itemize}
+
+\begin{enumerate}
+  \item Welche Schnittstellenstile oder Protokolle würden Sie einsetzen?
+  \item Begründen Sie Ihre Wahl für jeden Bereich kurz.
+  \item Welche Komponente steuert den Zugang von aussen?
+\end{enumerate}
+
+\section*{8. Reflexion}
+Beantworten Sie die Fragen kurz.
+
+\begin{enumerate}
+  \item Warum ist es wichtig, dass Schnittstellen klar definiert und dokumentiert sind?
+  \item Warum sollte man nicht immer die neueste oder komplexeste Schnittstellentechnologie wählen?
+  \item Was ist der Unterschied zwischen einem Protokoll und einem Architekturstil wie REST?
+\end{enumerate}
+
+\end{document}

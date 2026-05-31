@@ -1,0 +1,166 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+
+\title{Praktische Übung: Schnittstellen für eine Webanwendung entwerfen}
+\author{Modul 321}
+\date{\today}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Ziel der Übung}
+
+In dieser Übung entwerft und implementiert ihr Schnittstellen für eine einfache Anwendung.
+Ziel ist nicht eine vollständige Produktentwicklung, sondern das saubere Einordnen
+und Anwenden von Protokollen und Schnittstellenstilen.
+
+\section*{Ausgangslage}
+
+Ihr entwickelt eine kleine Bestell-Anwendung mit diesen Anforderungen:
+
+\begin{itemize}
+\item Benutzer melden sich an und verwalten ihre Bestellungen
+\item Eine mobile App soll nur die Daten laden, die sie aktuell braucht
+\item Interne Dienste (Lager und Bezahlung) müssen miteinander kommunizieren
+\item Benutzer sollen sofort benachrichtigt werden, wenn ihre Bestellung versendet wurde
+\item Alle externen Anfragen laufen über einen einzigen Zugangspunkt
+\end{itemize}
+
+\section*{Variante A: Konzeptioneller Entwurf}
+
+Erstellt ein Dokument oder ein Diagramm, das zeigt:
+
+\begin{itemize}
+\item Welche Schnittstellenstile für welchen Bereich eingesetzt werden
+\item Wie Client, Gateway und interne Dienste zusammenarbeiten
+\item Welche Protokolle verwendet werden
+\item Kurze Begründung für jede Wahl
+\end{itemize}
+
+\section*{Variante B: Technische Demo}
+
+Implementiert eine kleine Demo mit mindestens \textbf{zwei} der folgenden Bausteine:
+
+\begin{lstlisting}
+bestell-app/
+|
+|-- gateway/
+|   `-- index.js        # Einfaches Routing zu den Diensten
+|
+|-- api-rest/
+|   `-- bestellungen.js # REST-Endpunkte fuer Bestellungen
+|
+|-- api-graphql/
+|   `-- schema.js       # GraphQL-Schema fuer Benutzerdaten
+|
+|-- intern-grpc/
+|   `-- lager.proto     # Protobuf-Definition fuer Lagerdienst
+|
+|-- ws-live/
+|   `-- versand.js      # WebSocket fuer Versandbenachrichtigung
+|
+`-- app.js
+\end{lstlisting}
+
+Die Implementierung darf sehr einfach bleiben. Es reicht, wenn klar wird, welche
+Verantwortung jede Schnittstelle übernimmt.
+
+\section*{Arbeitsaufträge}
+
+\subsection*{Aufgabe 1: Schnittstellen benennen und begründen}
+Nennen Sie für jeden der folgenden Bereiche den passenden Schnittstellenstil:
+\begin{enumerate}
+\item Benutzer-Login und Bestellverwaltung (extern, öffentlich)
+\item Mobile App, die je nach Ansicht unterschiedliche Daten braucht
+\item Kommunikation zwischen Lager- und Bezahldienst (intern, performant)
+\item Versandbenachrichtigung in Echtzeit
+\end{enumerate}
+Begründen Sie jede Wahl in einem Satz.
+
+\subsection*{Aufgabe 2: Gateway beschreiben}
+Beschreiben Sie, was das Gateway in dieser Anwendung übernimmt:
+\begin{enumerate}
+\item Welche Anfragen leitet es wohin weiter?
+\item Welche Querschnittsaufgaben übernimmt es zentral?
+\item Was würde passieren, wenn das Gateway fehlt?
+\end{enumerate}
+
+\subsection*{Aufgabe 3: REST-Endpunkte entwerfen}
+Entwerfen Sie die wichtigsten REST-Endpunkte für die Bestellverwaltung:
+\begin{itemize}
+\item Alle Bestellungen eines Benutzers abrufen
+\item Eine neue Bestellung erstellen
+\item Eine Bestellung löschen
+\end{itemize}
+Geben Sie jeweils Methode, URL und den erwarteten Status-Code bei Erfolg an.
+
+\subsection*{Aufgabe 4: Systemfluss beschreiben}
+Beschreiben Sie kurz den Ablauf, wenn ein Benutzer eine Bestellung aufgibt:
+\begin{enumerate}
+\item Anfrage gelangt an das Gateway
+\item Authentifizierung wird geprüft
+\item Bestellung wird angelegt
+\item Lagerdienst und Bezahldienst werden intern informiert
+\item Benutzer erhält eine Benachrichtigung
+\end{enumerate}
+Welcher Schnittstellenstil wird in jedem Schritt verwendet?
+
+\subsection*{Aufgabe 5: Minimalarchitektur}
+Zeichnen oder beschreiben Sie eine einfache Zielarchitektur.
+Zeigen Sie mindestens:
+\begin{itemize}
+\item Wo das Gateway steht
+\item Welche externen Schnittstellen Clients nutzen
+\item Wie interne Dienste kommunizieren
+\item Wo WebSockets eingesetzt werden
+\end{itemize}
+
+\section*{Abgabe}
+
+Die Abgabe soll enthalten:
+
+\begin{itemize}
+\item Kurze Beschreibung der Anwendung
+\item Übersicht über die gewählten Schnittstellen und deren Begründung
+\item Skizze, Diagramm oder Code-Demo
+\item REST-Endpunkt-Entwurf aus Aufgabe 3
+\item Kurze Reflexion über Vor- und Nachteile der gewählten Stile
+\end{itemize}
+
+\section*{Reflexionsfragen}
+
+\begin{enumerate}
+\item Warum ist es sinnvoll, für interne und externe Kommunikation unterschiedliche Stile zu wählen?
+\item Was wäre problematisch, wenn die mobile App denselben Stil wie die internen Dienste nutzen würde?
+\item Wo könnte zu viel Komplexität für ein kleines Projekt eher unnötig sein?
+\item Welcher Schnittstellenstil wäre am einfachsten zu ersetzen, ohne andere Teile des Systems zu ändern?
+\end{enumerate}
+
+\section*{Bewertung}
+
+\begin{itemize}
+\item Schnittstellenstile sind korrekt erkannt und dem Anwendungsfall zugeordnet
+\item Die Begründungen sind nachvollziehbar und fachlich sauber
+\item Der Gateway-Einsatz ist verstanden und beschrieben
+\item Der REST-Entwurf ist konsistent (Methode, URL, Status-Code)
+\item Die Lösung bleibt angemessen einfach für den Umfang der Aufgabe
+\end{itemize}
+
+\end{document}

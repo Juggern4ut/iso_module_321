@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Modul 321 - Lektion 08</title>
+
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/dist/reset.css" />
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/dist/reveal.css" />
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/dist/theme/black.css" />
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/plugin/highlight/monokai.css" />
+
+    <style>
+        :root {
+            --accent: #06d6a0;
+            --accent-2: #ffd166;
+            --panel: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.22);
+            --danger: #ff6b6b;
+            --ok: #7bd88f;
+        }
+
+        .inline-code {
+            font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
+            display: inline-block;
+            background-color: #2d2d2d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 75%;
+        }
+
+        .reveal p,
+        .reveal li {
+            line-height: 1.35;
+        }
+
+        .reveal table td,
+        .reveal table th {
+            font-size: 0.67em;
+        }
+
+        .small {
+            font-size: 0.7em;
+        }
+
+        .muted {
+            color: #bbbbbb;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--panel);
+            text-align: left;
+            font-size: 80%;
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .compare td,
+        .compare th {
+            border: 1px solid var(--border);
+            padding: 10px;
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            align-items: stretch;
+            margin-top: 24px;
+            font-size: 0.62em;
+        }
+
+        .flow .box {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 12px;
+            background: var(--panel);
+        }
+
+        .callout {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-left: 4px solid var(--accent);
+            background: rgba(6, 214, 160, 0.10);
+            text-align: left;
+            font-size: 0.72em;
+        }
+
+        .callout>* {
+            margin: 0 !important;
+        }
+
+        .ok {
+            color: var(--ok);
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+
+        pre code {
+            font-size: 0.72em !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Titelfolie -->
+            <section>
+                <h2>Modul 321</h2>
+                <hr />
+                <h3>Lektion 08: Protokolle und Schnittstellen</h3>
+                <p>Daten austauschen über wohl definierte Schnittstellen</p>
+                <img style="width: 180px" src="../../07_systemkomponenten/slides/assets/img/dist-systems.png" alt="Modul Icon" />
+            </section>
+
+            <!-- Lernziele -->
+            <section>
+                <h2>Lernziele</h2>
+                <ul>
+                    <li>Ich kann erklären, was ein Protokoll ist und wozu TCP und HTTP dienen.</li>
+                    <li>Ich kann REST, GraphQL, gRPC und WebSockets voneinander unterscheiden.</li>
+                    <li>Ich kann erklären, was ein Gateway und ein Proxy sind.</li>
+                    <li>Ich kann für ein gegebenes Szenario eine passende Schnittstelle auswählen.</li>
+                    <li>Ich kann begründen, warum klar definierte Schnittstellen in verteilten Systemen wichtig sind.</li>
+                </ul>
+            </section>
+
+            <!-- Was ist ein Protokoll? -->
+            <section>
+                <h2>Was ist ein Protokoll?</h2>
+                <div class="callout">
+                    <p>Ein Protokoll ist eine Vereinbarung, wie zwei Parteien miteinander kommunizieren: welche Nachrichten erlaubt sind, in welcher Reihenfolge sie gesendet werden und was sie bedeuten.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Warum Protokolle?</h3>
+                        <ul>
+                            <li>Ohne gemeinsame Regeln können Systeme nicht miteinander sprechen.</li>
+                            <li>Protokolle legen fest: Format, Reihenfolge, Fehlerbehandlung.</li>
+                            <li>Sie ermöglichen, dass verschiedene Systeme zusammenarbeiten.</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Schichtenmodell</h3>
+                        <ul>
+                            <li>Protokolle bauen aufeinander auf.</li>
+                            <li>HTTP baut auf TCP auf.</li>
+                            <li>TCP baut auf IP auf.</li>
+                            <li>Jede Schicht erfüllt eine andere Aufgabe.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TCP -->
+            <section>
+                <h2>TCP – Das Fundament</h2>
+                <div class="callout">
+                    <p>TCP (Transmission Control Protocol) ist ein verbindungsorientiertes Protokoll, das eine zuverlässige und geordnete Datenübertragung garantiert.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Eigenschaften</h3>
+                        <ul>
+                            <li>Verbindungsaufbau vor dem Datentransfer</li>
+                            <li>Pakete kommen in der richtigen Reihenfolge an</li>
+                            <li>Verlorene Pakete werden automatisch wiederholt</li>
+                            <li>Flusskontrolle verhindert Überlastung</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Wann TCP?</h3>
+                        <ul>
+                            <li>Wenn Datenverlust nicht akzeptabel ist</li>
+                            <li>Webseiten, Dateiübertragung, E-Mail, APIs</li>
+                            <li>UDP wäre z.&thinsp;B. bei Videokonferenzen sinnvoller</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HTTP -->
+            <section>
+                <h2>HTTP – Das Web-Protokoll</h2>
+                <div class="callout">
+                    <p>HTTP (Hypertext Transfer Protocol) baut auf TCP auf und definiert, wie Client und Server Nachrichten austauschen: Anfrage und Antwort.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>HTTP-Methoden</h3>
+                        <ul>
+                            <li><span class="inline-code">GET</span> – Daten lesen</li>
+                            <li><span class="inline-code">POST</span> – Daten erstellen</li>
+                            <li><span class="inline-code">PUT / PATCH</span> – Daten ändern</li>
+                            <li><span class="inline-code">DELETE</span> – Daten löschen</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Status-Codes</h3>
+                        <ul>
+                            <li><span class="inline-code">200 OK</span> – Erfolg</li>
+                            <li><span class="inline-code">201 Created</span> – Erstellt</li>
+                            <li><span class="inline-code">400 Bad Request</span> – Fehlerhafte Anfrage</li>
+                            <li><span class="inline-code">401 Unauthorized</span> – Nicht authentifiziert</li>
+                            <li><span class="inline-code">404 Not Found</span> – Nicht gefunden</li>
+                            <li><span class="inline-code">500 Server Error</span> – Serverfehler</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Was ist eine Schnittstelle? -->
+            <section>
+                <h2>Was ist eine Schnittstelle?</h2>
+                <div class="callout">
+                    <p>Eine Schnittstelle (API – Application Programming Interface) legt fest, wie andere Systeme oder Komponenten mit einem Dienst kommunizieren können.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Warum wohl definiert?</h3>
+                        <ul>
+                            <li>Klare Verträge zwischen Diensten</li>
+                            <li>Änderungen sind beherrschbar</li>
+                            <li>Fehler lassen sich gezielt eingrenzen</li>
+                            <li>Mehrere Clients können dieselbe Schnittstelle nutzen</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Was gehört dazu?</h3>
+                        <ul>
+                            <li>Endpunkte oder Operationen</li>
+                            <li>Datenformate (z.&thinsp;B. JSON, Protobuf)</li>
+                            <li>Fehlerbehandlung</li>
+                            <li>Versionierung</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REST -->
+            <section>
+                <h2>REST</h2>
+                <div class="callout">
+                    <p>REST (Representational State Transfer) ist ein Architekturstil, der HTTP-Methoden und Ressourcen-URLs nutzt, um Daten auszutauschen.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Merkmale</h3>
+                        <ul>
+                            <li>Ressourcen-orientiert: <span class="inline-code">/users/42</span></li>
+                            <li>Stateless – jede Anfrage ist unabhängig</li>
+                            <li>JSON als gängiges Datenformat</li>
+                            <li>Einfach und weitverbreitet</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Beispiel</h3>
+                        <pre><code class="language-http">GET /api/users/42
+
+→ 200 OK
+{
+  "id": 42,
+  "name": "Anna"
+}</code></pre>
+                        <p style="font-size:0.8em; color:#aaa;">Typisch: Web-APIs, CRUD-Operationen</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GraphQL -->
+            <section>
+                <h2>GraphQL</h2>
+                <div class="callout">
+                    <p>GraphQL ist eine Abfragesprache für APIs, bei der der Client genau festlegt, welche Daten er benötigt – über einen einzigen Endpunkt.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Merkmale</h3>
+                        <ul>
+                            <li>Ein einziger Endpunkt: <span class="inline-code">/graphql</span></li>
+                            <li>Client bestimmt die Datenstruktur</li>
+                            <li>Kein Over- oder Underfetching</li>
+                            <li>Schema definiert alle Möglichkeiten</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Beispiel</h3>
+                        <pre><code class="language-graphql">query {
+  user(id: 42) {
+    name
+    email
+  }
+}</code></pre>
+                        <p style="font-size:0.8em; color:#aaa;">Typisch: Mobile Apps, komplexe Datenmodelle</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- gRPC -->
+            <section>
+                <h2>gRPC</h2>
+                <div class="callout">
+                    <p>gRPC ist ein Framework, das auf HTTP/2 und binären Protokoll-Puffern (Protobuf) basiert und besonders schnelle Kommunikation zwischen Diensten ermöglicht.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Merkmale</h3>
+                        <ul>
+                            <li>Schnell und effizient (binäres Format)</li>
+                            <li>Typsicheres Schema (Protobuf)</li>
+                            <li>Bidirektionales Streaming möglich</li>
+                            <li>Code wird automatisch generiert</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Beispiel</h3>
+                        <pre><code class="language-protobuf">rpc GetUser (UserRequest)
+    returns (UserResponse);
+
+message UserRequest {
+  int32 id = 1;
+}</code></pre>
+                        <p style="font-size:0.8em; color:#aaa;">Typisch: Microservice-Kommunikation intern</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WebSockets -->
+            <section>
+                <h2>WebSockets</h2>
+                <div class="callout">
+                    <p>WebSockets ermöglichen eine dauerhafte, bidirektionale Verbindung zwischen Client und Server – beide Seiten können jederzeit Nachrichten senden.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Merkmale</h3>
+                        <ul>
+                            <li>Verbindung bleibt nach dem Aufbau offen</li>
+                            <li>Nachrichten können in beide Richtungen fliessen</li>
+                            <li>Kein wiederholtes Polling nötig</li>
+                            <li>Sehr niedrige Latenz</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Typische Verwendung</h3>
+                        <ul>
+                            <li>Chat-Anwendungen</li>
+                            <li>Live-Daten (Börsenkurse, Sport)</li>
+                            <li>Echtzeit-Kollaboration</li>
+                            <li>Push-Benachrichtigungen</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gateway -->
+            <section>
+                <h2>Gateway</h2>
+                <div class="callout">
+                    <p>Ein API-Gateway ist ein einzelner Eintrittspunkt für alle eingehenden Anfragen. Es übernimmt Querschnittsaufgaben und leitet Anfragen an die richtigen Dienste weiter.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Typische Aufgaben</h3>
+                        <ul>
+                            <li>Anfragen an den richtigen Dienst weiterleiten</li>
+                            <li>Authentifizierung und Autorisierung prüfen</li>
+                            <li>Rate Limiting</li>
+                            <li>Logging und Monitoring</li>
+                            <li>SSL-Terminierung</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Warum Gateway?</h3>
+                        <ul>
+                            <li>Clients kennen nur einen einzigen Zugangspunkt</li>
+                            <li>Interne Dienste bleiben nach aussen verborgen</li>
+                            <li>Sicherheitslogik ist zentral gesammelt</li>
+                            <li>Flexibles Routing ohne Client-Änderungen</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Proxy -->
+            <section>
+                <h2>Proxy</h2>
+                <div class="callout">
+                    <p>Ein Proxy ist ein Vermittler zwischen Client und Server. Forward Proxy steht vor dem Client, Reverse Proxy steht vor dem Server.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Forward Proxy</h3>
+                        <ul>
+                            <li>Steht auf der Client-Seite</li>
+                            <li>Leitet Anfragen im Namen des Clients weiter</li>
+                            <li>Typisch: Firmennetzwerke, Anonymisierung</li>
+                            <li>Der Server sieht den Proxy, nicht den echten Client</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Reverse Proxy</h3>
+                        <ul>
+                            <li>Steht vor dem Server</li>
+                            <li>Nimmt Anfragen entgegen und leitet weiter</li>
+                            <li>Typisch: nginx, Caddy vor mehreren Servern</li>
+                            <li>Kann SSL, Caching und Lastverteilung übernehmen</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vergleich -->
+            <section>
+                <h2>Vergleich der Schnittstellen</h2>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>REST</th>
+                            <th>GraphQL</th>
+                            <th>gRPC</th>
+                            <th>WebSocket</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Transport</td>
+                            <td>HTTP</td>
+                            <td>HTTP</td>
+                            <td>HTTP/2</td>
+                            <td>WS (über HTTP)</td>
+                        </tr>
+                        <tr>
+                            <td>Format</td>
+                            <td>JSON</td>
+                            <td>JSON</td>
+                            <td>Protobuf (binär)</td>
+                            <td>Beliebig</td>
+                        </tr>
+                        <tr>
+                            <td>Kommunikation</td>
+                            <td>Request / Response</td>
+                            <td>Request / Response</td>
+                            <td>Streaming möglich</td>
+                            <td>Bidirektional</td>
+                        </tr>
+                        <tr>
+                            <td>Stärke</td>
+                            <td>Einfachheit</td>
+                            <td>Flexibilität</td>
+                            <td>Performance</td>
+                            <td>Echtzeit</td>
+                        </tr>
+                        <tr>
+                            <td>Typischer Einsatz</td>
+                            <td>Web-APIs</td>
+                            <td>Mobile Apps</td>
+                            <td>Microservices intern</td>
+                            <td>Live-Daten, Chat</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Wann welche Schnittstelle? -->
+            <section>
+                <h2>Wann welche Schnittstelle?</h2>
+                <div class="flow" style="grid-template-columns: 1fr 1fr 1fr;">
+                    <div class="box">
+                        <strong style="color: var(--accent);">REST</strong><br />
+                        Öffentliche Web-API, einfache CRUD-Operationen, breite Kompatibilität
+                    </div>
+                    <div class="box">
+                        <strong style="color: var(--accent);">GraphQL</strong><br />
+                        Mobile Apps, wechselnde Datenanforderungen, Aggregation mehrerer Quellen
+                    </div>
+                    <div class="box">
+                        <strong style="color: var(--accent);">gRPC</strong><br />
+                        Interne Microservice-Kommunikation, hohe Performance, typsichere Verträge
+                    </div>
+                    <div class="box">
+                        <strong style="color: var(--accent);">WebSocket</strong><br />
+                        Chat, Live-Updates, Echtzeit-Kollaboration
+                    </div>
+                    <div class="box">
+                        <strong style="color: var(--accent);">Gateway</strong><br />
+                        Einheitlicher Zugangspunkt, viele interne Dienste, Sicherheit zentral
+                    </div>
+                    <div class="box">
+                        <strong style="color: var(--accent);">Proxy</strong><br />
+                        SSL-Terminierung, Caching, Lastverteilung, Netzwerkkontrolle
+                    </div>
+                </div>
+            </section>
+
+            <!-- Typische Fehlannahmen -->
+            <section>
+                <h2>Typische Fehlannahmen</h2>
+                <ul>
+                    <li>REST ist nicht dasselbe wie HTTP – REST ist ein Architekturstil, der HTTP nutzt.</li>
+                    <li>GraphQL ersetzt keine Datenbank – es ist nur eine Abfrageschicht.</li>
+                    <li>gRPC ist nicht immer schneller – es kommt auf den Anwendungsfall an.</li>
+                    <li>Ein Gateway ist kein Load Balancer, auch wenn sie Aufgaben teilen können.</li>
+                    <li>WebSockets sind nicht für jede Echtzeitanforderung nötig.</li>
+                    <li>Mehr Schnittstellen bedeuten nicht mehr Flexibilität – sie erhöhen die Komplexität.</li>
+                </ul>
+                <div class="callout">
+                    Die beste Schnittstelle ist die, die zum konkreten Problem passt – nicht die neueste oder komplexeste.
+                </div>
+            </section>
+
+            <!-- Merksätze -->
+            <section>
+                <h2>Merksätze</h2>
+                <ul>
+                    <li>Protokolle wie TCP und HTTP regeln, <em>wie</em> Daten transportiert werden.</li>
+                    <li>Schnittstellen wie REST, GraphQL, gRPC und WebSocket regeln, <em>was</em> zwischen Diensten ausgetauscht wird.</li>
+                    <li>Gateway und Proxy steuern den Zugang zu Schnittstellen, sind aber selbst keine Schnittstellen.</li>
+                    <li>Gut definierte Schnittstellen machen verteilte Systeme beherrschbar.</li>
+                    <li>Die passende Wahl hängt immer vom konkreten Anwendungsfall ab.</li>
+                </ul>
+                <p class="ok">Wichtiger Praxispunkt: erst Kommunikationsmuster klären, dann Technologie auswählen.</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../../07_systemkomponenten/slides/dist/reveal.js"></script>
+    <script src="../../07_systemkomponenten/slides/plugin/notes/notes.js"></script>
+    <script src="../../07_systemkomponenten/slides/plugin/markdown/markdown.js"></script>
+    <script src="../../07_systemkomponenten/slides/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+
+</html>
