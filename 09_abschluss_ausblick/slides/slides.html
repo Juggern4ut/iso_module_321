@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Modul 321 - Lektion 09</title>
+
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/dist/reset.css" />
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/dist/reveal.css" />
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/dist/theme/black.css" />
+    <link rel="stylesheet" href="../../07_systemkomponenten/slides/plugin/highlight/monokai.css" />
+
+    <style>
+        :root {
+            --accent: #06d6a0;
+            --accent-2: #ffd166;
+            --panel: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.22);
+            --danger: #ff6b6b;
+            --ok: #7bd88f;
+        }
+
+        .inline-code {
+            font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
+            display: inline-block;
+            background-color: #2d2d2d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 75%;
+        }
+
+        .reveal p,
+        .reveal li {
+            line-height: 1.35;
+        }
+
+        .reveal table td,
+        .reveal table th {
+            font-size: 0.67em;
+        }
+
+        .small {
+            font-size: 0.7em;
+        }
+
+        .muted {
+            color: #bbbbbb;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .panel {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--panel);
+            text-align: left;
+            font-size: 80%;
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .compare td,
+        .compare th {
+            border: 1px solid var(--border);
+            padding: 10px;
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 0.62em;
+        }
+
+        .flow .box {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 12px;
+            background: var(--panel);
+        }
+
+        .flow .arrow {
+            font-size: 1.15em;
+            color: var(--accent-2);
+        }
+
+        .diagram {
+            margin: 18px auto;
+            max-width: 640px;
+        }
+
+        .diagram .row {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin: 8px 0;
+        }
+
+        .diagram .node {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 20px;
+            background: var(--panel);
+            font-size: 0.62em;
+            text-align: center;
+        }
+
+        .connector {
+            text-align: center;
+            color: var(--accent-2);
+            font-size: 1.3em;
+            line-height: 1;
+        }
+
+        .callout {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-left: 4px solid var(--accent);
+            background: rgba(6, 214, 160, 0.10);
+            text-align: left;
+            font-size: 0.72em;
+        }
+
+        .callout>* {
+            margin: 0 !important;
+        }
+
+        .callout>*+* {
+            margin-top: 8px !important;
+        }
+
+        .ok {
+            color: var(--ok);
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+
+        pre code {
+            font-size: 0.72em !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Titelfolie -->
+            <section>
+                <h2>Modul 321</h2>
+                <hr />
+                <h3>Lektion 09: Abschluss &amp; Ausblick</h3>
+                <p>Von 0 auf Cloud – Die Evolution einer Anwendung</p>
+                <img style="width: 180px" src="../../07_systemkomponenten/slides/assets/img/dist-systems.png" alt="Modul Icon" />
+            </section>
+
+            <!-- Lernziele -->
+            <section>
+                <h2>Lernziele</h2>
+                <ul>
+                    <li>Ich kann erklären, warum verteilte Systeme überhaupt entstanden sind.</li>
+                    <li>Ich kann beschreiben, welches Problem jede Entwicklungsstufe löst.</li>
+                    <li>Ich kann die im Modul behandelten Technologien den passenden Stufen zuordnen.</li>
+                    <li>Ich kann einschätzen, welchen Technologien ich später begegnen werde.</li>
+                    <li>Ich kann begründen, warum Komplexität nur eingeführt werden soll, wenn sie ein reales Problem löst.</li>
+                </ul>
+            </section>
+
+            <!-- Eine Anwendung wächst -->
+            <section>
+                <h2>Eine Anwendung wächst</h2>
+                <div class="callout">
+                    <p>Wir verfolgen eine einzige Anwendung über acht Entwicklungsstufen – vom Studentenprojekt bis zum Cloud-nativen System.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Roter Faden</h3>
+                        <ul>
+                            <li>Jede Stufe entsteht, weil die vorherige ein Problem nicht mehr lösen kann.</li>
+                            <li>Jede Lösung bringt neue Vorteile – und ein neues Problem.</li>
+                            <li>Viele Technologien aus diesem Modul tauchen genau hier wieder auf.</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Worauf wir achten</h3>
+                        <ul>
+                            <li>Welches Problem löst diese Stufe?</li>
+                            <li>Welche neuen Vorteile entstehen?</li>
+                            <li>Welches neue Problem entsteht dadurch?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 1 -->
+            <section>
+                <h2>Phase 1 – Das Studentenprojekt</h2>
+                <div class="diagram">
+                    <div class="row">
+                        <div class="node">Anwendung + Datenbank<br /><span class="muted">auf einem Rechner</span></div>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Beispiel &amp; Vorteile</h3>
+                        <ul>
+                            <li>Java-Anwendung mit SQLite, lokal</li>
+                            <li>Einfach und schnell entwickelt</li>
+                            <li>Wenig Komplexität</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Probleme</h3>
+                        <ul>
+                            <li>Nur ein Benutzer</li>
+                            <li>Kein Failover</li>
+                            <li>Keine Skalierung</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout">
+                    <p><strong>Frage an die Klasse:</strong> Was passiert, wenn 100 Personen gleichzeitig die Anwendung benutzen wollen?</p>
+                </div>
+            </section>
+
+            <!-- Phase 2 -->
+            <section>
+                <h2>Phase 2 – Die klassische Webanwendung</h2>
+                <div class="flow">
+                    <div class="box"><strong>Browser</strong></div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Webserver</strong><br />Spring Boot / ASP.NET</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Datenbank</strong><br />PostgreSQL</div>
+                </div>
+                <div class="callout">
+                    <p><strong>Neu:</strong> Anwendung und Datenbank werden auf getrennte Rechner aufgeteilt.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Vorteile</h3>
+                        <ul>
+                            <li>Mehr Benutzer gleichzeitig</li>
+                            <li>Zentral erreichbar</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Neues Problem</h3>
+                        <ul>
+                            <li>Der Webserver wird zum Flaschenhals.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 3 -->
+            <section>
+                <h2>Phase 3 – Mehrere Server</h2>
+                <div class="diagram">
+                    <div class="row">
+                        <div class="node">Load Balancer</div>
+                    </div>
+                    <div class="connector">↓</div>
+                    <div class="row">
+                        <div class="node">Webserver A</div>
+                        <div class="node">Webserver B</div>
+                    </div>
+                    <div class="connector">↓</div>
+                    <div class="row">
+                        <div class="node">Datenbank</div>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Motivation &amp; Vorteile</h3>
+                        <ul>
+                            <li>Die Anwendung wird erfolgreich.</li>
+                            <li>Höhere Last möglich</li>
+                            <li>Redundanz</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Neues Problem</h3>
+                        <ul>
+                            <li>Wo speichert man Sessions?</li>
+                        </ul>
+                        <p class="small muted">Stichwort: Redis als zentraler Session-Speicher.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 4 -->
+            <section>
+                <h2>Phase 4 – Microservices</h2>
+                <div class="diagram">
+                    <div class="row">
+                        <div class="node">API Gateway</div>
+                    </div>
+                    <div class="connector">↓</div>
+                    <div class="row">
+                        <div class="node">Auth Service</div>
+                        <div class="node">Shop Service</div>
+                        <div class="node">Orders Service</div>
+                    </div>
+                </div>
+                <div class="callout">
+                    <p><strong>Motivation:</strong> Das System wird gross, Teams arbeiten unabhängig.</p>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Vorteile</h3>
+                        <ul>
+                            <li>Einzelne Services können separat entwickelt werden.</li>
+                            <li>Bessere Wartbarkeit</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Neue Probleme</h3>
+                        <ul>
+                            <li>Kommunikation</li>
+                            <li>Authentifizierung</li>
+                            <li>Datenkonsistenz</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 4: Technologien -->
+            <section>
+                <h2>Phase 4 – Die Technologien aus dem Modul</h2>
+                <div class="callout">
+                    <p>Genau für diese neuen Probleme habt ihr in diesem Modul bereits Technologien kennengelernt.</p>
+                </div>
+                <br />
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Thema</th>
+                            <th>Rolle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="inline-code">JWT / OAuth</span></td>
+                            <td>Authentifizierung</td>
+                        </tr>
+                        <tr>
+                            <td><span class="inline-code">JSON / Protobuf</span></td>
+                            <td>Datenaustausch</td>
+                        </tr>
+                        <tr>
+                            <td><span class="inline-code">Redis</span></td>
+                            <td>Caching</td>
+                        </tr>
+                        <tr>
+                            <td><span class="inline-code">Kafka / RabbitMQ</span></td>
+                            <td>Kommunikation</td>
+                        </tr>
+                        <tr>
+                            <td><span class="inline-code">Traefik</span></td>
+                            <td>Routing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Phase 5 -->
+            <section>
+                <h2>Phase 5 – Container</h2>
+                <div class="callout">
+                    <p><strong>Problem:</strong> Jeder Entwickler hat eine andere Umgebung. Klassischer Satz: <em>„Aber bei mir funktioniert es."</em></p>
+                </div>
+                <div class="diagram">
+                    <div class="row">
+                        <div class="node">Container<br /><span class="muted">Anwendung + Bibliotheken</span></div>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Lösung: Docker</h3>
+                        <ul>
+                            <li>Reproduzierbarkeit</li>
+                            <li>Einfaches Deployment</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Demonstration</h3>
+                        <p><span class="inline-code">docker ps</span></p>
+                        <p><span class="inline-code">docker compose up</span></p>
+                        <p class="small muted">Mehr braucht es nicht.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 6 -->
+            <section>
+                <h2>Phase 6 – Container-Orchestrierung</h2>
+                <div class="callout">
+                    <p><strong>Problem:</strong> Nun gibt es 20, 50 oder 200 Container. Wer startet sie? Wer ersetzt defekte Container? Wer verteilt die Last?</p>
+                </div>
+                <div class="diagram">
+                    <div class="row">
+                        <div class="node">Kubernetes</div>
+                    </div>
+                    <div class="connector">↓</div>
+                    <div class="row">
+                        <div class="node">Service A</div>
+                        <div class="node">Service B</div>
+                        <div class="node">Service C</div>
+                    </div>
+                </div>
+                <p class="ok" style="text-align:center;">Kubernetes ist das Betriebssystem für viele Container.</p>
+            </section>
+
+            <!-- Phase 7 -->
+            <section>
+                <h2>Phase 7 – Cloud</h2>
+                <div class="callout">
+                    <p><strong>Frage:</strong> Warum eigene Server betreiben?</p>
+                </div>
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Ressource</th>
+                            <th>Klassisch</th>
+                            <th>Cloud</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Server</td>
+                            <td>kaufen</td>
+                            <td>mieten</td>
+                        </tr>
+                        <tr>
+                            <td>Datenbank</td>
+                            <td>kaufen</td>
+                            <td>mieten</td>
+                        </tr>
+                        <tr>
+                            <td>Storage</td>
+                            <td>kaufen</td>
+                            <td>mieten</td>
+                        </tr>
+                        <tr>
+                            <td>Monitoring</td>
+                            <td>kaufen</td>
+                            <td>mieten</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="grid-2">
+                    <div class="panel">
+                        <h3>Cloud-Anbieter</h3>
+                        <ul>
+                            <li>Amazon Web Services</li>
+                            <li>Microsoft Azure</li>
+                            <li>Google Cloud</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Vorteile</h3>
+                        <ul>
+                            <li>Schnell verfügbar</li>
+                            <li>Skalierbar</li>
+                            <li>Weltweit verfügbar</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 8 -->
+            <section>
+                <h2>Phase 8 – Moderne Cloud-native Systeme</h2>
+                <p class="small muted" style="text-align:center;">Jetzt nur als Ausblick.</p>
+
+                <p style="margin-bottom: 0;"><strong>Event Driven</strong></p>
+                <div class="flow">
+                    <div class="box"><strong>Producer</strong></div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Kafka</strong></div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Consumer</strong></div>
+                </div>
+
+                <p style="margin-bottom: 0; margin-top: 24px;"><strong>Serverless</strong> – Funktion statt Server</p>
+                <div class="flow">
+                    <div class="box">Bild hochladen</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Cloud Function startet</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Bild wird verarbeitet</div>
+                </div>
+
+                <div class="callout">
+                    <p><strong>Observability:</strong> Logs, Metrics, Tracing – mit <span class="inline-code">Prometheus</span>, <span class="inline-code">Grafana</span>, <span class="inline-code">OpenTelemetry</span>.</p>
+                </div>
+            </section>
+
+            <!-- Die Reise -->
+            <section>
+                <h2>Die Reise – Rückblick</h2>
+                <div class="flow" style="grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; font-size: 0.5em;">
+                    <div class="box">Ein Programm</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Webanwendung</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Mehrere Server</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Microservices</div>
+                </div>
+                <div class="connector">↓</div>
+                <div class="flow" style="grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; font-size: 0.5em;">
+                    <div class="box">Container</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Kubernetes</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Cloud</div>
+                    <div class="arrow">→</div>
+                    <div class="box">Cloud-native Systeme</div>
+                </div>
+            </section>
+
+            <!-- Letzte Diskussionsfrage -->
+            <section>
+                <h2>Letzte Diskussionsfrage</h2>
+                <div class="callout">
+                    <p>Wenn ihr heute eine neue Anwendung entwickeln würdet – bei welcher Stufe würdet ihr beginnen?</p>
+                </div>
+                <div class="panel">
+                    <h3>Erkenntnis</h3>
+                    <p>Nicht jede Anwendung braucht Kubernetes, Kafka und 20 Microservices.</p>
+                </div>
+                <p class="ok">Komplexität nur dann einführen, wenn sie ein reales Problem löst.</p>
+            </section>
+
+            <!-- Merksätze -->
+            <section>
+                <h2>Merksätze</h2>
+                <ul>
+                    <li>Jede Entwicklungsstufe löst ein konkretes Problem der vorherigen Stufe.</li>
+                    <li>Mehr Technologie bedeutet auch mehr Betriebsaufwand und Komplexität.</li>
+                    <li>Die Bausteine aus diesem Modul – Protokolle, Schnittstellen, Container, Systemkomponenten – fügen sich hier zu einem Gesamtbild zusammen.</li>
+                    <li>Architekturentscheidungen sollten sich am realen Problem orientieren, nicht am Trend.</li>
+                    <li>Verteilte Systeme sind kein Selbstzweck, sondern eine Antwort auf wachsende Anforderungen.</li>
+                </ul>
+                <p class="ok">Wichtiger Praxispunkt: Beginnt einfach – und baut Komplexität erst aus, wenn sie gebraucht wird.</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../../07_systemkomponenten/slides/dist/reveal.js"></script>
+    <script src="../../07_systemkomponenten/slides/plugin/notes/notes.js"></script>
+    <script src="../../07_systemkomponenten/slides/plugin/markdown/markdown.js"></script>
+    <script src="../../07_systemkomponenten/slides/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+
+</html>
